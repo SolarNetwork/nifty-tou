@@ -32,6 +32,10 @@
 		}
 	},
 	"c8": {
+		"exclude": [
+			"src/test/**"
+		],
+		"exclude-after-remap": true,
 		"reporter": [
 			"text",
 			"html"

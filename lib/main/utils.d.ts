@@ -1,0 +1,45 @@
+/**
+ * Concatenate two strings with a comma.
+ *
+ * If `s1` has no length then `s2` is returned as-is. If `s2` has no length
+ * then `s1` is returned as-is. Otherwise the strings are concatenated with
+ * a comma delimiter.
+ *
+ * @param s1 - the string to append to
+ * @param s2 - the string to append
+ * @returns the comma-concatenated string
+ * @public
+ */
+export declare function cconcat(s1?: string, s2?: string): string;
+/**
+ * Verify that a variable is undefined or of a given type.
+ *
+ * @param arg - the argument to verify
+ * @param name - a descriptive name of `arg`
+ * @param type - if `arg` is defined, verify that `arg` is an instanceof this type
+ * @returns the passed in `arg` value
+ * @public
+ */
+export declare function optional<T>(arg: T, name: string, type?: new (...args: any[]) => any): T;
+/**
+ * Prefix an optional string.
+ *
+ * If `prefix` or `s` have no length then `s` is returned as-is. Otherwise the strings are concatenated.
+ *
+ * @param prefix - the prefix to prepend to `s`
+ * @param s - the string to append to `prefix`
+ * @returns the concatenated string
+ * @public
+ */
+export declare function prefix(prefix?: string, s?: string): string;
+/**
+ * Verify that a variable is defined and optionally of a given type.
+ *
+ * @param arg - the argument to verify
+ * @param name - a descriptive name of `arg`
+ * @param type - if provided, verify that `arg` is an instanceof this type
+ * @returns the passed in `arg` value
+ * @public
+ */
+export declare function required<T>(arg: T, name: string, type?: new (...args: any[]) => any): T;
+//# sourceMappingURL=utils.d.ts.map

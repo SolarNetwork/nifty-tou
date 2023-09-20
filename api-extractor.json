@@ -1,0 +1,44 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+
+	"mainEntryPointFilePath": "<projectFolder>/lib/main/index.d.ts",
+
+	"bundledPackages": [],
+
+	"newlineKind": "lf",
+
+	"apiReport": {
+		"enabled": true
+	},
+
+	"docModel": {
+		"enabled": true,
+		"projectFolderUrl": "https://github.com/SolarNetwork/nifty-tou/tree/main/src/main"
+	},
+
+	"dtsRollup": {
+		"enabled": true
+	},
+
+	"tsdocMetadata": {},
+
+	"messages": {
+		"compilerMessageReporting": {
+			"default": {
+				"logLevel": "warning"
+			}
+		},
+
+		"extractorMessageReporting": {
+			"default": {
+				"logLevel": "warning"
+			}
+		},
+
+		"tsdocMessageReporting": {
+			"default": {
+				"logLevel": "warning"
+			}
+		}
+	}
+}

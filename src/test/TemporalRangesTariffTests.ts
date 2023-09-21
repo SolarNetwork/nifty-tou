@@ -106,7 +106,6 @@ test("TemporalRangesTariff:applies:minutes", (t) => {
 	for (let h = 0; h < 24; h += 1) {
 		for (let m = 0; m < 60; m += 1) {
 			d.setHours(h, m);
-			t.log("d = ", d);
 			if (h < 12) {
 				t.true(tt.appliesAt(d), `${d} applies at ${h}:${m}`);
 			} else {

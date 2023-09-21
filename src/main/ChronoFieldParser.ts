@@ -1,5 +1,6 @@
 /**
  * An enumeration of supported chronological fields of the Gregorian calendar.
+ * @public
  */
 export enum ChronoField {
 	/** The month of year, from January (1) to December (12). */
@@ -11,6 +12,7 @@ export enum ChronoField {
 
 /**
  * A chronological field value.
+ * @public
  */
 export class ChronoFieldValue {
 	#field: ChronoField;
@@ -56,6 +58,7 @@ export class ChronoFieldValue {
 
 /**
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
+ * @public
  */
 export class ChronoFieldParser {
 	#locale: string;

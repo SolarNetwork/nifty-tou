@@ -6,6 +6,8 @@
 
 Test if this tariff applies on a given date.
 
+All range constraints are treated as inclusive bounds, except for the `minuteOfDayRange` that is treated as an inclusive minimum and exclusive maximum.
+
 **Signature:**
 
 ```typescript

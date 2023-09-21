@@ -14,6 +14,14 @@ The rules associated with this tariff are represented by a set of date ranges th
 export default class TemporalRangesTariff 
 ```
 
+## Remarks
+
+The date range constraints use inclusive minimum/maximum matching semantics, \*\*except\*\* for the `minuteOfDayRange` constraint, that uses inclusive minimum and \*\*exclusive\*\* maximum semantics.
+
+The time-based constraints supported are:
+
+\| Constraint \| Bounds \| Description \| \| :\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\| :\-\-\-\-\-\-\-\-\-\-\-\--- \| :\-\-\-\-\-\-\-\-\-- \| \| `monthRange` \| 1 - 12 \| January - December \| \| `dayOfMonthRange` \| 1 - 31 \| \| \| `dayOfWeekRange` \| 1 - 7 \| Monday - Friday \| \| `minuteOfDayRange` \| 0 - 1440 \| 00:00 - 24:00 \|
+
 ## Constructors
 
 |  Constructor | Modifiers | Description |
@@ -24,10 +32,10 @@ export default class TemporalRangesTariff
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ALL\_DAYS\_OF\_MONTH](./nifty-tou.temporalrangestariff.all_days_of_month.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all days of a month: 1 - 31. |
-|  [ALL\_DAYS\_OF\_WEEK](./nifty-tou.temporalrangestariff.all_days_of_week.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all days of a week: 1 - 7. |
-|  [ALL\_MINUTES\_OF\_DAY](./nifty-tou.temporalrangestariff.all_minutes_of_day.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all minutes of a day: 0 - 1440. |
-|  [ALL\_MONTHS](./nifty-tou.temporalrangestariff.all_months.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all months of a year: 1 - 12. |
+|  [ALL\_DAYS\_OF\_MONTH](./nifty-tou.temporalrangestariff.all_days_of_month.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all days of a month: 1 - 31 (inclusive). |
+|  [ALL\_DAYS\_OF\_WEEK](./nifty-tou.temporalrangestariff.all_days_of_week.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all days of a week: 1 - 7 (inclusive). |
+|  [ALL\_MINUTES\_OF\_DAY](./nifty-tou.temporalrangestariff.all_minutes_of_day.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all minutes of a day: 0 - 1440 (inclusive min, exclusive max). |
+|  [ALL\_MONTHS](./nifty-tou.temporalrangestariff.all_months.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all months of a year: 1 - 12 (inclusive). |
 |  [dayOfMonthRange](./nifty-tou.temporalrangestariff.dayofmonthrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the day of month range. |
 |  [dayOfWeekRange](./nifty-tou.temporalrangestariff.dayofweekrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the day of week range. |
 |  [minuteOfDayRange](./nifty-tou.temporalrangestariff.minuteofdayrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the minute of day range. |
@@ -38,6 +46,6 @@ export default class TemporalRangesTariff
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [appliesAt(date, utc)](./nifty-tou.temporalrangestariff.appliesat.md) |  | Test if this tariff applies on a given date. |
+|  [appliesAt(date, utc)](./nifty-tou.temporalrangestariff.appliesat.md) |  | <p>Test if this tariff applies on a given date.</p><p>All range constraints are treated as inclusive bounds, except for the <code>minuteOfDayRange</code> that is treated as an inclusive minimum and exclusive maximum.</p> |
 |  [toString()](./nifty-tou.temporalrangestariff.tostring.md) |  | Get a string representation. |
 

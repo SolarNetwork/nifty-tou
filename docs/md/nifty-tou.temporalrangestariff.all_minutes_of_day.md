@@ -4,7 +4,7 @@
 
 ## TemporalRangesTariff.ALL\_MINUTES\_OF\_DAY property
 
-Range for all minutes of a day: 0 - 1440.
+Range for all minutes of a day: 0 - 1440 (inclusive min, exclusive max).
 
 **Signature:**
 

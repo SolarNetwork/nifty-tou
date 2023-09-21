@@ -4,7 +4,7 @@
 
 ## TemporalRangesTariff.ALL\_MONTHS property
 
-Range for all months of a year: 1 - 12.
+Range for all months of a year: 1 - 12 (inclusive).
 
 **Signature:**
 

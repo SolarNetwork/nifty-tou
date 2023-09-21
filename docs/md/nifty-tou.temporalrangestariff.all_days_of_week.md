@@ -4,7 +4,7 @@
 
 ## TemporalRangesTariff.ALL\_DAYS\_OF\_WEEK property
 
-Range for all days of a week: 1 - 7.
+Range for all days of a week: 1 - 7 (inclusive).
 
 **Signature:**
 

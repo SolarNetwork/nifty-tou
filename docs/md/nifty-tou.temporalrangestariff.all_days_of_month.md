@@ -4,7 +4,7 @@
 
 ## TemporalRangesTariff.ALL\_DAYS\_OF\_MONTH property
 
-Range for all days of a month: 1 - 31.
+Range for all days of a month: 1 - 31 (inclusive).
 
 **Signature:**
 

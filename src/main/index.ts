@@ -1,3 +1,9 @@
+/**
+ * A delightful little library for working with time-of-use tariffs.
+ *
+ * @packageDocumentation
+ */
+
 export {
 	ChronoField,
 	ChronoFieldValue,

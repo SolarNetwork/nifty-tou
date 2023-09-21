@@ -62,6 +62,10 @@ export class ChronoFieldValue {
 // a cache of parser instance, for locale keys
 const PARSER_CACHE: Map<string, ChronoFieldParser> = new Map();
 
+const BOUNDS: Map<ChronoField, IntRange> = new Map();
+BOUNDS.set(ChronoField.MONTH_OF_YEAR, new IntRange(1, 12));
+BOUNDS.set(ChronoField.DAY_OF_WEEK, new IntRange(1, 7));
+
 /**
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
  * @public
@@ -259,20 +263,7 @@ export class ChronoFieldParser {
 			return new IntRange(l.value, r.value);
 		}
 
-		// try as numbers
-		const n1 = +a[0];
-		const n2 = a.length > 1 ? +a[1] : n1;
-		if (!Number.isNaN(n1) && !Number.isNaN(n2)) {
-			const r = new IntRange(n1, n2);
-			// validate range within chrono field bounds
-			if (
-				r.min > 0 &&
-				((field === ChronoField.MONTH_OF_YEAR && r.max <= 12) ||
-					(field === ChronoField.DAY_OF_WEEK && r.max <= 7))
-			) {
-				return r;
-			}
-		}
-		return undefined;
+		// try as numbers, constrained by field bounds
+		return IntRange.parseRange(a, BOUNDS.get(field));
 	}
 }

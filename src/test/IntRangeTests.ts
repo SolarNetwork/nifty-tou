@@ -271,3 +271,55 @@ test("IntRange:description:notFull", (t) => {
 		"range string returned when range is not equal to full range"
 	);
 });
+
+test("IntRange:parseRange:undefined", (t) => {
+	t.is(
+		IntRange.parseRange(undefined),
+		undefined,
+		"undefined returns undefined"
+	);
+	t.is(IntRange.parseRange(null), undefined, "null returns undefined");
+	t.is(IntRange.parseRange([]), undefined, "empty array returns undefined");
+});
+
+test("IntRange:parseRange:NaN", (t) => {
+	t.is(
+		IntRange.parseRange(["a", "b"]),
+		undefined,
+		"non-number values returns undefined"
+	);
+	t.is(
+		IntRange.parseRange(["a", "2"]),
+		undefined,
+		"non-number first value returns undefined"
+	);
+	t.is(
+		IntRange.parseRange(["1", "b"]),
+		undefined,
+		"non-number second value returns undefined"
+	);
+});
+
+test("IntRange:parseRange:singleton", (t) => {
+	t.like(
+		IntRange.parseRange(["123"]),
+		{ min: 123, max: 123 },
+		"singleton parsed"
+	);
+});
+
+test("IntRange:parseRange:range", (t) => {
+	t.like(
+		IntRange.parseRange(["123", "234"]),
+		{ min: 123, max: 234 },
+		"range parsed"
+	);
+});
+
+test("IntRange:parseRange:range:reverse", (t) => {
+	t.like(
+		IntRange.parseRange(["234", "123"]),
+		{ min: 123, max: 234 },
+		"range reverse parsed"
+	);
+});

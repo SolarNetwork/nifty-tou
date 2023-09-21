@@ -95,3 +95,13 @@ All files                |     100 |      100 |     100 |     100 |
  utils.ts                |     100 |      100 |     100 |     100 |
 -------------------------|---------|----------|---------|---------|-------------------
 ```
+
+# Test coverage
+
+[![codecov](https://codecov.io/gh/SolarNetwork/nifty-tou/graph/badge.svg?token=IyYZDIk9rj)](https://codecov.io/github/SolarNetwork/nifty-tou)
+
+Having a well-tested and reliable library is a core goal of this project. Unit tests are executed
+automatically after every push into the `main` branch of this repository and their associated code
+coverage is uploaded to [Codecov](https://codecov.io/github/SolarNetwork/nifty-tou/).
+
+[![codecov](https://codecov.io/gh/SolarNetwork/nifty-tou/graphs/sunburst.svg?token=IyYZDIk9rj)](https://codecov.io/github/SolarNetwork/nifty-tou)

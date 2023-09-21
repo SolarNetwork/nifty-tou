@@ -67,6 +67,36 @@ BOUNDS.set(ChronoField.MONTH_OF_YEAR, new IntRange(1, 12));
 BOUNDS.set(ChronoField.DAY_OF_WEEK, new IntRange(1, 7));
 
 /**
+ * Compute a set of keys and names of a date field.
+ *
+ * @param date - the date to use for field formatting
+ * @param names - the array to populate with field names, in the order of the given `formats`
+ * @param formats - the list of formats to apply to date to generate field names
+ * @returns array of date key names
+ */
+function computeKeysAndNames(
+	date: Date,
+	names: string[],
+	...formats: Intl.DateTimeFormat[]
+): string[] {
+	const keys: string[] = [];
+	for (const fmt of formats) {
+		// generate name and remove all punctuation, e.g. some short names include a period
+		const name = fmt.format(date).replace(/\p{P}/gu, "");
+		names.splice(names.length, 0, name);
+		keys.splice(keys.length, 0, name);
+
+		// generate a key version with diacritic characters replaced with non-accented version
+		// e.g. replace é with e
+		const norm = name.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+		if (norm !== name) {
+			keys.splice(keys.length, 0, norm);
+		}
+	}
+	return keys;
+}
+
+/**
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
  * @public
  */
@@ -115,36 +145,6 @@ export class ChronoFieldParser {
 		return this.#locale;
 	}
 
-	/**
-	 * Compute a set of keys and names of a date field.
-	 *
-	 * @param date - the date to use for field formatting
-	 * @param names - the array to populate with field names, in the order of the given `formats`
-	 * @param formats - the list of formats to apply to date to generate field names
-	 * @returns array of date key names
-	 */
-	static #computeKeysAndNames(
-		date: Date,
-		names: string[],
-		...formats: Intl.DateTimeFormat[]
-	): string[] {
-		const keys: string[] = [];
-		for (const fmt of formats) {
-			// generate name and remove all punctuation, e.g. some short names include a period
-			const name = fmt.format(date).replace(/\p{P}/gu, "");
-			names.splice(names.length, 0, name);
-			keys.splice(keys.length, 0, name);
-
-			// generate a key version with diacritic characters replaced with non-accented version
-			// e.g. replace é with e
-			const norm = name.normalize("NFD").replace(/\p{Diacritic}/gu, "");
-			if (norm !== name) {
-				keys.splice(keys.length, 0, norm);
-			}
-		}
-		return keys;
-	}
-
 	#computeMonths(locale: string) {
 		const intlFull = new Intl.DateTimeFormat(locale, {
 			month: "long",
@@ -159,12 +159,7 @@ export class ChronoFieldParser {
 			const date = new Date(Date.UTC(2024, i, 1));
 			const val = i + 1;
 			const names = [];
-			const keys = ChronoFieldParser.#computeKeysAndNames(
-				date,
-				names,
-				intlFull,
-				intlShort
-			);
+			const keys = computeKeysAndNames(date, names, intlFull, intlShort);
 			const value = new ChronoFieldValue(
 				ChronoField.MONTH_OF_YEAR,
 				names,
@@ -190,12 +185,7 @@ export class ChronoFieldParser {
 		for (let i = 1; i <= 7; i += 1) {
 			const date = new Date(Date.UTC(2024, 0, i)); // 2024-01-01 is a Monday
 			const names = [];
-			const keys = ChronoFieldParser.#computeKeysAndNames(
-				date,
-				names,
-				intlFull,
-				intlShort
-			);
+			const keys = computeKeysAndNames(date, names, intlFull, intlShort);
 			const value = new ChronoFieldValue(
 				ChronoField.DAY_OF_WEEK,
 				names,

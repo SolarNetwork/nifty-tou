@@ -63,8 +63,7 @@ To build the API documentation, you must first [build](#building-from-source) th
 and then run `npm run apidocs`. For example:
 
 ```sh
-npm run build && npm run apidocs
-
+npm run apidocs
 ```
 
 # Unit tests

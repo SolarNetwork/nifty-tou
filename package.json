@@ -8,8 +8,8 @@
 	"scripts": {
 		"build": "tsc",
 		"test": "c8 ava",
-		"preapidocs": "api-extractor run --local --verbose",
-		"apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md"
+		"preapidocs": "npm run build && api-extractor run --local --verbose",
+		"apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc"
 	},
 	"keywords": [
 		"solarnetwork"
@@ -50,6 +50,7 @@
 		"ava": "^5.3.1",
 		"c8": "^8.0.1",
 		"eslint": "^8.49.0",
+		"typedoc": "^0.25.1",
 		"typescript": "^5.2.2"
 	}
 }

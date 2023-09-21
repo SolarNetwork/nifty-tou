@@ -9,19 +9,23 @@ Generate a description of a range.
 **Signature:**
 
 ```typescript
-static description(full: IntRange, r: IntRange): string;
+static description(bounds: IntRange, r?: IntRange): string;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  full | [IntRange](./nifty-tou.intrange.md) | the "full" range that defines the bounds of <code>r</code> |
-|  r | [IntRange](./nifty-tou.intrange.md) | the range |
+|  bounds | [IntRange](./nifty-tou.intrange.md) | the "full" range that defines the bounds of <code>r</code> |
+|  r | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the range |
 
 **Returns:**
 
 string
 
-if `r` is not defined or `r` equals `full` then the literal string `*`<!-- -->, otherwise the string representation of `r`
+if `r` represents "all possible values" then the literal string `*`<!-- -->, otherwise the string representation of `r`
+
+## Remarks
+
+This method is similar to [toString()](./nifty-tou.intrange.tostring.md)<!-- -->, except that it compares a given range with a bounding range. If the given range is equal to the bounding range, or the given range is undefined, then the given range is taken to mean "all possible values" and a `*` character is returned instead of the normal `[min..max]` representation.
 

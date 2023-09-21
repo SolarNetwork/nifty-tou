@@ -49,6 +49,7 @@ export declare class ChronoFieldParser {
      * Constructor.
      *
      * @param locale - the desired locale
+     * @see {@link ChronoFieldParser.forLocale | forLocale()} for a caching factory method
      */
     constructor(locale: string);
     /**
@@ -120,20 +121,31 @@ export declare class IntRange {
     #private;
     /**
      * Constructor.
+     *
+     * @param min - the mimnimum value
+     * @param max - the maximum value
      */
     constructor(min: number, max: number);
     /**
-     * Create a singleton range, where the minimum and maximum are equal.
+     * Create a singleton range, where the minimum and maximum values are equal.
+     *
+     * @param value - the minimum and maximum value
+     * @returns the new singleton range instance
      */
     static of(value: number): IntRange;
     /**
      * Create a range.
+     *
+     * @param min - the minimum value
+     * @param max - the maximum value
+     * @returns the new range instance
      */
     static rangeOf(min: number, max: number): IntRange;
     /**
-     * Parse a range array into an `IntRange`.
+     * Parse a range array of number strings into an `IntRange`.
      *
-     * @param value - the range array to parse; can have 1 or 2 elements; all elements must have number values
+     * @param value - the range array to parse; can have 1 or 2 elements;
+     *     all elements must have number values
      * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
@@ -221,6 +233,9 @@ export declare class IntRange {
     /**
      * Test for equality.
      *
+     * This method tests if `obj` is an instance of `IntRange` and compares the
+     * `min` and `max` values for strict equality.
+     *
      * @param obj - the object to compare to
      * @returns `true` if `obj` is equal to this
      */
@@ -228,17 +243,26 @@ export declare class IntRange {
     /**
      * Get a string representation.
      *
+     * The format returned by this method is `[min..max]`.
+     *
      * @returns the string representation
      */
     toString(): string;
     /**
      * Generate a description of a range.
      *
-     * @param full - the "full" range that defines the bounds of `r`
+     * @remarks
+     * This method is similar to {@link IntRange.toString | toString()}, except that it compares a given range
+     * with a bounding range. If the given range is equal to the bounding range, or the given range
+     * is undefined, then the given range is taken to mean "all possible values" and a `*` character
+     * is returned instead of the normal `[min..max]` representation.
+     *
+     * @param bounds - the "full" range that defines the bounds of `r`
      * @param r - the range
-     * @returns if `r` is not defined or `r` equals `full` then the literal string `*`, otherwise the string representation of `r`
+     * @returns if `r` represents "all possible values" then the literal string `*`,
+     *     otherwise the string representation of `r`
      */
-    static description(full: IntRange, r: IntRange): string;
+    static description(bounds: IntRange, r?: IntRange): string;
 }
 
 /**
@@ -337,6 +361,7 @@ export declare class TariffRate {
      * @param id - the identifier
      * @param amount - an amount, assumed to be parsable as a number
      * @param description - a description
+     * @throws TypeError if `amount` is not parsable as a number
      */
     constructor(id: string, amount: string, description?: string);
     /**
@@ -372,17 +397,18 @@ export declare class TariffRate {
  *
  * @remarks
  * The date range constraints use inclusive minimum/maximum matching semantics,
- * **except** for the `minuteOfDayRange` constraint, that uses inclusive
- * minimum and **exclusive** maximum semantics.
+ * <b>except</b> for the `minuteOfDayRange` constraint, that uses inclusive
+ * minimum and <b>exclusive</b> maximum semantics.
  *
  * The time-based constraints supported are:
  *
- * | Constraint         | Bounds          | Description |
- * | :------------------| :-------------- | :---------- |
- * | `monthRange`       | 1 - 12     | January - December |
- * | `dayOfMonthRange`  | 1 - 31     |                    |
- * | `dayOfWeekRange`   | 1 - 7      | Monday - Friday    |
- * | `minuteOfDayRange` | 0 - 1440   | 00:00 - 24:00      |
+ * <table>
+ * <tr><th>Constraint</th><th>Bounds</th><th>Description</th></tr>
+ * <tr><td>monthRange</td><td>1 - 12</td><td>January - December</td></tr>
+ * <tr><td>dayOfMonthRange</td><td>1 - 31</td><td></td></tr>
+ * <tr><td>dayOfWeekRange</td><td>1 - 7</td><td>Monday - Friday</td></tr>
+ * <tr><td>minuteOfDayRange</td><td>0 - 1440</td><td>00:00 - 24:00</td></tr>
+ * </table>
  *
  * @public
  */

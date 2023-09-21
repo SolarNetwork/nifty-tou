@@ -6,6 +6,8 @@
 
 Test for equality.
 
+This method tests if `obj` is an instance of `IntRange` and compares the `min` and `max` values for strict equality.
+
 **Signature:**
 
 ```typescript

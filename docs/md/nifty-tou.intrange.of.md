@@ -4,7 +4,7 @@
 
 ## IntRange.of() method
 
-Create a singleton range, where the minimum and maximum are equal.
+Create a singleton range, where the minimum and maximum values are equal.
 
 **Signature:**
 
@@ -16,9 +16,11 @@ static of(value: number): IntRange;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | number |  |
+|  value | number | the minimum and maximum value |
 
 **Returns:**
 
 [IntRange](./nifty-tou.intrange.md)
+
+the new singleton range instance
 

@@ -4,7 +4,7 @@
 
 ## IntRange.parseRange() method
 
-Parse a range array into an `IntRange`<!-- -->.
+Parse a range array of number strings into an `IntRange`<!-- -->.
 
 **Signature:**
 

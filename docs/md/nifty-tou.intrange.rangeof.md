@@ -16,10 +16,12 @@ static rangeOf(min: number, max: number): IntRange;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  min | number |  |
-|  max | number |  |
+|  min | number | the minimum value |
+|  max | number | the maximum value |
 
 **Returns:**
 
 [IntRange](./nifty-tou.intrange.md)
+
+the new range instance
 

@@ -6,6 +6,8 @@
 
 Get a string representation.
 
+The format returned by this method is `[min..max]`<!-- -->.
+
 **Signature:**
 
 ```typescript

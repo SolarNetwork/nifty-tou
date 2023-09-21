@@ -37,12 +37,12 @@ export default class IntRange
 |  [contains(value)](./nifty-tou.intrange.contains.md) |  | Test if a value is within this range, inclusive. |
 |  [containsAll(min, max)](./nifty-tou.intrange.containsall.md) |  | Test if another range is completely within this range, inclusive. |
 |  [containsRange(o)](./nifty-tou.intrange.containsrange.md) |  | Test if another range is completely within this range, inclusive. |
-|  [description(full, r)](./nifty-tou.intrange.description.md) | <code>static</code> | Generate a description of a range. |
-|  [equals(obj)](./nifty-tou.intrange.equals.md) |  | Test for equality. |
+|  [description(bounds, r)](./nifty-tou.intrange.description.md) | <code>static</code> | Generate a description of a range. |
+|  [equals(obj)](./nifty-tou.intrange.equals.md) |  | <p>Test for equality.</p><p>This method tests if <code>obj</code> is an instance of <code>IntRange</code> and compares the <code>min</code> and <code>max</code> values for strict equality.</p> |
 |  [intersects(o)](./nifty-tou.intrange.intersects.md) |  | Test if this range intersects with a given range. |
 |  [mergeWith(o)](./nifty-tou.intrange.mergewith.md) |  | Merge this range with a given range, returning the merged range. |
-|  [of(value)](./nifty-tou.intrange.of.md) | <code>static</code> | Create a singleton range, where the minimum and maximum are equal. |
-|  [parseRange(array, bounds)](./nifty-tou.intrange.parserange.md) | <code>static</code> | Parse a range array into an <code>IntRange</code>. |
+|  [of(value)](./nifty-tou.intrange.of.md) | <code>static</code> | Create a singleton range, where the minimum and maximum values are equal. |
+|  [parseRange(array, bounds)](./nifty-tou.intrange.parserange.md) | <code>static</code> | Parse a range array of number strings into an <code>IntRange</code>. |
 |  [rangeOf(min, max)](./nifty-tou.intrange.rangeof.md) | <code>static</code> | Create a range. |
-|  [toString()](./nifty-tou.intrange.tostring.md) |  | Get a string representation. |
+|  [toString()](./nifty-tou.intrange.tostring.md) |  | <p>Get a string representation.</p><p>The format returned by this method is <code>[min..max]</code>.</p> |
 

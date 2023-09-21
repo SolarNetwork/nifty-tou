@@ -13,6 +13,7 @@ export default class TariffRate {
      * @param id - the identifier
      * @param amount - an amount, assumed to be parsable as a number
      * @param description - a description
+     * @throws TypeError if `amount` is not parsable as a number
      */
     constructor(id: string, amount: string, description?: string);
     /**

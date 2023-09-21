@@ -40,7 +40,7 @@ export class IntRange {
     contains(value: number): boolean;
     containsAll(min: number, max: number): boolean;
     containsRange(o: IntRange): boolean;
-    static description(full: IntRange, r: IntRange): string;
+    static description(bounds: IntRange, r?: IntRange): string;
     equals(obj: any): boolean;
     intersects(o: IntRange): boolean;
     get isSingleton(): boolean;

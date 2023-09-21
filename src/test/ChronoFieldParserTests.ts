@@ -49,6 +49,32 @@ test("ChronoFieldParser:construct:en-US", (t) => {
 	t.is(p.locale, locale, "locale from constructor arg");
 });
 
+test("ChronoFieldParser:factory:en-US", (t) => {
+	const en = ChronoFieldParser.forLocale("en-US");
+	t.is(
+		ChronoFieldParser.forLocale("en-US"),
+		en,
+		"cached instance returned for previous locale"
+	);
+	t.not(
+		new ChronoFieldParser("en-US"),
+		en,
+		"new instance differs from cached instance"
+	);
+
+	const fr = ChronoFieldParser.forLocale("fr-FR");
+	t.is(
+		ChronoFieldParser.forLocale("fr-FR"),
+		fr,
+		"cached instance returned for previous locale"
+	);
+	t.not(
+		new ChronoFieldParser("fr-FR"),
+		fr,
+		"new instance differs from cached instance"
+	);
+});
+
 test("ChronoFieldParser:parse:unknown", (t) => {
 	const p = new ChronoFieldParser("en-US");
 	t.throws(

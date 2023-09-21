@@ -56,6 +56,8 @@ export class ChronoFieldValue {
 	}
 }
 
+const PARSER_CACHE: Map<string, ChronoFieldParser> = new Map();
+
 /**
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
  * @public
@@ -66,6 +68,24 @@ export class ChronoFieldParser {
 	// note the string keys in these maps are locale lower-case values to support
 	// case-insensitive matching
 	#values: Map<ChronoField, Map<string, ChronoFieldValue>>;
+
+	/**
+	 * Get a parser for a given locale.
+	 *
+	 * This method will instantiate and cache parsers, returning cached instances
+	 * if already avaialble.
+	 *
+	 * @param locale - the locale of the parser to get
+	 * @returns the parser
+	 */
+	static forLocale(locale: string) {
+		let p = PARSER_CACHE.get(locale);
+		if (!p) {
+			p = new ChronoFieldParser(locale);
+			PARSER_CACHE.set(locale, p);
+		}
+		return p;
+	}
 
 	/**
 	 * Constructor.

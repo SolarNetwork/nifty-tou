@@ -103,6 +103,7 @@ const RANGE_DELIMITER: RegExp = /\s*-\s*/;
  *
  * @param range - the range string to split into components, whitespace trimmed
  * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
+ * @public
  */
 export function splitRange(range: string): string[] {
 	if (!range) {

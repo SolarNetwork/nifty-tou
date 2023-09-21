@@ -87,6 +87,35 @@ test("TemporalRangesTariff:applies", (t) => {
 	);
 });
 
+test("TemporalRangesTariff:applies:minutes", (t) => {
+	const monthRange = new IntRange(1, 6);
+	const dayOfMonthRange = new IntRange(1, 15);
+	const dayOfWeekRange = new IntRange(1, 4);
+	const minuteOfDayRange = new IntRange(0, 720);
+
+	const tt = new TemporalRangesTariff(
+		monthRange,
+		dayOfMonthRange,
+		dayOfWeekRange,
+		minuteOfDayRange,
+		[new TariffRate("a", "1.23", "b")]
+	);
+
+	// 1 Jan 2024 is Monday
+	const d = new Date("2024-01-01T00:00");
+	for (let h = 0; h < 24; h += 1) {
+		for (let m = 0; m < 60; m += 1) {
+			d.setHours(h, m);
+			t.log("d = ", d);
+			if (h < 12) {
+				t.true(tt.appliesAt(d), `${d} applies at ${h}:${m}`);
+			} else {
+				t.false(tt.appliesAt(d), `${d} does not apply at ${h}:${m}`);
+			}
+		}
+	}
+});
+
 test("TemporalRangesTariff:applies:utc", (t) => {
 	const monthRange = new IntRange(1, 6);
 	const dayOfMonthRange = new IntRange(1, 15);

@@ -174,7 +174,8 @@ export default class TemporalRangesTariff {
 				utc
 					? date.getUTCHours() * 60 + date.getUTCMinutes()
 					: date.getHours() * 60 + date.getMinutes(),
-				this.#minuteOfDayRange
+				this.#minuteOfDayRange,
+				true
 			)
 		);
 	}
@@ -184,10 +185,19 @@ export default class TemporalRangesTariff {
 	 *
 	 * @param value - the number to test if the range contains
 	 * @param range - the range to test
+	 * @param exclusiveEnd - if `true` then treat the range end as an exclusive bound
 	 * @returns `true` if the given range is not defined, or it contains the given value
 	 */
-	#rangeApplies(value: number, range?: IntRange): boolean {
-		return !range || range.contains(value);
+	#rangeApplies(
+		value: number,
+		range?: IntRange,
+		exclusiveEnd?: boolean
+	): boolean {
+		return (
+			!range ||
+			(range.contains(value) &&
+				(!exclusiveEnd ? true : value < range.max))
+		);
 	}
 
 	/**

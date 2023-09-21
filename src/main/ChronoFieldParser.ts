@@ -1,13 +1,16 @@
+import IntRange from "./IntRange.js";
+import { splitRange } from "./utils.js";
+
 /**
  * An enumeration of supported chronological fields of the Gregorian calendar.
  * @public
  */
 export enum ChronoField {
 	/** The month of year, from January (1) to December (12). */
-	MONTH_OF_YEAR = 0,
+	MONTH_OF_YEAR = 1,
 
 	/** The day of the week, from Monday (1) to Sunday (7). */
-	DAY_OF_WEEK = 1,
+	DAY_OF_WEEK = 2,
 }
 
 /**
@@ -56,6 +59,7 @@ export class ChronoFieldValue {
 	}
 }
 
+// a cache of parser instance, for locale keys
 const PARSER_CACHE: Map<string, ChronoFieldParser> = new Map();
 
 /**
@@ -217,5 +221,58 @@ export class ChronoFieldParser {
 		}
 		const lcValue = value.toLocaleLowerCase(this.#locale);
 		return values.get(lcValue);
+	}
+
+	/**
+	 * Parse a chronological field range string.
+	 *
+	 * A "range string" is a string formatted like `VALUE - VALUE`. Whitespace
+	 * is ignored, and the `- VALUE` portion can be omitted for a singleton
+	 * range. For example, in the `en-US` locale, `Jan-Dec` would be parsed as
+	 * `[1..12]`.
+	 *
+	 * @example
+	 * Here are some basic examples:
+	 *
+	 * ```ts
+	 * const p = ChronoFieldParser.forLocale('en-US');
+	 * p.parseRange(ChronoField.MONTH_OF_YEAR, 'Jan-Dec'); // [1..12]
+	 * p.parseRange(ChronoField.MONTH_OF_YEAR, '4-6');     // [4..6]
+	 * p.parseRange(ChronoField.DAY_OF_WEEK, 'Wednesday'); // [3..3]
+	 * ```
+	 *
+	 * @param field - the field to parse the range values as
+	 * @param value - the range string to parse
+	 * @returns the parsed range, or `undefined` if not parsable as a range
+	 */
+	parseRange(field: ChronoField, value: string): IntRange {
+		if (!field) {
+			return undefined;
+		}
+		const a = splitRange(value);
+		if (!a) {
+			return undefined;
+		}
+		const l = this.parse(field, a[0]);
+		const r = a.length > 1 ? this.parse(field, a[1]) : l;
+		if (l && r) {
+			return new IntRange(l.value, r.value);
+		}
+
+		// try as numbers
+		const n1 = +a[0];
+		const n2 = a.length > 1 ? +a[1] : n1;
+		if (!Number.isNaN(n1) && !Number.isNaN(n2)) {
+			const r = new IntRange(n1, n2);
+			// validate range within chrono field bounds
+			if (
+				r.min > 0 &&
+				((field === ChronoField.MONTH_OF_YEAR && r.max <= 12) ||
+					(field === ChronoField.DAY_OF_WEEK && r.max <= 7))
+			) {
+				return r;
+			}
+		}
+		return undefined;
 	}
 }

@@ -516,3 +516,407 @@ test("ChronoFieldParser:parse:month:fr-FR:accents", (t) => {
 		"short name without accents parsed in case-insensitive manner"
 	);
 });
+
+test("ChronoFieldParser:parseRange:en-US:undefined", (t) => {
+	const p = new ChronoFieldParser("en-US");
+	t.is(
+		p.parseRange(undefined, undefined),
+		undefined,
+		"all undefined returns undefined"
+	);
+	t.is(
+		p.parseRange(undefined, "Jan-Feb"),
+		undefined,
+		"undefined field returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, undefined),
+		undefined,
+		"undefined value for month returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, undefined),
+		undefined,
+		"undefined value for week returns undefined"
+	);
+});
+
+test("ChronoFieldParser:parseRange:month:en-US", (t) => {
+	const p = new ChronoFieldParser("en-US");
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "February - December"),
+		{
+			min: 2,
+			max: 12,
+		},
+		"full name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "Feb-Dec"),
+		{
+			min: 2,
+			max: 12,
+		},
+		"short name range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "Feb-Jul"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"mixed name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "Jul-Feb"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"mixed name range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "Jul"),
+		{
+			min: 7,
+			max: 7,
+		},
+		"singleton range parsed"
+	);
+});
+
+test("ChronoFieldParser:parseRange:month:nums:en-US", (t) => {
+	const p = new ChronoFieldParser("en-US");
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "1-12"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"number range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "2 - 11"),
+		{
+			min: 2,
+			max: 11,
+		},
+		"number range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "11 - 2"),
+		{
+			min: 2,
+			max: 11,
+		},
+		"number range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "7"),
+		{
+			min: 7,
+			max: 7,
+		},
+		"singleton range parsed"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "0 - 99"),
+		undefined,
+		"number range outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "0 - 1"),
+		undefined,
+		"number range leading outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "1 - 99"),
+		undefined,
+		"number range trailing outside of bounds returns undefined"
+	);
+});
+
+test("ChronoFieldParser:parseRange:month:fr-FR", (t) => {
+	const p = new ChronoFieldParser("fr-FR");
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "février - décembre"),
+		{
+			min: 2,
+			max: 12,
+		},
+		"full name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "févr-déc"),
+		{
+			min: 2,
+			max: 12,
+		},
+		"short name range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "févr-juillet"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"mixed name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "juillet-févr"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"mixed name range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "juillet"),
+		{
+			min: 7,
+			max: 7,
+		},
+		"singleton range parsed"
+	);
+});
+
+test("ChronoFieldParser:parseRange:month:nums:fr-FR", (t) => {
+	const p = new ChronoFieldParser("fr-FR");
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "1-12"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"number range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "2 - 11"),
+		{
+			min: 2,
+			max: 11,
+		},
+		"number range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "11 - 2"),
+		{
+			min: 2,
+			max: 11,
+		},
+		"number range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "7"),
+		{
+			min: 7,
+			max: 7,
+		},
+		"singleton range parsed"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "0 - 99"),
+		undefined,
+		"number range outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "0 - 1"),
+		undefined,
+		"number range leading outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "1 - 99"),
+		undefined,
+		"number range trailing outside of bounds returns undefined"
+	);
+});
+
+test("ChronoFieldParser:parseRange:week:en-US", (t) => {
+	const p = new ChronoFieldParser("en-US");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Tuesday - Sunday"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"full name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Tue-Sun"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"short name range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Tue-Wed"),
+		{
+			min: 2,
+			max: 3,
+		},
+		"mixed name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Wed-Tue"),
+		{
+			min: 2,
+			max: 3,
+		},
+		"mixed name range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Wed"),
+		{
+			min: 3,
+			max: 3,
+		},
+		"singleton range parsed"
+	);
+});
+
+test("ChronoFieldParser:parseRange:week:nums:en-US", (t) => {
+	const p = new ChronoFieldParser("en-US");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "1-7"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"number range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "2 - 6"),
+		{
+			min: 2,
+			max: 6,
+		},
+		"number range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "6 - 2"),
+		{
+			min: 2,
+			max: 6,
+		},
+		"number range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "7"),
+		{
+			min: 7,
+			max: 7,
+		},
+		"singleton range parsed"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "0 - 99"),
+		undefined,
+		"number range outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "0 - 1"),
+		undefined,
+		"number range leading outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "1 - 99"),
+		undefined,
+		"number range trailing outside of bounds returns undefined"
+	);
+});
+
+test("ChronoFieldParser:parseRange:week:fr-FR", (t) => {
+	const p = new ChronoFieldParser("fr-FR");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "mar - dim"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"full name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "mar-dim"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"short name range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "mar-mer"),
+		{
+			min: 2,
+			max: 3,
+		},
+		"mixed name range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "mer-mar"),
+		{
+			min: 2,
+			max: 3,
+		},
+		"mixed name range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "mer"),
+		{
+			min: 3,
+			max: 3,
+		},
+		"singleton range parsed"
+	);
+});
+
+test("ChronoFieldParser:parseRange:week:nums:fr-FR", (t) => {
+	const p = new ChronoFieldParser("fr-FR");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "1-7"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"number range without whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "2 - 6"),
+		{
+			min: 2,
+			max: 6,
+		},
+		"number range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "6 - 2"),
+		{
+			min: 2,
+			max: 6,
+		},
+		"number range reversed with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "7"),
+		{
+			min: 7,
+			max: 7,
+		},
+		"singleton range parsed"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "0 - 99"),
+		undefined,
+		"number range outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "0 - 1"),
+		undefined,
+		"number range leading outside of bounds returns undefined"
+	);
+	t.is(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "1 - 99"),
+		undefined,
+		"number range trailing outside of bounds returns undefined"
+	);
+});

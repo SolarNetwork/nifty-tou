@@ -92,3 +92,28 @@ export function required<T>(
 	}
 	return optional(arg, name, type);
 }
+
+const RANGE_DELIMITER: RegExp = /\s*-\s*/;
+
+/**
+ * Split a string based on a range delimiter pattern.
+ *
+ * A range delimited string has the pattern `VALUE - VALUE`, where whitespace
+ * at the start, around the `-` delimiter, and at the end is not significant.
+ *
+ * @param range - the range string to split into components, whitespace trimmed
+ * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
+ */
+export function splitRange(range: string): string[] {
+	if (!range) {
+		return undefined;
+	}
+	range = range.trim();
+	const a = range.split(RANGE_DELIMITER, 2);
+	for (let i = a.length - 1; i >= 0; i -= 1) {
+		if (!a[i]) {
+			a.splice(i, 1);
+		}
+	}
+	return a.length ? a : undefined;
+}

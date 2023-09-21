@@ -205,3 +205,60 @@ test("utils:required:mistyped:TestClass", (t) => {
 		"undefined argument throws exception"
 	);
 });
+
+test("utils:splitRange:undefined", (t) => {
+	t.is(
+		Utils.splitRange(undefined),
+		undefined,
+		"undefined returned for undefined"
+	);
+	t.is(Utils.splitRange(null), undefined, "undefined returned for null");
+	t.is(Utils.splitRange(""), undefined, "undefined returned for empty");
+	t.is(Utils.splitRange("-"), undefined, "undefined returned for dash");
+	t.is(
+		Utils.splitRange(" - "),
+		undefined,
+		"undefined returned for dash with whitespace"
+	);
+});
+
+test("utils:splitRange:singleton", (t) => {
+	t.deepEqual(
+		Utils.splitRange("a"),
+		["a"],
+		"singleton returned for non-range"
+	);
+	t.deepEqual(
+		Utils.splitRange("a-"),
+		["a"],
+		"singleton returned for trailing dash"
+	);
+	t.deepEqual(
+		Utils.splitRange(" a - "),
+		["a"],
+		"singleton returned for trailing dash with whitespace"
+	);
+	t.deepEqual(
+		Utils.splitRange("-a"),
+		["a"],
+		"singleton returned for leading dash"
+	);
+	t.deepEqual(
+		Utils.splitRange(" - a "),
+		["a"],
+		"singleton returned for leading dash with whitespace"
+	);
+});
+
+test("utils:splitRange:range", (t) => {
+	t.deepEqual(
+		Utils.splitRange("a-b"),
+		["a", "b"],
+		"range returned for range"
+	);
+	t.deepEqual(
+		Utils.splitRange(" a - b "),
+		["a", "b"],
+		"range returned for range with whitespace"
+	);
+});

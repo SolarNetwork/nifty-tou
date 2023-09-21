@@ -17,6 +17,15 @@ export default class IntRange {
      */
     static rangeOf(min: number, max: number): IntRange;
     /**
+     * Parse a range array into an `IntRange`.
+     *
+     * @param value - the range array to parse; can have 1 or 2 elements; all elements must have number values
+     * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
+     * @returns the parsed range, or `undefined` if a range could not be parsed or extends
+     *          beyond the given `bounds` then `undefined` will be returned
+     */
+    static parseRange(array: string[], bounds?: IntRange): IntRange;
+    /**
      * Get the minimum value.
      */
     get min(): number;

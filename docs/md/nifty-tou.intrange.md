@@ -42,6 +42,7 @@ export default class IntRange
 |  [intersects(o)](./nifty-tou.intrange.intersects.md) |  | Test if this range intersects with a given range. |
 |  [mergeWith(o)](./nifty-tou.intrange.mergewith.md) |  | Merge this range with a given range, returning the merged range. |
 |  [of(value)](./nifty-tou.intrange.of.md) | <code>static</code> | Create a singleton range, where the minimum and maximum are equal. |
+|  [parseRange(array, bounds)](./nifty-tou.intrange.parserange.md) | <code>static</code> | Parse a range array into an <code>IntRange</code>. |
 |  [rangeOf(min, max)](./nifty-tou.intrange.rangeof.md) | <code>static</code> | Create a range. |
 |  [toString()](./nifty-tou.intrange.tostring.md) |  | Get a string representation. |
 

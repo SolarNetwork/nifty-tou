@@ -42,4 +42,15 @@ export declare function prefix(prefix?: string, s?: string): string;
  * @public
  */
 export declare function required<T>(arg: T, name: string, type?: new (...args: any[]) => any): T;
+/**
+ * Split a string based on a range delimiter pattern.
+ *
+ * A range delimited string has the pattern `VALUE - VALUE`, where whitespace
+ * at the start, around the `-` delimiter, and at the end is not significant.
+ *
+ * @param range - the range string to split into components, whitespace trimmed
+ * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
+ * @public
+ */
+export declare function splitRange(range: string): string[];
 //# sourceMappingURL=utils.d.ts.map

@@ -8,6 +8,30 @@
 function cconcat(s1?: string, s2?: string): string;
 
 // @public
+export enum ChronoField {
+    DAY_OF_WEEK = 2,
+    MONTH_OF_YEAR = 1
+}
+
+// @public
+export class ChronoFieldParser {
+    constructor(locale: string);
+    static forLocale(locale: string): ChronoFieldParser;
+    get locale(): string;
+    parse(field: ChronoField, value: string): ChronoFieldValue;
+    parseRange(field: ChronoField, value: string): IntRange;
+}
+
+// @public
+export class ChronoFieldValue {
+    constructor(field: ChronoField, names: string[], value: number);
+    get field(): ChronoField;
+    get name(): string;
+    get shortName(): string;
+    get value(): number;
+}
+
+// @public
 export class IntRange {
     constructor(min: number, max: number);
     adjacentTo(o: IntRange): boolean;
@@ -25,8 +49,17 @@ export class IntRange {
     mergeWith(o: IntRange): IntRange;
     get min(): number;
     static of(value: number): IntRange;
+    static parseRange(array: string[], bounds?: IntRange): IntRange;
     static rangeOf(min: number, max: number): IntRange;
     toString(): string;
+}
+
+// @public
+export class NumberParser {
+    constructor(locale: string);
+    get locale(): string;
+    norm(s: string): string;
+    parse(s: string): number;
 }
 
 // @public
@@ -37,6 +70,9 @@ function prefix(prefix?: string, s?: string): string;
 
 // @public
 function required<T>(arg: T, name: string, type?: new (...args: any[]) => any): T;
+
+// @public
+function splitRange(range: string): string[];
 
 // @public
 export class TariffRate {
@@ -69,7 +105,8 @@ declare namespace Utils {
         cconcat,
         optional,
         prefix,
-        required
+        required,
+        splitRange
     }
 }
 export { Utils }

@@ -8,9 +8,18 @@
 
 |  Class | Description |
 |  --- | --- |
+|  [ChronoFieldParser](./nifty-tou.chronofieldparser.md) | Class to parse locale-specific chronological field names of the Gregorian calendar. |
+|  [ChronoFieldValue](./nifty-tou.chronofieldvalue.md) | A chronological field value. |
 |  [IntRange](./nifty-tou.intrange.md) | An immutable number range with min/max values. |
+|  [NumberParser](./nifty-tou.numberparser.md) | <p>A locale-specific number parser.</p><p>Adapted from Mike Bostock's https://observablehq.com/<!-- -->@<!-- -->mbostock/localized-number-parsing</p> |
 |  [TariffRate](./nifty-tou.tariffrate.md) | <p>An identifiable tariff rate.</p><p>Note that <code>amount</code> is stored as a string to maintain precision.</p> |
 |  [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) | <p>A tariff with time-based range rules.</p><p>The rules associated with this tariff are represented by a set of date ranges that serve as the constraints that must be satisfied by a given date for the rule to apply.</p> |
+
+## Enumerations
+
+|  Enumeration | Description |
+|  --- | --- |
+|  [ChronoField](./nifty-tou.chronofield.md) | An enumeration of supported chronological fields of the Gregorian calendar. |
 
 ## Namespaces
 

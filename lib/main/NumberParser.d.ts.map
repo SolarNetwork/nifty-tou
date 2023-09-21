@@ -1,0 +1,1 @@
+{"version":3,"file":"NumberParser.d.ts","sourceRoot":"","sources":["../../src/main/NumberParser.ts"],"names":[],"mappings":"AAAA;;;;;GAKG;AACH,MAAM,CAAC,OAAO,OAAO,YAAY;;IAOhC;;;;OAIG;gBACS,MAAM,EAAE,MAAM;IAsB1B,sBAAsB;IACtB,IAAI,MAAM,IAAI,MAAM,CAEnB;IAED;;;;;OAKG;IACH,IAAI,CAAC,CAAC,EAAE,MAAM,GAAG,MAAM;IAavB;;;;;OAKG;IACH,KAAK,CAAC,CAAC,EAAE,MAAM,GAAG,MAAM;CAIxB"}

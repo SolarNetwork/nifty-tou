@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nifty ToU</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <main class="container my-3">
+      <h1>Nifty ToU (Time of Use)</h1>
+
+      <p>
+        Nifty ToU is a delightful little JavaScript library for working with
+        time-of-use based tariffs. It aims to be easy to use, reliable, and
+        without any external dependencies.
+      </p>
+
+      <p>
+        A central class in Nifty ToU is
+        <a href="html/classes/TemporalRangesTariff.html">TemporalRangesTariff</a
+        >, that defines a set of tariff values with a set of time-based
+        constraints. The implication is that the tariff values apply only when
+        all the time-based constraints are valid.
+      </p>
+
+      <p>
+        The time-based constraints are encoded as
+        <a href="html/classes/IntRange.html">IntRange</a> objects, that are
+        integer ranges with minimum and maximum values that define the bounds of
+        the constraint. The supported time-based constraints are:
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Constraint</th>
+            <th>Example</th>
+            <th>Bounds</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>month</b> range</td>
+            <td>January - March</td>
+            <td>1 - 12 (January - December, inclusive)</td>
+          </tr>
+          <tr>
+            <td><b>day of month</b> range</td>
+            <td>1 - 31</td>
+            <td>1 - 31 (inclusive)</td>
+          </tr>
+          <tr>
+            <td><b>day of week</b> range</td>
+            <td>Monday - Friday</td>
+            <td>1 - 7 (Monday - Sunday, inclusive)</td>
+          </tr>
+          <tr>
+            <td><b>minute of day</b> range</td>
+            <td>00:00 - 08:30</td>
+            <td>0 - 1440 (inclusive minimum, exclusive maximum)</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+    <section class="container my-5">
+      <h2>API Documentation</h2>
+      <p>
+        See the <a href="html/index.html">API docs</a> for more information.
+      </p>
+    </section>
+  </body>
+</html>

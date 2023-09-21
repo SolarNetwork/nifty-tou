@@ -129,6 +129,7 @@ export class ChronoFieldParser {
 	 * Constructor.
 	 *
 	 * @param locale - the desired locale
+	 * @see {@link ChronoFieldParser.forLocale | forLocale()} for a caching factory method
 	 */
 	constructor(locale: string) {
 		this.#locale = locale;

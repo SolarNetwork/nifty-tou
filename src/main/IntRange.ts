@@ -8,6 +8,9 @@ export default class IntRange {
 
 	/**
 	 * Constructor.
+	 *
+	 * @param min - the mimnimum value
+	 * @param max - the maximum value
 	 */
 	constructor(min: number, max: number) {
 		this.#min = min < max ? min : max;
@@ -15,7 +18,10 @@ export default class IntRange {
 	}
 
 	/**
-	 * Create a singleton range, where the minimum and maximum are equal.
+	 * Create a singleton range, where the minimum and maximum values are equal.
+	 *
+	 * @param value - the minimum and maximum value
+	 * @returns the new singleton range instance
 	 */
 	static of(value: number): IntRange {
 		return new IntRange(value, value);
@@ -23,15 +29,20 @@ export default class IntRange {
 
 	/**
 	 * Create a range.
+	 *
+	 * @param min - the minimum value
+	 * @param max - the maximum value
+	 * @returns the new range instance
 	 */
 	static rangeOf(min: number, max: number): IntRange {
 		return new IntRange(min, max);
 	}
 
 	/**
-	 * Parse a range array into an `IntRange`.
+	 * Parse a range array of number strings into an `IntRange`.
 	 *
-	 * @param value - the range array to parse; can have 1 or 2 elements; all elements must have number values
+	 * @param value - the range array to parse; can have 1 or 2 elements;
+	 *     all elements must have number values
 	 * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
 	 * @returns the parsed range, or `undefined` if a range could not be parsed or extends
 	 *          beyond the given `bounds` then `undefined` will be returned
@@ -189,6 +200,9 @@ export default class IntRange {
 	/**
 	 * Test for equality.
 	 *
+	 * This method tests if `obj` is an instance of `IntRange` and compares the
+	 * `min` and `max` values for strict equality.
+	 *
 	 * @param obj - the object to compare to
 	 * @returns `true` if `obj` is equal to this
 	 */
@@ -199,11 +213,13 @@ export default class IntRange {
 		if (!(obj instanceof IntRange)) {
 			return false;
 		}
-		return this.#max == obj.max && this.#min == obj.min;
+		return this.#max === obj.max && this.#min === obj.min;
 	}
 
 	/**
 	 * Get a string representation.
+	 *
+	 * The format returned by this method is `[min..max]`.
 	 *
 	 * @returns the string representation
 	 */
@@ -214,11 +230,18 @@ export default class IntRange {
 	/**
 	 * Generate a description of a range.
 	 *
-	 * @param full - the "full" range that defines the bounds of `r`
+	 * @remarks
+	 * This method is similar to {@link IntRange.toString | toString()}, except that it compares a given range
+	 * with a bounding range. If the given range is equal to the bounding range, or the given range
+	 * is undefined, then the given range is taken to mean "all possible values" and a `*` character
+	 * is returned instead of the normal `[min..max]` representation.
+	 *
+	 * @param bounds - the "full" range that defines the bounds of `r`
 	 * @param r - the range
-	 * @returns if `r` is not defined or `r` equals `full` then the literal string `*`, otherwise the string representation of `r`
+	 * @returns if `r` represents "all possible values" then the literal string `*`,
+	 *     otherwise the string representation of `r`
 	 */
-	static description(full: IntRange, r: IntRange): string {
-		return !r || full.equals(r) ? "*" : r.toString();
+	static description(bounds: IntRange, r?: IntRange): string {
+		return !r || bounds.equals(r) ? "*" : r.toString();
 	}
 }

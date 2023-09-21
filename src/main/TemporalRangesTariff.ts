@@ -35,17 +35,18 @@ export const ALL_MINUTES_OF_DAY = new IntRange(0, 1440);
  *
  * @remarks
  * The date range constraints use inclusive minimum/maximum matching semantics,
- * **except** for the `minuteOfDayRange` constraint, that uses inclusive
- * minimum and **exclusive** maximum semantics.
+ * <b>except</b> for the `minuteOfDayRange` constraint, that uses inclusive
+ * minimum and <b>exclusive</b> maximum semantics.
  *
  * The time-based constraints supported are:
  *
- * | Constraint         | Bounds          | Description |
- * | :------------------| :-------------- | :---------- |
- * | `monthRange`       | 1 - 12     | January - December |
- * | `dayOfMonthRange`  | 1 - 31     |                    |
- * | `dayOfWeekRange`   | 1 - 7      | Monday - Friday    |
- * | `minuteOfDayRange` | 0 - 1440   | 00:00 - 24:00      |
+ * <table>
+ * <tr><th>Constraint</th><th>Bounds</th><th>Description</th></tr>
+ * <tr><td>monthRange</td><td>1 - 12</td><td>January - December</td></tr>
+ * <tr><td>dayOfMonthRange</td><td>1 - 31</td><td></td></tr>
+ * <tr><td>dayOfWeekRange</td><td>1 - 7</td><td>Monday - Friday</td></tr>
+ * <tr><td>minuteOfDayRange</td><td>0 - 1440</td><td>00:00 - 24:00</td></tr>
+ * </table>
  *
  * @public
  */

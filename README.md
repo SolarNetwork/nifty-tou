@@ -37,9 +37,10 @@ tt.appliesAt(new Date("2024-01-05T01:00")); // true, in the morning
 tt.appliesAt(new Date("2024-01-05T13:00")); // false, in the afternoon
 ```
 
-# API Documentation
+# Documentation
 
-API documentation is available in the [docs/md](./docs/md/index.md) directory.
+The API documentation is published to <https://solarnetwork.github.io/nifty-tou/>, and is also
+available in Markdown form in the [docs/md](./docs/md/index.md) directory.
 
 # Building from source
 

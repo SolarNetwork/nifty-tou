@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [nifty-tou](./nifty-tou.md) |  |
+|  [nifty-tou](./nifty-tou.md) | A delightful little library for working with time-of-use tariffs. |
 

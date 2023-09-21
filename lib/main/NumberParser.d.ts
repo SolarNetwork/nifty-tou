@@ -1,7 +1,10 @@
 /**
  * A locale-specific number parser.
  *
- * Adapted from Mike Bostock's https://observablehq.com/\@mbostock/localized-number-parsing
+ * Adapted from Mike Bostock's
+ * {@link https://observablehq.com/@mbostock/localized-number-parsing | lovely code}
+ * (thanks, Mike!).
+ *
  * @public
  */
 export default class NumberParser {

@@ -111,6 +111,4 @@ declare namespace Utils {
 }
 export { Utils }
 
-// (No @packageDocumentation comment for this package)
-
 ```

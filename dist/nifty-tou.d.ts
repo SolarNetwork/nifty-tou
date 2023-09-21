@@ -1,4 +1,10 @@
 /**
+ * A delightful little library for working with time-of-use tariffs.
+ *
+ * @packageDocumentation
+ */
+
+/**
  * Concatenate two strings with a comma.
  *
  * If `s1` has no length then `s2` is returned as-is. If `s2` has no length
@@ -238,7 +244,10 @@ export declare class IntRange {
 /**
  * A locale-specific number parser.
  *
- * Adapted from Mike Bostock's https://observablehq.com/\@mbostock/localized-number-parsing
+ * Adapted from Mike Bostock's
+ * {@link https://observablehq.com/@mbostock/localized-number-parsing | lovely code}
+ * (thanks, Mike!).
+ *
  * @public
  */
 export declare class NumberParser {

@@ -6,7 +6,7 @@
 
 A locale-specific number parser.
 
-Adapted from Mike Bostock's https://observablehq.com/<!-- -->@<!-- -->mbostock/localized-number-parsing
+Adapted from Mike Bostock's [lovely code](https://observablehq.com/@mbostock/localized-number-parsing) (thanks, Mike!).
 
 **Signature:**
 

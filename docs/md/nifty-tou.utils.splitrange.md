@@ -6,7 +6,7 @@
 
 Split a string based on a range delimiter pattern.
 
-A range delimited string has the pattern `VALUE - VALUE`<!-- -->, where whitespace at the start, around the `-` delimiter, and at the end is not significant.
+A range delimited string has the pattern `VALUE - VALUE`<!-- -->, where whitespace at the start, around the `-` delimiter, and at the end is not significant. The delimited can be any one of `-`<!-- -->, `~`<!-- -->, or `～` (0xFF5E).
 
 **Signature:**
 

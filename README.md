@@ -55,8 +55,8 @@ new TariffRate("Morning Variable", 1, -1);
 # Language support
 
 Nifty ToU supports parsing text-based range values, in different languages. For example
-the following produce the same range constraints (only the `TariffRate` names remain
-language specific):
+the following produce the same range constraints and rate values (only the rate names
+remain language specific):
 
 ```ts
 // US English
@@ -66,7 +66,7 @@ const tt = TemporalRangesTariff.parse(
 	"1 - 31",
 	"Mon - Fri",
 	"0 - 24",
-	[new TariffRate("Morning Fixed", 1.23)]
+	[TariffRate.parse("en-US", "Morning Fixed", "1.23")]
 );
 
 // German
@@ -76,7 +76,7 @@ const tt = TemporalRangesTariff.parse(
 	"1 - 31",
 	"Montag - Freitag",
 	"00:00 - 24:00",
-	[new TariffRate("Morgen behoben", 1.23)]
+	[TariffRate.parse("de", "Morgen behoben", "1,23")]
 );
 
 // Japanese
@@ -86,7 +86,7 @@ const tt = TemporalRangesTariff.parse(
 	"1～31",
 	"月曜日～金曜日",
 	"0～24",
-	[new TariffRate("午前固定", 1.23)]
+	[TariffRate.parse("ja-JP", "午前固定", "1.23")]
 );
 ```
 

@@ -2,7 +2,8 @@
  * An identifiable tariff rate.
  *
  * @remarks
- * Note that `amount` is stored as a string to maintain precision.
+ * The `exponent` property can be used to maintain precision in `amount`. For example
+ * an amount of `1.23` could be expressed as `123` with an `exponent` of `-2`.
  *
  * @public
  */
@@ -12,10 +13,11 @@ export default class TariffRate {
      * Constructor.
      *
      * @param id - the identifier
-     * @param amount - an amount, assumed to be parsable as a number
+     * @param amount - an amount
+     * @param exponent - a base-10 exponent to interpret `amount` in; if not provided then `0` is assumed
      * @param description - a description
      */
-    constructor(id: string, amount: string, description?: string);
+    constructor(id: string, amount: number, exponent?: number, description?: string);
     /**
      * Get the identifier.
      */
@@ -27,16 +29,11 @@ export default class TariffRate {
     /**
      * Get the amount.
      */
-    get amount(): string;
+    get amount(): number;
     /**
-     * Get the amount as a number value.
-     *
-     * @remarks
-     * Note this does <b>not</b> perform any locale-specific parsing.
-     * This method will return `NaN` if the amount does not parse as
-     * a JavaScript decimal number.
+     * Get the exponent.
      */
-    get val(): number;
+    get exponent(): number;
     /**
      * Get a string representation.
      *

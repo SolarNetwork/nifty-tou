@@ -1,3 +1,6 @@
+// a cache of parser instance, for locale keys
+const PARSER_CACHE: Map<string, NumberParser> = new Map();
+
 /**
  * A locale-specific number parser.
  *
@@ -13,6 +16,24 @@ export default class NumberParser {
 	#decimal: RegExp;
 	#numeral: RegExp;
 	#index: (d: string) => string;
+
+	/**
+	 * Get a parser for a given locale.
+	 *
+	 * This method will instantiate and cache parsers, returning cached instances
+	 * if already avaialble.
+	 *
+	 * @param locale - the locale of the parser to get
+	 * @returns the parser
+	 */
+	static forLocale(locale: string) {
+		let p = PARSER_CACHE.get(locale);
+		if (!p) {
+			p = new NumberParser(locale);
+			PARSER_CACHE.set(locale, p);
+		}
+		return p;
+	}
 
 	/**
 	 * Constructor.

@@ -7,6 +7,32 @@ test("NumberParser:construct", (t) => {
 	t.is(p.locale, locale, "locale from constructor arg");
 });
 
+test("NumberParser:factory:en-US", (t) => {
+	const en = NumberParser.forLocale("en-US");
+	t.is(
+		NumberParser.forLocale("en-US"),
+		en,
+		"cached instance returned for previous locale"
+	);
+	t.not(
+		new NumberParser("en-US"),
+		en,
+		"new instance differs from cached instance"
+	);
+
+	const fr = NumberParser.forLocale("fr-FR");
+	t.is(
+		NumberParser.forLocale("fr-FR"),
+		fr,
+		"cached instance returned for previous locale"
+	);
+	t.not(
+		new NumberParser("fr-FR"),
+		fr,
+		"new instance differs from cached instance"
+	);
+});
+
 test("NumberParser:parse:NaN", (t) => {
 	const locale = "en-US";
 	const p = new NumberParser(locale);

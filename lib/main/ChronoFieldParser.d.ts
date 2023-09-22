@@ -107,17 +107,18 @@ export declare class ChronoFieldParser {
      * Here are some basic examples:
      *
      * ```ts
-     * const p = ChronoFieldParser.forLocale('en-US');
-     * p.parseRange(ChronoField.MONTH_OF_YEAR, 'Jan-Dec');    // [1..12]
-     * p.parseRange(ChronoField.MONTH_OF_YEAR, '4-6');        // [4..6]
-     * p.parseRange(ChronoField.DAY_OF_MONTH, '1-31');        // [1..31]
-     * p.parseRange(ChronoField.DAY_OF_WEEK, 'Wednesday');    // [3..3]
-     * p.parseRange(ChronoField.MINUTE_OF_DAY, '00:00-08:30); // [0..510]
+     * const p = ChronoFieldParser.forLocale("en-US");
+     * p.parseRange(ChronoField.MONTH_OF_YEAR, "Jan-Dec");     // [1..12]
+     * p.parseRange(ChronoField.MONTH_OF_YEAR, "4-6");         // [4..6]
+     * p.parseRange(ChronoField.DAY_OF_MONTH, "1-31");         // [1..31]
+     * p.parseRange(ChronoField.DAY_OF_WEEK, "Wednesday");     // [3..3]
+     * p.parseRange(ChronoField.MINUTE_OF_DAY, "00:00-08:30"); // [0..510]
      * ```
      *
      * @param field - the field to parse the range values as
      * @param value - the range string to parse
      * @returns the parsed range, or `undefined` if not parsable as a range
+     * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
     parseRange(field: ChronoField, value: string): IntRange;
 }

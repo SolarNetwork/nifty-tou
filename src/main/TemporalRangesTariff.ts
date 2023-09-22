@@ -109,7 +109,7 @@ export default class TemporalRangesTariff {
 		dayOfMonthRange?: IntRange,
 		dayOfWeekRange?: IntRange,
 		minuteOfDayRange?: IntRange,
-		rates?: Array<TariffRate>
+		rates?: TariffRate[]
 	) {
 		this.#monthRange = optional(monthRange, "monthRange", IntRange);
 		this.#dayOfMonthRange = optional(
@@ -310,7 +310,7 @@ export default class TemporalRangesTariff {
 		dayOfMonthRange?: string,
 		dayOfWeekRange?: string,
 		minuteOfDayRange?: string,
-		rates?: Array<TariffRate>
+		rates?: TariffRate[]
 	): TemporalRangesTariff {
 		const p = ChronoFieldParser.forLocale(locale);
 		return new TemporalRangesTariff(

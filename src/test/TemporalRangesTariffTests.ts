@@ -311,9 +311,9 @@ test("TemporalRangesTariff:parse:de", (t) => {
 test("TemporalRangesTariff:parse:ja-JP", (t) => {
 	const tt = TemporalRangesTariff.parse(
 		"ja-JP",
-		"1月 ～ 12月",
+		"1月～12月",
 		"1-31",
-		"月曜日 ～ 金曜日",
+		"月曜日～金曜日",
 		"0-24",
 		[TariffRate.parse("ja-JP", "午前固定", "1.23")]
 	);

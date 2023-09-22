@@ -154,6 +154,9 @@ function computeKeysAndNames(
 	for (const fmt of formats) {
 		// generate name and remove all punctuation, e.g. some short names include a period
 		const name = fmt.format(date).replace(/\p{P}/gu, "");
+		if (names.indexOf(name) >= 0) {
+			continue;
+		}
 		names.splice(names.length, 0, name);
 		keys.splice(keys.length, 0, name);
 

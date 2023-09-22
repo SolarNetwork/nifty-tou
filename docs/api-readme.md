@@ -28,8 +28,8 @@ const tt = new TemporalRangesTariff(
 	TemporalRangesTariff.ALL_DAYS_OF_WEEK,
 	new IntRange(0, 720), // midnight - noon
 	[
-		new TariffRate("Morning Fixed", "1.25"),
-		new TariffRate("Morning Variable", "0.10"),
+		new TariffRate("Morning Fixed", 1.25),
+		new TariffRate("Morning Variable", 0.1),
 	]
 );
 

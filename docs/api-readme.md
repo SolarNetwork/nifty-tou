@@ -86,6 +86,6 @@ const tt = TemporalRangesTariff.parse(
 	"1～31",
 	"月曜日～金曜日",
 	"0～24",
-	[TariffRate.parse("ja-JP", "午前固定", "1.23")]
+	[TariffRate.parse("ja-JP", "固定価格(午前中)", "1.23")]
 );
 ```

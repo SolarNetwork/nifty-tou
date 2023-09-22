@@ -37,20 +37,6 @@ test("TariffRate:Construct:invalid:id", (t) => {
 test("TariffRate:Construct:invalid:description", (t) => {
 	t.throws(
 		() => {
-			new TariffRate("a", "abc", undefined);
-		},
-		{ instanceOf: TypeError },
-		"TypeError thrown for undefined description"
-	);
-	t.throws(
-		() => {
-			new TariffRate("a", "abc", null);
-		},
-		{ instanceOf: TypeError },
-		"TypeError thrown for null description"
-	);
-	t.throws(
-		() => {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			new TariffRate("a", "abc", 1.23);
@@ -75,18 +61,16 @@ test("TariffRate:Construct:invalid:amount", (t) => {
 		{ instanceOf: TypeError },
 		"TypeError thrown for null amount"
 	);
-	t.throws(
-		() => {
-			new TariffRate("a", "abc", "b");
-		},
-		{ instanceOf: TypeError },
-		"TypeError thrown for non-number amount"
-	);
 });
 
 test("TariffRate:val", (t) => {
-	const r = new TariffRate("a", "1.23", "b");
+	const r = new TariffRate("a", "1.23");
 	t.is(r.val, 1.23, "val from amount");
+});
+
+test("TariffRate:val:NaN", (t) => {
+	const r = new TariffRate("a", "foo");
+	t.is(r.val, NaN, "NaN reeturned for non-number amount");
 });
 
 function tariffRateString(id, amount) {

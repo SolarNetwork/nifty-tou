@@ -283,14 +283,14 @@ test("TemporalRangesTariff:parse:en-US", (t) => {
 	);
 });
 
-test("TemporalRangesTariff:parse:ja-JP", (t) => {
+test("TemporalRangesTariff:parse:de", (t) => {
 	const tt = TemporalRangesTariff.parse(
-		"ja-JP",
-		"1月 - 12月",
-		"1-31",
-		"月曜日 - 金曜日",
-		"0-24",
-		[new TariffRate("a", "1.23")]
+		"de",
+		"Januar - Dezember",
+		"1 - 31",
+		"Montag - Freitag",
+		"00:00 - 24:00",
+		[new TariffRate("Morgen behoben", "1,23")]
 	);
 
 	t.like(
@@ -301,7 +301,32 @@ test("TemporalRangesTariff:parse:ja-JP", (t) => {
 			dayOfWeekRange: { min: 1, max: 5 },
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				a: { id: "a", amount: "1.23" },
+				"Morgen behoben": { id: "Morgen behoben", amount: "1,23" },
+			},
+		},
+		"range tariff values parsed"
+	);
+});
+
+test("TemporalRangesTariff:parse:ja-JP", (t) => {
+	const tt = TemporalRangesTariff.parse(
+		"ja-JP",
+		"1月 - 12月",
+		"1-31",
+		"月曜日 - 金曜日",
+		"0-24",
+		[new TariffRate("午前固定", "1.23")]
+	);
+
+	t.like(
+		tt,
+		{
+			monthRange: { min: 1, max: 12 },
+			dayOfMonthRange: { min: 1, max: 31 },
+			dayOfWeekRange: { min: 1, max: 5 },
+			minuteOfDayRange: { min: 0, max: 1440 },
+			rates: {
+				午前固定: { id: "午前固定", amount: "1.23" },
 			},
 		},
 		"range tariff values parsed"

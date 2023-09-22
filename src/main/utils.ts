@@ -100,7 +100,7 @@ const RANGE_DELIMITER: RegExp = /(?<!\s)\s*[-~\uFF5E]\s*/;
  *
  * A range delimited string has the pattern `VALUE - VALUE`, where whitespace
  * at the start, around the `-` delimiter, and at the end is not significant.
- * The delimited can be any one of `-`, `~`, or `～` (\uFF5E).
+ * The delimited can be any one of `-`, `~`, or `～` (0xFF5E).
  *
  * @param range - the range string to split into components, whitespace trimmed
  * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined

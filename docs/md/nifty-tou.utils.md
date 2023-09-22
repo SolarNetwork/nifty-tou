@@ -12,5 +12,5 @@
 |  [optional(arg, name, type)](./nifty-tou.utils.optional.md) | Verify that a variable is undefined or of a given type. |
 |  [prefix(prefix, s)](./nifty-tou.utils.prefix.md) | <p>Prefix an optional string.</p><p>If <code>prefix</code> or <code>s</code> have no length then <code>s</code> is returned as-is. Otherwise the strings are concatenated.</p> |
 |  [required(arg, name, type)](./nifty-tou.utils.required.md) | Verify that a variable is defined and optionally of a given type. |
-|  [splitRange(range)](./nifty-tou.utils.splitrange.md) | <p>Split a string based on a range delimiter pattern.</p><p>A range delimited string has the pattern <code>VALUE - VALUE</code>, where whitespace at the start, around the <code>-</code> delimiter, and at the end is not significant.</p> |
+|  [splitRange(range)](./nifty-tou.utils.splitrange.md) | <p>Split a string based on a range delimiter pattern.</p><p>A range delimited string has the pattern <code>VALUE - VALUE</code>, where whitespace at the start, around the <code>-</code> delimiter, and at the end is not significant. The delimited can be any one of <code>-</code>, <code>~</code>, or <code>～</code> (0xFF5E).</p> |
 

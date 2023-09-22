@@ -9,7 +9,7 @@ Constructor.
 **Signature:**
 
 ```typescript
-constructor(id: string, amount: string, description?: string);
+constructor(id: string, amount: number, exponent?: number, description?: string);
 ```
 
 ## Parameters
@@ -17,6 +17,7 @@ constructor(id: string, amount: string, description?: string);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  id | string | the identifier |
-|  amount | string | an amount, assumed to be parsable as a number |
+|  amount | number | an amount |
+|  exponent | number | _(Optional)_ a base-10 exponent to interpret <code>amount</code> in; if not provided then <code>0</code> is assumed |
 |  description | string | _(Optional)_ a description |
 

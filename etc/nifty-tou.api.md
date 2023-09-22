@@ -78,12 +78,12 @@ function splitRange(range: string): string[];
 
 // @public
 export class TariffRate {
-    constructor(id: string, amount: string, description?: string);
-    get amount(): string;
+    constructor(id: string, amount: number, exponent?: number, description?: string);
+    get amount(): number;
     get description(): string;
+    get exponent(): number;
     get id(): string;
     toString(): string;
-    get val(): number;
 }
 
 // @public

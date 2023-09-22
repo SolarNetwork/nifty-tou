@@ -14,22 +14,22 @@ export default class TariffRate
 
 ## Remarks
 
-Note that `amount` is stored as a string to maintain precision.
+The `exponent` property can be used to maintain precision in `amount`<!-- -->. For example an amount of `1.23` could be expressed as `123` with an `exponent` of `-2`<!-- -->.
 
 ## Constructors
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(id, amount, description)](./nifty-tou.tariffrate._constructor_.md) |  | Constructor. |
+|  [(constructor)(id, amount, exponent, description)](./nifty-tou.tariffrate._constructor_.md) |  | Constructor. |
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [amount](./nifty-tou.tariffrate.amount.md) | <code>readonly</code> | string | Get the amount. |
+|  [amount](./nifty-tou.tariffrate.amount.md) | <code>readonly</code> | number | Get the amount. |
 |  [description](./nifty-tou.tariffrate.description.md) | <code>readonly</code> | string | Get the description. |
+|  [exponent](./nifty-tou.tariffrate.exponent.md) | <code>readonly</code> | number | Get the exponent. |
 |  [id](./nifty-tou.tariffrate.id.md) | <code>readonly</code> | string | Get the identifier. |
-|  [val](./nifty-tou.tariffrate.val.md) | <code>readonly</code> | number | Get the amount as a number value. |
 
 ## Methods
 

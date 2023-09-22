@@ -19,14 +19,15 @@
 <div class="tsd-comment tsd-typography"><p>An identifiable tariff rate.</p>
 </div>
 <div class="tsd-comment tsd-typography">
-<h4>Remarks</h4><p>Note that <code>amount</code> is stored as a string to maintain precision.</p>
+<h4>Remarks</h4><p>The <code>exponent</code> property can be used to maintain precision in <code>amount</code>. For example
+an amount of <code>1.23</code> could be expressed as <code>123</code> with an <code>exponent</code> of <code>-2</code>.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">TariffRate</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L11">TariffRate.ts:11</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L13">TariffRate.ts:13</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -40,25 +41,27 @@
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="TariffRate.html#_amount" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#amount</span></a>
 <a href="TariffRate.html#_description" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#description</span></a>
+<a href="TariffRate.html#_exponent" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#exponent</span></a>
 <a href="TariffRate.html#_id" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#id</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Accessors</h3>
 <div class="tsd-index-list"><a href="TariffRate.html#amount" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>amount</span></a>
 <a href="TariffRate.html#description" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>description</span></a>
+<a href="TariffRate.html#exponent" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>exponent</span></a>
 <a href="TariffRate.html#id" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>id</span></a>
-<a href="TariffRate.html#val" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>val</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="TariffRate.html#toString" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a>
+<a href="TariffRate.html#parse" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_TariffRate"><span class="tsd-kind-constructor-signature">new <wbr/>Tariff<wbr/>Rate</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">id</span>, <span class="tsd-kind-parameter">amount</span>, <span class="tsd-kind-parameter">description</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><a href="#constructor.new_TariffRate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_TariffRate"><span class="tsd-kind-constructor-signature">new <wbr/>Tariff<wbr/>Rate</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">id</span>, <span class="tsd-kind-parameter">amount</span>, <span class="tsd-kind-parameter">exponent</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">description</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><a href="#constructor.new_TariffRate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Constructor.</p>
 </div>
@@ -71,8 +74,13 @@
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">amount</span>: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>an amount, assumed to be parsable as a number</p>
+<h5><span class="tsd-kind-parameter">amount</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>the amount</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">exponent</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>a base-10 exponent to interpret <code>amount</code> in; if not provided then <code>0</code> is assumed</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
@@ -83,37 +91,42 @@
 <h4 class="tsd-returns-title">Returns <a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L23">TariffRate.ts:23</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L27">TariffRate.ts:27</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_amount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#amount</span><a href="#_amount" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">#amount</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">#amount</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L14">TariffRate.ts:14</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L16">TariffRate.ts:16</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_description" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#description</span><a href="#_description" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#description</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L13">TariffRate.ts:13</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L15">TariffRate.ts:15</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_exponent" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#exponent</span><a href="#_exponent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">#exponent</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L17">TariffRate.ts:17</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_id" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#id</span><a href="#_id" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L12">TariffRate.ts:12</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L14">TariffRate.ts:14</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member"><a id="amount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>amount</span><a href="#amount" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="amount.amount-1"><span class="tsd-signature-symbol">get</span> amount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+<li class="tsd-signature" id="amount.amount-1"><span class="tsd-signature-symbol">get</span> amount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the amount.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L46">TariffRate.ts:46</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L57">TariffRate.ts:57</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="description" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>description</span><a href="#description" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -124,7 +137,18 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L39">TariffRate.ts:39</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L50">TariffRate.ts:50</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="exponent" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>exponent</span><a href="#exponent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature" id="exponent.exponent-1"><span class="tsd-signature-symbol">get</span> exponent<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get the exponent.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L64">TariffRate.ts:64</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="id" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>id</span><a href="#id" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -135,22 +159,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L32">TariffRate.ts:32</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="val" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>val</span><a href="#val" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature" id="val.val-1"><span class="tsd-signature-symbol">get</span> val<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the amount as a number value.</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-<div class="tsd-comment tsd-typography">
-<h4>Remarks</h4><p>Note this does <b>not</b> perform any locale-specific parsing.
-This method will return <code>NaN</code> if the amount does not parse as
-a JavaScript decimal number.</p>
-</div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L58">TariffRate.ts:58</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L43">TariffRate.ts:43</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="toString" class="tsd-anchor"></a>
@@ -164,7 +173,50 @@ a JavaScript decimal number.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/0dbc256/src/main/TariffRate.ts#L67">TariffRate.ts:67</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L73">TariffRate.ts:73</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="parse" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>parse</span><a href="#parse" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="parse.parse-1"><span class="tsd-kind-call-signature">parse</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">locale</span>, <span class="tsd-kind-parameter">id</span>, <span class="tsd-kind-parameter">amount</span>, <span class="tsd-kind-parameter">exponent</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">description</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><a href="#parse.parse-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Parse locale string values into a <code>TariffRate</code> instance.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">locale</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the locale to parse the <code>amount</code> and <code>exponent</code> string values as</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">id</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the identifier</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">amount</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the amount, as a number string in the <code>locale</code> locale</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">exponent</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>a base-10 exponent to interpret <code>amount</code> in, as a number string
+    in the <code>locale</code> locale; if not provided then <code>0</code> is assumed</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">description</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>a description</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a></h4><p>the new instance</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if the amount or exponent can not be parsed as numbers</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5560a9a/src/main/TariffRate.ts#L95">TariffRate.ts:95</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -187,12 +239,14 @@ a JavaScript decimal number.</p>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
 <li><a href="#_amount" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#amount</span></a></li>
 <li><a href="#_description" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#description</span></a></li>
+<li><a href="#_exponent" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#exponent</span></a></li>
 <li><a href="#_id" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#id</span></a></li>
 <li><a href="#amount" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>amount</span></a></li>
 <li><a href="#description" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>description</span></a></li>
+<li><a href="#exponent" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>exponent</span></a></li>
 <li><a href="#id" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>id</span></a></li>
-<li><a href="#val" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>val</span></a></li>
-<li><a href="#toString" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a></li></ul></div></details></div>
+<li><a href="#toString" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a></li>
+<li><a href="#parse" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>nifty-tou</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">

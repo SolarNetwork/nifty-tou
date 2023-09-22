@@ -257,3 +257,73 @@ test("TemporalRangesTariff:rates:clash", (t) => {
 		"duplicate rate IDs override each other"
 	);
 });
+
+test("TemporalRangesTariff:parse:en-US", (t) => {
+	const tt = TemporalRangesTariff.parse(
+		"en-US",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"0-24",
+		[new TariffRate("a", "1.23")]
+	);
+
+	t.like(
+		tt,
+		{
+			monthRange: { min: 1, max: 12 },
+			dayOfMonthRange: { min: 1, max: 31 },
+			dayOfWeekRange: { min: 1, max: 7 },
+			minuteOfDayRange: { min: 0, max: 1440 },
+			rates: {
+				a: { id: "a", amount: "1.23" },
+			},
+		},
+		"range tariff values parsed"
+	);
+});
+
+test("TemporalRangesTariff:parse:en-US:bounds", (t) => {
+	const tt = TemporalRangesTariff.parse("en-US", "*", "*", "*", "*", [
+		new TariffRate("a", "1.23"),
+	]);
+
+	t.like(
+		tt,
+		{
+			monthRange: { min: 1, max: 12 },
+			dayOfMonthRange: { min: 1, max: 31 },
+			dayOfWeekRange: { min: 1, max: 7 },
+			minuteOfDayRange: { min: 0, max: 1440 },
+			rates: {
+				a: { id: "a", amount: "1.23" },
+			},
+		},
+		"range tariff values parsed"
+	);
+});
+
+test("TemporalRangesTariff:parse:en-US:sparse", (t) => {
+	const tt = TemporalRangesTariff.parse(
+		"en-US",
+		undefined,
+		"*",
+		undefined,
+		"*",
+		[new TariffRate("a", "1.23")]
+	);
+
+	t.like(
+		tt,
+		{
+			monthRange: undefined,
+			dayOfMonthRange: { min: 1, max: 31 },
+			dayOfWeekRange: undefined,
+			minuteOfDayRange: { min: 0, max: 1440 },
+			rates: {
+				a: { id: "a", amount: "1.23" },
+			},
+		},
+		"range tariff values parsed"
+	);
+});

@@ -3,7 +3,7 @@ import IntRange from "../main/IntRange.js";
 import TemporalRangesTariff from "../main/TemporalRangesTariff.js";
 import TariffRate from "../main/TariffRate.js";
 
-test("TemporalRangesTariff:Construct", (t) => {
+test("TemporalRangesTariff:construct", (t) => {
 	const monthRange = new IntRange(1, 12);
 	const dayOfMonthRange = new IntRange(1, 31);
 	const dayOfWeekRange = new IntRange(1, 7);
@@ -32,6 +32,17 @@ test("TemporalRangesTariff:Construct", (t) => {
 		minuteOfDayRange,
 		"minuteOfDayRange from constructor arg"
 	);
+});
+
+test("TemporalRangesTariff:construct:frozenRates", (t) => {
+	const tt = new TemporalRangesTariff(
+		TemporalRangesTariff.ALL_MONTHS,
+		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
+		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
+		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
+		[new TariffRate("a", 1.23)]
+	);
+	t.true(Object.isFrozen(tt.rates), "rates are frozen");
 });
 
 test("TemporalRangesTariff:applies", (t) => {

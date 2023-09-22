@@ -59,6 +59,7 @@ export class IntRange {
 // @public
 export class NumberParser {
     constructor(locale: string);
+    static forLocale(locale: string): NumberParser;
     get locale(): string;
     norm(s: string): string;
     parse(s: string): number;
@@ -83,6 +84,7 @@ export class TariffRate {
     get description(): string;
     get exponent(): number;
     get id(): string;
+    static parse(locale: string, id: string, amount: string, exponent?: string, description?: string): TariffRate;
     toString(): string;
 }
 

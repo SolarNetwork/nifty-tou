@@ -17,7 +17,7 @@ constructor(id: string, amount: number, exponent?: number, description?: string)
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  id | string | the identifier |
-|  amount | number | an amount |
+|  amount | number | the amount |
 |  exponent | number | _(Optional)_ a base-10 exponent to interpret <code>amount</code> in; if not provided then <code>0</code> is assumed |
 |  description | string | _(Optional)_ a description |
 

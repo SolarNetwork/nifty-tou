@@ -35,5 +35,6 @@ The `exponent` property can be used to maintain precision in `amount`<!-- -->. F
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [parse(locale, id, amount, exponent, description)](./nifty-tou.tariffrate.parse.md) | <code>static</code> | Parse locale string values into a <code>TariffRate</code> instance. |
 |  [toString()](./nifty-tou.tariffrate.tostring.md) |  | Get a string representation. |
 

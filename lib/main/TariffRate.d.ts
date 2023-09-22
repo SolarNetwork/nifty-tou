@@ -1,6 +1,7 @@
 /**
  * An identifiable tariff rate.
  *
+ * @remarks
  * Note that `amount` is stored as a string to maintain precision.
  *
  * @public
@@ -13,7 +14,6 @@ export default class TariffRate {
      * @param id - the identifier
      * @param amount - an amount, assumed to be parsable as a number
      * @param description - a description
-     * @throws TypeError if `amount` is not parsable as a number
      */
     constructor(id: string, amount: string, description?: string);
     /**
@@ -30,6 +30,11 @@ export default class TariffRate {
     get amount(): string;
     /**
      * Get the amount as a number value.
+     *
+     * @remarks
+     * Note this does <b>not</b> perform any locale-specific parsing.
+     * This method will return `NaN` if the amount does not parse as
+     * a JavaScript decimal number.
      */
     get val(): number;
     /**

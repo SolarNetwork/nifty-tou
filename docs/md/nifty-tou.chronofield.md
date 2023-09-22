@@ -16,6 +16,8 @@ export declare enum ChronoField
 
 |  Member | Value | Description |
 |  --- | --- | --- |
-|  DAY\_OF\_WEEK | <code>2</code> | The day of the week, from Monday (1) to Sunday (7). |
+|  DAY\_OF\_MONTH | <code>2</code> | The day of month, from 1 - 31. |
+|  DAY\_OF\_WEEK | <code>3</code> | The day of the week, from Monday (1) to Sunday (7). |
+|  MINUTE\_OF\_DAY | <code>4</code> | The minute of the day, from 0 to 1440 (assuming exclusive maximum). |
 |  MONTH\_OF\_YEAR | <code>1</code> | The month of year, from January (1) to December (12). |
 

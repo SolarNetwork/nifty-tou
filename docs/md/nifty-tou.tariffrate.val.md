@@ -11,3 +11,8 @@ Get the amount as a number value.
 ```typescript
 get val(): number;
 ```
+
+## Remarks
+
+Note this does <b>not</b> perform any locale-specific parsing. This method will return `NaN` if the amount does not parse as a JavaScript decimal number.
+

@@ -9,7 +9,9 @@ function cconcat(s1?: string, s2?: string): string;
 
 // @public
 export enum ChronoField {
-    DAY_OF_WEEK = 2,
+    DAY_OF_MONTH = 2,
+    DAY_OF_WEEK = 3,
+    MINUTE_OF_DAY = 4,
     MONTH_OF_YEAR = 1
 }
 
@@ -96,6 +98,7 @@ export class TemporalRangesTariff {
     get dayOfWeekRange(): IntRange;
     get minuteOfDayRange(): IntRange;
     get monthRange(): IntRange;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: Array<TariffRate>): TemporalRangesTariff;
     get rates(): Record<string, TariffRate>;
     toString(): string;
 }

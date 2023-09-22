@@ -20,7 +20,3 @@ constructor(id: string, amount: string, description?: string);
 |  amount | string | an amount, assumed to be parsable as a number |
 |  description | string | _(Optional)_ a description |
 
-## Exceptions
-
-TypeError if `amount` is not parsable as a number
-

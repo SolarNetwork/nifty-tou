@@ -1,5 +1,9 @@
 import test from "ava";
 import {
+	ALL_MONTHS,
+	ALL_DAYS_OF_MONTH,
+	ALL_DAYS_OF_WEEK,
+	ALL_MINUTES_OF_DAY,
 	ChronoField,
 	ChronoFieldValue,
 	ChronoFieldParser,
@@ -86,6 +90,14 @@ test("ChronoFieldParser:parse:unknown", (t) => {
 		{ instanceOf: TypeError },
 		"invalid ChronoField value throws TypeError"
 	);
+});
+
+test("ChronoFieldParser:parseRange:bounds", (t) => {
+	const p = new ChronoFieldParser("en-US");
+	t.is(p.parseRange(ChronoField.MONTH_OF_YEAR, "*"), ALL_MONTHS);
+	t.is(p.parseRange(ChronoField.DAY_OF_MONTH, "*"), ALL_DAYS_OF_MONTH);
+	t.is(p.parseRange(ChronoField.DAY_OF_WEEK, "*"), ALL_DAYS_OF_WEEK);
+	t.is(p.parseRange(ChronoField.MINUTE_OF_DAY, "*"), ALL_MINUTES_OF_DAY);
 });
 
 test("ChronoFieldParser:parse:month:undefined", (t) => {
@@ -271,6 +283,40 @@ test("ChronoFieldParser:parse:month:en-US", (t) => {
 			value: 12,
 		},
 		"December full name parsed"
+	);
+});
+
+test("ChronoFieldParser:parse:dom:en-US:undefined", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.is(
+		p.parse(ChronoField.DAY_OF_MONTH, undefined),
+		undefined,
+		"undefined returned undefined"
+	);
+	t.is(
+		p.parse(ChronoField.DAY_OF_MONTH, "foo"),
+		undefined,
+		"NaN returns undefined"
+	);
+});
+
+test("ChronoFieldParser:parse:dom:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	const v = p.parse(ChronoField.DAY_OF_MONTH, "1");
+	t.like(v, {
+		field: ChronoField.DAY_OF_MONTH,
+		name: "D",
+		value: 1,
+	});
+
+	t.is(
+		p.parse(ChronoField.DAY_OF_MONTH, "1"),
+		v,
+		"cached instance returned for same value"
 	);
 });
 
@@ -517,6 +563,115 @@ test("ChronoFieldParser:parse:month:fr-FR:accents", (t) => {
 	);
 });
 
+test("ChronoFieldParser:parse:mod:en-US:cached", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	const v = p.parse(ChronoField.MINUTE_OF_DAY, "0");
+	t.like(v, {
+		field: ChronoField.MINUTE_OF_DAY,
+		name: "M",
+		value: 0,
+	});
+
+	t.is(
+		p.parse(ChronoField.MINUTE_OF_DAY, "0"),
+		v,
+		"cached instance returned for same value"
+	);
+});
+
+test("ChronoFieldParser:parse:mod:en-US:hours", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "1"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 60,
+		},
+		"hour parsed"
+	);
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "12"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 720,
+		},
+		"middle hour parsed"
+	);
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "24"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 1440,
+		},
+		"max hour parsed"
+	);
+});
+
+test("ChronoFieldParser:parse:mod:en-US:minutes", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "01:23"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 83,
+		},
+		"minutes parsed"
+	);
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "1:2"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 62,
+		},
+		"short minutes parsed"
+	);
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "12:34"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 754,
+		},
+		"middle minutes parsed"
+	);
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "24:00"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			name: "M",
+			value: 1440,
+		},
+		"max minutes parsed"
+	);
+});
+
+test("ChronoFieldParser:parse:mod:en-US:undefined", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.is(
+		p.parse(ChronoField.MINUTE_OF_DAY, undefined),
+		undefined,
+		"undefined returned undefined"
+	);
+	t.is(
+		p.parse(ChronoField.MINUTE_OF_DAY, "foo"),
+		undefined,
+		"NaN returns undefined"
+	);
+});
+
 test("ChronoFieldParser:parseRange:en-US:undefined", (t) => {
 	const p = new ChronoFieldParser("en-US");
 	t.is(
@@ -731,6 +886,36 @@ test("ChronoFieldParser:parseRange:month:nums:fr-FR", (t) => {
 	);
 });
 
+test("ChronoFieldParser:parseRange:dom:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "1-31"),
+		{
+			min: 1,
+			max: 31,
+		},
+		"range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "1 - 31"),
+		{
+			min: 1,
+			max: 31,
+		},
+		"range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "10"),
+		{
+			min: 10,
+			max: 10,
+		},
+		"singleton parsed"
+	);
+});
+
 test("ChronoFieldParser:parseRange:week:en-US", (t) => {
 	const p = new ChronoFieldParser("en-US");
 	t.like(
@@ -918,5 +1103,65 @@ test("ChronoFieldParser:parseRange:week:nums:fr-FR", (t) => {
 		p.parseRange(ChronoField.DAY_OF_WEEK, "1 - 99"),
 		undefined,
 		"number range trailing outside of bounds returns undefined"
+	);
+});
+
+test("ChronoFieldParser:parseRange:mod:en-US:hours", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "0-24"),
+		{
+			min: 0,
+			max: 1440,
+		},
+		"range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "6 - 12"),
+		{
+			min: 360,
+			max: 720,
+		},
+		"range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "10"),
+		{
+			min: 600,
+			max: 600,
+		},
+		"singleton parsed"
+	);
+});
+
+test("ChronoFieldParser:parseRange:mod:en-US:minutes", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldParser(locale);
+
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "00:00-24:00"),
+		{
+			min: 0,
+			max: 1440,
+		},
+		"range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "06:30 - 18:45"),
+		{
+			min: 390,
+			max: 1125,
+		},
+		"range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "10:01"),
+		{
+			min: 601,
+			max: 601,
+		},
+		"singleton parsed"
 	);
 });

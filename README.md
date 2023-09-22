@@ -37,9 +37,48 @@ tt.appliesAt(new Date("2024-01-05T01:00")); // true, in the morning
 tt.appliesAt(new Date("2024-01-05T13:00")); // false, in the afternoon
 ```
 
-# API Documentation
+# Language support
 
-API documentation is available in the [docs/md](./docs/md/index.md) directory.
+Nifty ToU supports parsing text-based range values, in different languages. For example
+the following produce the same range constraints (only the `TariffRate` names remain
+language specific):
+
+```ts
+// US English
+const tt = TemporalRangesTariff.parse(
+	"en-US",
+	"Jan - Dec",
+	"1 - 31",
+	"Mon - Fri",
+	"0 - 24",
+	[new TariffRate("Morning Fixed", "1.23")]
+);
+
+// German
+const tt = TemporalRangesTariff.parse(
+	"de",
+	"Januar - Dezember",
+	"1 - 31",
+	"Montag - Freitag",
+	"00:00 - 24:00",
+	[new TariffRate("Morgen behoben", "1,23")]
+);
+
+// Japanese
+const tt = TemporalRangesTariff.parse(
+	"ja-JP",
+	"1月 - 12月",
+	"1 - 31",
+	"月曜日 - 金曜日",
+	"0 - 24",
+	[new TariffRate("午前固定", "1.23")]
+);
+```
+
+# Documentation
+
+The API documentation is published to <https://solarnetwork.github.io/nifty-tou/>, and is also
+available in Markdown form in the [docs/md](./docs/md/index.md) directory.
 
 # Building from source
 
@@ -95,3 +134,13 @@ All files                |     100 |      100 |     100 |     100 |
  utils.ts                |     100 |      100 |     100 |     100 |
 -------------------------|---------|----------|---------|---------|-------------------
 ```
+
+# Test coverage
+
+[![codecov](https://codecov.io/gh/SolarNetwork/nifty-tou/graph/badge.svg?token=IyYZDIk9rj)](https://codecov.io/github/SolarNetwork/nifty-tou)
+
+Having a well-tested and reliable library is a core goal of this project. Unit tests are executed
+automatically after every push into the `main` branch of this repository and their associated code
+coverage is uploaded to [Codecov](https://codecov.io/github/SolarNetwork/nifty-tou/).
+
+[![codecov](https://codecov.io/gh/SolarNetwork/nifty-tou/graphs/sunburst.svg?token=IyYZDIk9rj)](https://codecov.io/github/SolarNetwork/nifty-tou)

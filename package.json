@@ -8,6 +8,7 @@
 	"scripts": {
 		"build": "tsc",
 		"test": "c8 ava",
+		"coverage": "c8 --reporter=lcov ava",
 		"preapidocs": "npm run build && api-extractor run --local --verbose",
 		"apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc"
 	},
@@ -17,6 +18,9 @@
 	"author": {
 		"name": "Matt Magoffin",
 		"email": "matt@solarnetwork.net"
+	},
+	"engines": {
+		"node": ">=16"
 	},
 	"license": "Apache-2.0",
 	"sideEffects": false,

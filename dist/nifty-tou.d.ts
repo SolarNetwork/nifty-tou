@@ -25,8 +25,12 @@ declare function cconcat(s1?: string, s2?: string): string;
 export declare enum ChronoField {
     /** The month of year, from January (1) to December (12). */
     MONTH_OF_YEAR = 1,
+    /** The day of month, from 1 - 31. */
+    DAY_OF_MONTH = 2,
     /** The day of the week, from Monday (1) to Sunday (7). */
-    DAY_OF_WEEK = 2
+    DAY_OF_WEEK = 3,
+    /** The minute of the day, from 0 to 1440 (assuming exclusive maximum). */
+    MINUTE_OF_DAY = 4
 }
 
 /**
@@ -72,14 +76,20 @@ export declare class ChronoFieldParser {
      * range. For example, in the `en-US` locale, `Jan-Dec` would be parsed as
      * `[1..12]`.
      *
+     * @remarks
+     * If `value` is `*` then a range of "all possible values" is returned,
+     * in other words the bounding range for that field.
+     *
      * @example
      * Here are some basic examples:
      *
      * ```ts
      * const p = ChronoFieldParser.forLocale('en-US');
-     * p.parseRange(ChronoField.MONTH_OF_YEAR, 'Jan-Dec'); // [1..12]
-     * p.parseRange(ChronoField.MONTH_OF_YEAR, '4-6');     // [4..6]
-     * p.parseRange(ChronoField.DAY_OF_WEEK, 'Wednesday'); // [3..3]
+     * p.parseRange(ChronoField.MONTH_OF_YEAR, 'Jan-Dec');    // [1..12]
+     * p.parseRange(ChronoField.MONTH_OF_YEAR, '4-6');        // [4..6]
+     * p.parseRange(ChronoField.DAY_OF_MONTH, '1-31');        // [1..31]
+     * p.parseRange(ChronoField.DAY_OF_WEEK, 'Wednesday');    // [3..3]
+     * p.parseRange(ChronoField.MINUTE_OF_DAY, '00:00-08:30); // [0..510]
      * ```
      *
      * @param field - the field to parse the range values as
@@ -349,6 +359,7 @@ declare function splitRange(range: string): string[];
 /**
  * An identifiable tariff rate.
  *
+ * @remarks
  * Note that `amount` is stored as a string to maintain precision.
  *
  * @public
@@ -361,7 +372,6 @@ export declare class TariffRate {
      * @param id - the identifier
      * @param amount - an amount, assumed to be parsable as a number
      * @param description - a description
-     * @throws TypeError if `amount` is not parsable as a number
      */
     constructor(id: string, amount: string, description?: string);
     /**
@@ -378,6 +388,11 @@ export declare class TariffRate {
     get amount(): string;
     /**
      * Get the amount as a number value.
+     *
+     * @remarks
+     * Note this does <b>not</b> perform any locale-specific parsing.
+     * This method will return `NaN` if the amount does not parse as
+     * a JavaScript decimal number.
      */
     get val(): number;
     /**
@@ -409,6 +424,32 @@ export declare class TariffRate {
  * <tr><td>dayOfWeekRange</td><td>1 - 7</td><td>Monday - Friday</td></tr>
  * <tr><td>minuteOfDayRange</td><td>0 - 1440</td><td>00:00 - 24:00</td></tr>
  * </table>
+ *
+ * @example
+ * The {@link TemporalRangesTariff.parse | parse()} method provides an easy way
+ * to parse instances from language-specific time range values:
+ *
+ * ```ts
+ * // a tariff for weekday mornings
+ * const tt = TemporalRangesTariff.parse(
+ *   "en-US",
+ *   "*",
+ *   "*",
+ *   "Mon - Fri",
+ *   "0 - 12",
+ *   [new TariffRate("Morning Fixed", "1.23")]
+ * );
+ *
+ * // a tariff for weekday evenings
+ * const tt = TemporalRangesTariff.parse(
+ *   "en-US",
+ *   "*",
+ *   "*",
+ *   "Mon - Fri",
+ *   "12 - 24",
+ *   [new TariffRate("Morning Fixed", "2.34")]
+ * );
+ * ```
  *
  * @public
  */
@@ -478,6 +519,25 @@ export declare class TemporalRangesTariff {
      * @returns the string representation
      */
     toString(): string;
+    /**
+     * Parse time range criteria into a `TemporalRangesTariff` instance.
+     *
+     * @remarks
+     * Note that the `minuteOfDayRange` can be specified as a range of `HH:MM` 24-hour hour and minute
+     * values, <b>or</b> whole hours. For example `01:00-08:00` and `1-8` are equivalent.
+     *
+     * Additionally, all range values may be specified as `*` to mean "all possible values", in which
+     * that range will be resolved to `undefined`.
+     *
+     * @param locale - the locale to parse the ranges as
+     * @param monthRange - the month range to parse, for example `January-December`, `Jan-Dec`, or `1-12`
+     * @param dayOfMonthRange - the day of month range to parse, for example `1-31`
+     * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
+     * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
+     * @param rates - the tariff rates to associate with the time range criteria
+     * @returns the new instance
+     */
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: Array<TariffRate>): TemporalRangesTariff;
 }
 
 declare namespace Utils {

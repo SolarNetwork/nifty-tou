@@ -36,3 +36,41 @@ const tt = new TemporalRangesTariff(
 tt.appliesAt(new Date("2024-01-05T01:00")); // true, in the morning
 tt.appliesAt(new Date("2024-01-05T13:00")); // false, in the afternoon
 ```
+
+# Language support
+
+Nifty ToU supports parsing text-based range values, in different languages. For example
+the following produce the same range constraints (only the `TariffRate` names remain
+language specific):
+
+```ts
+// US English
+const tt = TemporalRangesTariff.parse(
+	"en-US",
+	"Jan - Dec",
+	"1 - 31",
+	"Mon - Fri",
+	"0 - 24",
+	[new TariffRate("Morning Fixed", "1.23")]
+);
+
+// German
+const tt = TemporalRangesTariff.parse(
+	"de",
+	"Januar - Dezember",
+	"1 - 31",
+	"Montag - Freitag",
+	"00:00 - 24:00",
+	[new TariffRate("Morgen behoben", "1,23")]
+);
+
+// Japanese
+const tt = TemporalRangesTariff.parse(
+	"ja-JP",
+	"1月 - 12月",
+	"1 - 31",
+	"月曜日 - 金曜日",
+	"0 - 24",
+	[new TariffRate("午前固定", "1.23")]
+);
+```

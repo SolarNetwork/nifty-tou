@@ -93,7 +93,7 @@ export function required<T>(
 	return optional(arg, name, type);
 }
 
-const RANGE_DELIMITER: RegExp = /(?<!\s)\s*-\s*/;
+const RANGE_DELIMITER: RegExp = /(?<!\s)\s*[-~～]\s*/;
 
 /**
  * Split a string based on a range delimiter pattern.

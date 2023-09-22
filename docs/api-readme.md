@@ -67,10 +67,10 @@ const tt = TemporalRangesTariff.parse(
 // Japanese
 const tt = TemporalRangesTariff.parse(
 	"ja-JP",
-	"1月 - 12月",
-	"1 - 31",
-	"月曜日 - 金曜日",
-	"0 - 24",
+	"1月 ～ 12月",
+	"1 ～ 31",
+	"月曜日 ～ 金曜日",
+	"0 ～ 24",
 	[new TariffRate("午前固定", "1.23")]
 );
 ```

@@ -4,6 +4,19 @@ const PARSER_CACHE: Map<string, NumberParser> = new Map();
 /**
  * A locale-specific number parser.
  *
+ * @remarks
+ * This parser supports basic language parsing abilities, but can still parse
+ * unexpected results given the right input. For example:
+ *
+ * ```ts
+ * NumberParser.forLcale("de").parse("1.23"); // returns 123
+ * ```
+ *
+ * That example produces `123` instead of the (perhaps?) expected `1.23` because
+ * `.` is a thousands delimiter character in German and the parser simply removes
+ * that from the input, resulting in the string `"123"` that is then parsed into
+ * the number result `123`.
+ *
  * Adapted from Mike Bostock's
  * {@link https://observablehq.com/@mbostock/localized-number-parsing | lovely code}
  * (thanks, Mike!).
@@ -90,7 +103,7 @@ export default class NumberParser {
 	 * Parse a locale-specific number string.
 	 *
 	 * @param s - the number string to parse in this instance's locale
-	 * @returns the parsed number, or `undefined`
+	 * @returns the parsed number, or `undefined` if `s` is `undefined`
 	 */
 	parse(s: string): number {
 		s = this.norm(s);

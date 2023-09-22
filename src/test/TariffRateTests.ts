@@ -104,3 +104,139 @@ test("TariffRate:toString:exp:neg", (t) => {
 		"renders negative exponent as multiplication"
 	);
 });
+
+test("TariffRate:parse:invalid:amount", (t) => {
+	t.throws(
+		() => {
+			TariffRate.parse("en-US", "a", "foo");
+		},
+		{ instanceOf: TypeError },
+		"TypeError thrown for non-number amount"
+	);
+});
+
+test("TariffRate:parse:invalid:amount:locale", (t) => {
+	t.throws(
+		() => {
+			TariffRate.parse("de", "a", "1,234,567.89");
+		},
+		{ instanceOf: TypeError },
+		"TypeError thrown for number in wrong locale"
+	);
+});
+
+test("TariffRate:parse:invalid:amount:locale:sneaksBy", (t) => {
+	t.like(
+		TariffRate.parse("de", "a", "1.23"),
+		{ id: "a", amount: 123 },
+		"Probably not German number parsed sneakily anyway"
+	);
+});
+
+test("TariffRate:parse:invalid:exponent", (t) => {
+	t.throws(
+		() => {
+			TariffRate.parse("en-US", "a", "123", "foo");
+		},
+		{ instanceOf: TypeError },
+		"TypeError thrown for non-number exponent"
+	);
+});
+
+test("TariffRate:parse:en-US", (t) => {
+	t.like(
+		TariffRate.parse("en-US", "a", "1.23"),
+		{
+			id: "a",
+			description: undefined,
+			amount: 1.23,
+			exponent: 0,
+		},
+		"parse locale strings with implied exponent"
+	);
+});
+
+test("TariffRate:parse:en-US:exp", (t) => {
+	t.like(
+		TariffRate.parse("en-US", "a", "123", "-2", "b"),
+		{
+			id: "a",
+			description: "b",
+			amount: 123,
+			exponent: -2,
+		},
+		"parse locale strings"
+	);
+});
+
+test("TariffRate:parse:en-US:delimited", (t) => {
+	t.like(
+		TariffRate.parse("en-US", "a", "1,234,567.89"),
+		{
+			id: "a",
+			amount: 1234567.89,
+			exponent: 0,
+		},
+		"parse locale strings"
+	);
+});
+
+test("TariffRate:parse:en-US:big", (t) => {
+	t.like(
+		TariffRate.parse("en-US", "a", "1234567.654321"),
+		{
+			id: "a",
+			amount: 1234567.654321,
+			exponent: 0,
+		},
+		"parse locale strings"
+	);
+});
+
+test("TariffRate:parse:de", (t) => {
+	t.like(
+		TariffRate.parse("de", "a", "1,23"),
+		{
+			id: "a",
+			description: undefined,
+			amount: 1.23,
+			exponent: 0,
+		},
+		"parse locale strings with implied exponent"
+	);
+});
+test("TariffRate:parse:de:exp", (t) => {
+	t.like(
+		TariffRate.parse("de", "a", "123", "-2"),
+		{
+			id: "a",
+			amount: 123,
+			exponent: -2,
+		},
+		"parse locale strings"
+	);
+});
+
+test("TariffRate:parse:de:delimited", (t) => {
+	t.like(
+		TariffRate.parse("de", "a", "1.234.567,89"),
+		{
+			id: "a",
+			amount: 1234567.89,
+			exponent: 0,
+		},
+		"parse locale strings"
+	);
+});
+
+test("TariffRate:parse:de:big", (t) => {
+	t.like(
+		TariffRate.parse("de", "a", "1234567,654321"),
+		{
+			id: "a",
+			amount: 1234567.654321,
+			exponent: 0,
+		},
+		"parse locale strings"
+	);
+});

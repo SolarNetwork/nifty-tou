@@ -265,7 +265,7 @@ test("TemporalRangesTariff:parse:en-US", (t) => {
 		"1-31",
 		"Mon-Sun",
 		"0-24",
-		[new TariffRate("a", 1.23)]
+		[TariffRate.parse("en-US", "a", "1.23")]
 	);
 
 	t.like(
@@ -290,7 +290,7 @@ test("TemporalRangesTariff:parse:de", (t) => {
 		"1 - 31",
 		"Montag - Freitag",
 		"00:00 - 24:00",
-		[new TariffRate("Morgen behoben", 1.23)]
+		[TariffRate.parse("de", "Morgen behoben", "1,23")]
 	);
 
 	t.like(
@@ -315,7 +315,7 @@ test("TemporalRangesTariff:parse:ja-JP", (t) => {
 		"1-31",
 		"月曜日 ～ 金曜日",
 		"0-24",
-		[new TariffRate("午前固定", 1.23)]
+		[TariffRate.parse("ja-JP", "午前固定", "1.23")]
 	);
 
 	t.like(

@@ -6,8 +6,12 @@ import IntRange from "./IntRange.js";
 export declare enum ChronoField {
     /** The month of year, from January (1) to December (12). */
     MONTH_OF_YEAR = 1,
+    /** The day of month, from 1 - 31. */
+    DAY_OF_MONTH = 2,
     /** The day of the week, from Monday (1) to Sunday (7). */
-    DAY_OF_WEEK = 2
+    DAY_OF_WEEK = 3,
+    /** The minute of the day, from 0 to 1440 (assuming exclusive maximum). */
+    MINUTE_OF_DAY = 4
 }
 /**
  * A chronological field value.
@@ -32,6 +36,26 @@ export declare class ChronoFieldValue {
     /** Get the value. */
     get value(): number;
 }
+/**
+ * Range for all months of a year: 1 - 12 (inclusive).
+ * @public
+ */
+export declare const ALL_MONTHS: IntRange;
+/**
+ * Range for all days of a month: 1 - 31 (inclusive).
+ * @public
+ */
+export declare const ALL_DAYS_OF_MONTH: IntRange;
+/**
+ * Range for all days of a week: 1 - 7 (inclusive).
+ * @public
+ */
+export declare const ALL_DAYS_OF_WEEK: IntRange;
+/**
+ * Range for all minutes of a day: 0 - 1440 (inclusive min, exclusive max).
+ * @public
+ */
+export declare const ALL_MINUTES_OF_DAY: IntRange;
 /**
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
  * @public
@@ -75,14 +99,20 @@ export declare class ChronoFieldParser {
      * range. For example, in the `en-US` locale, `Jan-Dec` would be parsed as
      * `[1..12]`.
      *
+     * @remarks
+     * If `value` is `*` then a range of "all possible values" is returned,
+     * in other words the bounding range for that field.
+     *
      * @example
      * Here are some basic examples:
      *
      * ```ts
      * const p = ChronoFieldParser.forLocale('en-US');
-     * p.parseRange(ChronoField.MONTH_OF_YEAR, 'Jan-Dec'); // [1..12]
-     * p.parseRange(ChronoField.MONTH_OF_YEAR, '4-6');     // [4..6]
-     * p.parseRange(ChronoField.DAY_OF_WEEK, 'Wednesday'); // [3..3]
+     * p.parseRange(ChronoField.MONTH_OF_YEAR, 'Jan-Dec');    // [1..12]
+     * p.parseRange(ChronoField.MONTH_OF_YEAR, '4-6');        // [4..6]
+     * p.parseRange(ChronoField.DAY_OF_MONTH, '1-31');        // [1..31]
+     * p.parseRange(ChronoField.DAY_OF_WEEK, 'Wednesday');    // [3..3]
+     * p.parseRange(ChronoField.MINUTE_OF_DAY, '00:00-08:30); // [0..510]
      * ```
      *
      * @param field - the field to parse the range values as

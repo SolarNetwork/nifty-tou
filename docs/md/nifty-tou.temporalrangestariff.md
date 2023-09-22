@@ -22,6 +22,32 @@ The time-based constraints supported are:
 
 <table> <tr><th>Constraint</th><th>Bounds</th><th>Description</th></tr> <tr><td>monthRange</td><td>1 - 12</td><td>January - December</td></tr> <tr><td>dayOfMonthRange</td><td>1 - 31</td><td></td></tr> <tr><td>dayOfWeekRange</td><td>1 - 7</td><td>Monday - Friday</td></tr> <tr><td>minuteOfDayRange</td><td>0 - 1440</td><td>00:00 - 24:00</td></tr> </table>
 
+## Example
+
+The [parse()](./nifty-tou.temporalrangestariff.parse.md) method provides an easy way to parse instances from language-specific time range values:
+
+```ts
+// a tariff for weekday mornings
+const tt = TemporalRangesTariff.parse(
+  "en-US",
+  "*",
+  "*",
+  "Mon - Fri",
+  "0 - 12",
+  [new TariffRate("Morning Fixed", "1.23")]
+);
+
+// a tariff for weekday evenings
+const tt = TemporalRangesTariff.parse(
+  "en-US",
+  "*",
+  "*",
+  "Mon - Fri",
+  "12 - 24",
+  [new TariffRate("Morning Fixed", "2.34")]
+);
+```
+
 ## Constructors
 
 |  Constructor | Modifiers | Description |
@@ -47,5 +73,6 @@ The time-based constraints supported are:
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [appliesAt(date, utc)](./nifty-tou.temporalrangestariff.appliesat.md) |  | <p>Test if this tariff applies on a given date.</p><p>All range constraints are treated as inclusive bounds, except for the <code>minuteOfDayRange</code> that is treated as an inclusive minimum and exclusive maximum.</p> |
+|  [parse(locale, monthRange, dayOfMonthRange, dayOfWeekRange, minuteOfDayRange, rates)](./nifty-tou.temporalrangestariff.parse.md) | <code>static</code> | Parse time range criteria into a <code>TemporalRangesTariff</code> instance. |
 |  [toString()](./nifty-tou.temporalrangestariff.tostring.md) |  | Get a string representation. |
 

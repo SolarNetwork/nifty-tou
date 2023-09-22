@@ -6,13 +6,15 @@
 
 An identifiable tariff rate.
 
-Note that `amount` is stored as a string to maintain precision.
-
 **Signature:**
 
 ```typescript
 export default class TariffRate 
 ```
+
+## Remarks
+
+Note that `amount` is stored as a string to maintain precision.
 
 ## Constructors
 

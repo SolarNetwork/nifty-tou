@@ -37,6 +37,21 @@ tt.appliesAt(new Date("2024-01-05T01:00")); // true, in the morning
 tt.appliesAt(new Date("2024-01-05T13:00")); // false, in the afternoon
 ```
 
+# Integer amounts
+
+The [TariffRate](./classes/TariffRate.html) class can be constructed with an `exponent`
+property to avoid floating-point values if desired. For example:
+
+```ts
+// these floating point rates:
+new TariffRate("Morning Fixed", 1.25);
+new TariffRate("Morning Variable", 0.1);
+
+// could be expressed in integer form:
+new TariffRate("Morning Fixed", 125, -2);
+new TariffRate("Morning Variable", 1, -1);
+```
+
 # Language support
 
 Nifty ToU supports parsing text-based range values, in different languages. For example
@@ -51,7 +66,7 @@ const tt = TemporalRangesTariff.parse(
 	"1 - 31",
 	"Mon - Fri",
 	"0 - 24",
-	[new TariffRate("Morning Fixed", "1.23")]
+	[new TariffRate("Morning Fixed", 1.23)]
 );
 
 // German
@@ -61,16 +76,16 @@ const tt = TemporalRangesTariff.parse(
 	"1 - 31",
 	"Montag - Freitag",
 	"00:00 - 24:00",
-	[new TariffRate("Morgen behoben", "1,23")]
+	[new TariffRate("Morgen behoben", 1.23)]
 );
 
 // Japanese
 const tt = TemporalRangesTariff.parse(
 	"ja-JP",
-	"1月 ～ 12月",
-	"1 ～ 31",
-	"月曜日 ～ 金曜日",
-	"0 ～ 24",
-	[new TariffRate("午前固定", "1.23")]
+	"1月～12月",
+	"1～31",
+	"月曜日～金曜日",
+	"0～24",
+	[new TariffRate("午前固定", 1.23)]
 );
 ```

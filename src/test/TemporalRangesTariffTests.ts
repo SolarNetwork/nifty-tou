@@ -14,7 +14,7 @@ test("TemporalRangesTariff:Construct", (t) => {
 		dayOfMonthRange,
 		dayOfWeekRange,
 		minuteOfDayRange,
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 	t.is(tt.monthRange, monthRange, "monthRange from constructor arg");
 	t.is(
@@ -45,7 +45,7 @@ test("TemporalRangesTariff:applies", (t) => {
 		dayOfMonthRange,
 		dayOfWeekRange,
 		minuteOfDayRange,
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	// 1 Jan 2024 is Monday
@@ -98,7 +98,7 @@ test("TemporalRangesTariff:applies:minutes", (t) => {
 		dayOfMonthRange,
 		dayOfWeekRange,
 		minuteOfDayRange,
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	// 1 Jan 2024 is Monday
@@ -126,7 +126,7 @@ test("TemporalRangesTariff:applies:utc", (t) => {
 		dayOfMonthRange,
 		dayOfWeekRange,
 		minuteOfDayRange,
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	// 1 Jan 2024 is Monday
@@ -174,7 +174,7 @@ test("TemporalRangesTariff:toString", (t) => {
 		new IntRange(1, 15),
 		new IntRange(1, 4),
 		new IntRange(0, 720),
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	t.is(
@@ -189,7 +189,7 @@ test("TemporalRangesTariff:toString:multiRates", (t) => {
 		new IntRange(1, 15),
 		new IntRange(1, 4),
 		new IntRange(0, 720),
-		[new TariffRate("a", "1.23", "b"), new TariffRate("b", "2.34", "c")]
+		[new TariffRate("a", 1.23), new TariffRate("b", 2.34)]
 	);
 
 	t.is(
@@ -204,7 +204,7 @@ test("TemporalRangesTariff:fullRanges", (t) => {
 		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
 		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
 		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	t.is(
@@ -219,10 +219,10 @@ test("TemporalRangesTariff:rates:single", (t) => {
 		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
 		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
 		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
-		[new TariffRate("a", "1.23", "b")]
+		[new TariffRate("a", 1.23)]
 	);
 
-	t.like(tt.rates, { a: { id: "a", description: "b", amount: "1.23" } });
+	t.like(tt.rates, { a: { id: "a", amount: 1.23 } });
 });
 
 test("TemporalRangesTariff:rates:multi", (t) => {
@@ -231,12 +231,12 @@ test("TemporalRangesTariff:rates:multi", (t) => {
 		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
 		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
 		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
-		[new TariffRate("a", "1.23", "b"), new TariffRate("b", "2.34", "c")]
+		[new TariffRate("a", 1.23), new TariffRate("b", 2.34)]
 	);
 
 	t.like(tt.rates, {
-		a: { id: "a", description: "b", amount: "1.23" },
-		b: { id: "b", description: "c", amount: "2.34" },
+		a: { id: "a", amount: 1.23 },
+		b: { id: "b", amount: 2.34 },
 	});
 });
 
@@ -246,13 +246,13 @@ test("TemporalRangesTariff:rates:clash", (t) => {
 		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
 		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
 		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
-		[new TariffRate("a", "1.23", "b"), new TariffRate("a", "2.34", "c")]
+		[new TariffRate("a", 1.23), new TariffRate("a", 2.34)]
 	);
 
 	t.like(
 		tt.rates,
 		{
-			a: { id: "a", description: "c", amount: "2.34" },
+			a: { id: "a", amount: 2.34 },
 		},
 		"duplicate rate IDs override each other"
 	);
@@ -265,7 +265,7 @@ test("TemporalRangesTariff:parse:en-US", (t) => {
 		"1-31",
 		"Mon-Sun",
 		"0-24",
-		[new TariffRate("a", "1.23")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	t.like(
@@ -276,7 +276,7 @@ test("TemporalRangesTariff:parse:en-US", (t) => {
 			dayOfWeekRange: { min: 1, max: 7 },
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				a: { id: "a", amount: "1.23" },
+				a: { id: "a", amount: 1.23 },
 			},
 		},
 		"range tariff values parsed"
@@ -290,7 +290,7 @@ test("TemporalRangesTariff:parse:de", (t) => {
 		"1 - 31",
 		"Montag - Freitag",
 		"00:00 - 24:00",
-		[new TariffRate("Morgen behoben", "1,23")]
+		[new TariffRate("Morgen behoben", 1.23)]
 	);
 
 	t.like(
@@ -301,7 +301,7 @@ test("TemporalRangesTariff:parse:de", (t) => {
 			dayOfWeekRange: { min: 1, max: 5 },
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				"Morgen behoben": { id: "Morgen behoben", amount: "1,23" },
+				"Morgen behoben": { id: "Morgen behoben", amount: 1.23 },
 			},
 		},
 		"range tariff values parsed"
@@ -315,7 +315,7 @@ test("TemporalRangesTariff:parse:ja-JP", (t) => {
 		"1-31",
 		"月曜日 ～ 金曜日",
 		"0-24",
-		[new TariffRate("午前固定", "1.23")]
+		[new TariffRate("午前固定", 1.23)]
 	);
 
 	t.like(
@@ -326,7 +326,7 @@ test("TemporalRangesTariff:parse:ja-JP", (t) => {
 			dayOfWeekRange: { min: 1, max: 5 },
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				午前固定: { id: "午前固定", amount: "1.23" },
+				午前固定: { id: "午前固定", amount: 1.23 },
 			},
 		},
 		"range tariff values parsed"
@@ -340,7 +340,7 @@ test("TemporalRangesTariff:parse:ja-JP:short", (t) => {
 		"1-31",
 		"月 - 金",
 		"0-24",
-		[new TariffRate("a", "1.23")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	t.like(
@@ -351,7 +351,7 @@ test("TemporalRangesTariff:parse:ja-JP:short", (t) => {
 			dayOfWeekRange: { min: 1, max: 5 },
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				a: { id: "a", amount: "1.23" },
+				a: { id: "a", amount: 1.23 },
 			},
 		},
 		"range tariff values parsed"
@@ -360,7 +360,7 @@ test("TemporalRangesTariff:parse:ja-JP:short", (t) => {
 
 test("TemporalRangesTariff:parse:en-US:bounds", (t) => {
 	const tt = TemporalRangesTariff.parse("en-US", "*", "*", "*", "*", [
-		new TariffRate("a", "1.23"),
+		new TariffRate("a", 1.23),
 	]);
 
 	t.like(
@@ -371,7 +371,7 @@ test("TemporalRangesTariff:parse:en-US:bounds", (t) => {
 			dayOfWeekRange: { min: 1, max: 7 },
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				a: { id: "a", amount: "1.23" },
+				a: { id: "a", amount: 1.23 },
 			},
 		},
 		"range tariff values parsed"
@@ -385,7 +385,7 @@ test("TemporalRangesTariff:parse:en-US:sparse", (t) => {
 		"*",
 		undefined,
 		"*",
-		[new TariffRate("a", "1.23")]
+		[new TariffRate("a", 1.23)]
 	);
 
 	t.like(
@@ -396,7 +396,7 @@ test("TemporalRangesTariff:parse:en-US:sparse", (t) => {
 			dayOfWeekRange: undefined,
 			minuteOfDayRange: { min: 0, max: 1440 },
 			rates: {
-				a: { id: "a", amount: "1.23" },
+				a: { id: "a", amount: 1.23 },
 			},
 		},
 		"range tariff values parsed"

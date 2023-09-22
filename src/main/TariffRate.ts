@@ -4,26 +4,36 @@ import { optional, required } from "./utils.js";
  * An identifiable tariff rate.
  *
  * @remarks
- * Note that `amount` is stored as a string to maintain precision.
+ * The `exponent` property can be used to maintain precision in `amount`. For example
+ * an amount of `1.23` could be expressed as `123` with an `exponent` of `-2`.
  *
  * @public
  */
 export default class TariffRate {
 	#id: string;
 	#description: string;
-	#amount: string;
+	#amount: number;
+	#exponent: number;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param id - the identifier
-	 * @param amount - an amount, assumed to be parsable as a number
+	 * @param amount - an amount
+	 * @param exponent - a base-10 exponent to interpret `amount` in; if not provided then `0` is assumed
 	 * @param description - a description
 	 */
-	constructor(id: string, amount: string, description?: string) {
+	constructor(
+		id: string,
+		amount: number,
+		exponent?: number,
+		description?: string
+	) {
 		this.#id = required(id, "id", String);
-		this.#amount = required(amount, "amount");
 		this.#description = optional(description, "description", String);
+		this.#amount = required(amount, "amount");
+		const exp = optional(exponent, "exponent", Number);
+		this.#exponent = exp !== undefined ? Math.trunc(exp) : 0;
 	}
 
 	/**
@@ -43,20 +53,15 @@ export default class TariffRate {
 	/**
 	 * Get the amount.
 	 */
-	get amount(): string {
+	get amount(): number {
 		return this.#amount;
 	}
 
 	/**
-	 * Get the amount as a number value.
-	 *
-	 * @remarks
-	 * Note this does <b>not</b> perform any locale-specific parsing.
-	 * This method will return `NaN` if the amount does not parse as
-	 * a JavaScript decimal number.
+	 * Get the exponent.
 	 */
-	get val(): number {
-		return Number(this.#amount);
+	get exponent(): number {
+		return this.#exponent;
 	}
 
 	/**
@@ -65,6 +70,12 @@ export default class TariffRate {
 	 * @returns the string representation
 	 */
 	toString(): string {
-		return `TariffRate{${this.#id},${this.#amount}}`;
+		let s = `TariffRate{${this.#id},${this.#amount}`;
+		if (this.#exponent < 0) {
+			s += "/" + Math.pow(10, Math.abs(this.#exponent));
+		} else if (this.#exponent > 0) {
+			s += "*" + Math.pow(10, this.#exponent);
+		}
+		return s + "}";
 	}
 }

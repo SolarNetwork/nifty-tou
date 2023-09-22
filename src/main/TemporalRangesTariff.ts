@@ -32,6 +32,32 @@ import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
  * <tr><td>minuteOfDayRange</td><td>0 - 1440</td><td>00:00 - 24:00</td></tr>
  * </table>
  *
+ * @example
+ * The {@link TemporalRangesTariff.parse | parse()} method provides an easy way
+ * to parse instances from language-specific time range values:
+ *
+ * ```ts
+ * // a tariff for weekday mornings
+ * const tt = TemporalRangesTariff.parse(
+ *   "en-US",
+ *   "*",
+ *   "*",
+ *   "Mon - Fri",
+ *   "0 - 12",
+ *   [new TariffRate("Morning Fixed", "1.23")]
+ * );
+ *
+ * // a tariff for weekday evenings
+ * const tt = TemporalRangesTariff.parse(
+ *   "en-US",
+ *   "*",
+ *   "*",
+ *   "Mon - Fri",
+ *   "12 - 24",
+ *   [new TariffRate("Morning Fixed", "2.34")]
+ * );
+ * ```
+ *
  * @public
  */
 export default class TemporalRangesTariff {
@@ -271,9 +297,9 @@ export default class TemporalRangesTariff {
 	 * that range will be resolved to `undefined`.
 	 *
 	 * @param locale - the locale to parse the ranges as
-	 * @param monthRange - the month range to parse, for example `Jan-Dec`
+	 * @param monthRange - the month range to parse, for example `January-December`, `Jan-Dec`, or `1-12`
 	 * @param dayOfMonthRange - the day of month range to parse, for example `1-31`
-	 * @param dayOfWeekRange - the day of week range to parse, for example `Mon-Sun`
+	 * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
 	 * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
 	 * @param rates - the tariff rates to associate with the time range criteria
 	 * @returns the new instance

@@ -3,6 +3,7 @@ import { optional, required } from "./utils.js";
 /**
  * An identifiable tariff rate.
  *
+ * @remarks
  * Note that `amount` is stored as a string to maintain precision.
  *
  * @public
@@ -49,6 +50,7 @@ export default class TariffRate {
 	/**
 	 * Get the amount as a number value.
 	 *
+	 * @remarks
 	 * Note this does <b>not</b> perform any locale-specific parsing.
 	 * This method will return `NaN` if the amount does not parse as
 	 * a JavaScript decimal number.

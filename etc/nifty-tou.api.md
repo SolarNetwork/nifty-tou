@@ -59,6 +59,7 @@ export class IntRange {
 // @public
 export class NumberParser {
     constructor(locale: string);
+    static forLocale(locale: string): NumberParser;
     get locale(): string;
     norm(s: string): string;
     parse(s: string): number;
@@ -78,12 +79,13 @@ function splitRange(range: string): string[];
 
 // @public
 export class TariffRate {
-    constructor(id: string, amount: string, description?: string);
-    get amount(): string;
+    constructor(id: string, amount: number, exponent?: number, description?: string);
+    get amount(): number;
     get description(): string;
+    get exponent(): number;
     get id(): string;
+    static parse(locale: string, id: string, amount: string, exponent?: string, description?: string): TariffRate;
     toString(): string;
-    get val(): number;
 }
 
 // @public

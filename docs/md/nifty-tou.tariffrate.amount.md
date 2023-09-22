@@ -9,5 +9,5 @@ Get the amount.
 **Signature:**
 
 ```typescript
-get amount(): string;
+get amount(): number;
 ```

@@ -278,6 +278,19 @@ export declare class IntRange {
 /**
  * A locale-specific number parser.
  *
+ * @remarks
+ * This parser supports basic language parsing abilities, but can still parse
+ * unexpected results given the right input. For example:
+ *
+ * ```ts
+ * NumberParser.forLcale("de").parse("1.23"); // returns 123
+ * ```
+ *
+ * That example produces `123` instead of the (perhaps?) expected `1.23` because
+ * `.` is a thousands delimiter character in German and the parser simply removes
+ * that from the input, resulting in the string `"123"` that is then parsed into
+ * the number result `123`.
+ *
  * Adapted from Mike Bostock's
  * {@link https://observablehq.com/@mbostock/localized-number-parsing | lovely code}
  * (thanks, Mike!).
@@ -286,6 +299,16 @@ export declare class IntRange {
  */
 export declare class NumberParser {
     #private;
+    /**
+     * Get a parser for a given locale.
+     *
+     * This method will instantiate and cache parsers, returning cached instances
+     * if already avaialble.
+     *
+     * @param locale - the locale of the parser to get
+     * @returns the parser
+     */
+    static forLocale(locale: string): NumberParser;
     /**
      * Constructor.
      *
@@ -305,7 +328,7 @@ export declare class NumberParser {
      * Parse a locale-specific number string.
      *
      * @param s - the number string to parse in this instance's locale
-     * @returns the parsed number, or `undefined`
+     * @returns the parsed number, or `undefined` if `s` is `undefined`
      */
     parse(s: string): number;
 }
@@ -360,7 +383,8 @@ declare function splitRange(range: string): string[];
  * An identifiable tariff rate.
  *
  * @remarks
- * Note that `amount` is stored as a string to maintain precision.
+ * The `exponent` property can be used to maintain precision in `amount`. For example
+ * an amount of `1.23` could be expressed as `123` with an `exponent` of `-2`.
  *
  * @public
  */
@@ -370,10 +394,11 @@ export declare class TariffRate {
      * Constructor.
      *
      * @param id - the identifier
-     * @param amount - an amount, assumed to be parsable as a number
+     * @param amount - the amount
+     * @param exponent - a base-10 exponent to interpret `amount` in; if not provided then `0` is assumed
      * @param description - a description
      */
-    constructor(id: string, amount: string, description?: string);
+    constructor(id: string, amount: number, exponent?: number, description?: string);
     /**
      * Get the identifier.
      */
@@ -385,22 +410,30 @@ export declare class TariffRate {
     /**
      * Get the amount.
      */
-    get amount(): string;
+    get amount(): number;
     /**
-     * Get the amount as a number value.
-     *
-     * @remarks
-     * Note this does <b>not</b> perform any locale-specific parsing.
-     * This method will return `NaN` if the amount does not parse as
-     * a JavaScript decimal number.
+     * Get the exponent.
      */
-    get val(): number;
+    get exponent(): number;
     /**
      * Get a string representation.
      *
      * @returns the string representation
      */
     toString(): string;
+    /**
+     * Parse locale string values into a `TariffRate` instance.
+     *
+     * @param locale - the locale to parse the `amount` and `exponent` string values as
+     * @param id - the identifier
+     * @param amount - the amount, as a number string in the `locale` locale
+     * @param exponent - a base-10 exponent to interpret `amount` in, as a number string
+     *     in the `locale` locale; if not provided then `0` is assumed
+     * @param description - a description
+     * @returns the new instance
+     * @throws TypeError if the amount or exponent can not be parsed as numbers
+     */
+    static parse(locale: string, id: string, amount: string, exponent?: string, description?: string): TariffRate;
 }
 
 /**

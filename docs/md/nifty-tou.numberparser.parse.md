@@ -22,5 +22,5 @@ parse(s: string): number;
 
 number
 
-the parsed number, or `undefined`
+the parsed number, or `undefined` if `s` is `undefined`
 

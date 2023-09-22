@@ -90,7 +90,7 @@ export class TariffRate {
 
 // @public
 export class TemporalRangesTariff {
-    constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: Array<TariffRate>);
+    constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: TariffRate[]);
     static get ALL_DAYS_OF_MONTH(): IntRange;
     static get ALL_DAYS_OF_WEEK(): IntRange;
     static get ALL_MINUTES_OF_DAY(): IntRange;
@@ -100,9 +100,19 @@ export class TemporalRangesTariff {
     get dayOfWeekRange(): IntRange;
     get minuteOfDayRange(): IntRange;
     get monthRange(): IntRange;
-    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: Array<TariffRate>): TemporalRangesTariff;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
     get rates(): Record<string, TariffRate>;
     toString(): string;
+}
+
+// @public
+export class TemporalRangesTariffSchedule {
+    constructor(rules: TemporalRangesTariff[], multipleMatch?: boolean);
+    firstMatch(date: Date, utc?: boolean): TemporalRangesTariff;
+    matches(date: Date, utc?: boolean): TemporalRangesTariff[];
+    get multipleMatch(): boolean;
+    resolve(date: Date, utc?: boolean): Record<string, TariffRate>;
+    get rules(): readonly TemporalRangesTariff[];
 }
 
 declare namespace Utils {

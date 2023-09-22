@@ -9,7 +9,7 @@ Constructor.
 **Signature:**
 
 ```typescript
-constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: Array<TariffRate>);
+constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: TariffRate[]);
 ```
 
 ## Parameters
@@ -20,5 +20,5 @@ constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: 
 |  dayOfMonthRange | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the day of month range (1-31, inclusive) |
 |  dayOfWeekRange | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the day of week range (1-7, with 1 = Monday, 7 = Sunday, inclusive) |
 |  minuteOfDayRange | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the minute of day range (0-1440, inclusive minimum, exclusive maximum) |
-|  rates | Array&lt;[TariffRate](./nifty-tou.tariffrate.md)<!-- -->&gt; | _(Optional)_ the rates, as an array of <code>TariffRate</code> objects |
+|  rates | [TariffRate](./nifty-tou.tariffrate.md)<!-- -->\[\] | _(Optional)_ the rates, as an array of <code>TariffRate</code> objects |
 

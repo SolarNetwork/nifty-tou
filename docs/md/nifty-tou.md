@@ -16,6 +16,7 @@ A delightful little library for working with time-of-use tariffs.
 |  [NumberParser](./nifty-tou.numberparser.md) | A locale-specific number parser. |
 |  [TariffRate](./nifty-tou.tariffrate.md) | An identifiable tariff rate. |
 |  [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) | <p>A tariff with time-based range rules.</p><p>The rules associated with this tariff are represented by a set of date ranges that serve as the constraints that must be satisfied by a given date for the rule to apply.</p> |
+|  [TemporalRangesTariffSchedule](./nifty-tou.temporalrangestariffschedule.md) | A schedule, or collection, of [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) rules that supports resolving rates for dates. |
 
 ## Enumerations
 

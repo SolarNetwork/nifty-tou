@@ -44,7 +44,7 @@ import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
  *   "*",
  *   "Mon - Fri",
  *   "0 - 12",
- *   [new TariffRate("Morning Fixed", "1.23")]
+ *   [new TariffRate("Weekday AM", "1.23")]
  * );
  *
  * // a tariff for weekday evenings
@@ -54,7 +54,7 @@ import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
  *   "*",
  *   "Mon - Fri",
  *   "12 - 24",
- *   [new TariffRate("Morning Fixed", "2.34")]
+ *   [new TariffRate("Weekday PM", "2.34")]
  * );
  * ```
  *
@@ -109,7 +109,7 @@ export default class TemporalRangesTariff {
 		dayOfMonthRange?: IntRange,
 		dayOfWeekRange?: IntRange,
 		minuteOfDayRange?: IntRange,
-		rates?: Array<TariffRate>
+		rates?: TariffRate[]
 	) {
 		this.#monthRange = optional(monthRange, "monthRange", IntRange);
 		this.#dayOfMonthRange = optional(
@@ -310,7 +310,7 @@ export default class TemporalRangesTariff {
 		dayOfMonthRange?: string,
 		dayOfWeekRange?: string,
 		minuteOfDayRange?: string,
-		rates?: Array<TariffRate>
+		rates?: TariffRate[]
 	): TemporalRangesTariff {
 		const p = ChronoFieldParser.forLocale(locale);
 		return new TemporalRangesTariff(

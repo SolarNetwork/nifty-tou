@@ -18,7 +18,7 @@ The supported time-based constraints are:
 | **day of week** range   | Monday - Friday | 1 - 7 (Monday - Sunday, inclusive)              |
 | **minute of day** range | 00:00 - 08:30   | 0 - 1440 (inclusive minimum, exclusive maximum) |
 
-Here are some example uses:
+Here are some example uses of the `TemporalRangesTariff` class:
 
 ```ts
 // a tariff that applies in the morning of any day of the year
@@ -35,6 +35,67 @@ const tt = new TemporalRangesTariff(
 
 tt.appliesAt(new Date("2024-01-05T01:00")); // true, in the morning
 tt.appliesAt(new Date("2024-01-05T13:00")); // false, in the afternoon
+```
+
+# Tariff schedules
+
+The [TemporalRangesTariffSchedule](./docs/md/nifty-tou.temporalrangestariffschedule.md) class
+defines a schedule, or _collection_ of date-based tariff rules that allows you resolve a
+set of tariff rates for a given date. For example, imagine we add another tariff to
+the previous example, and then resolve the rates for a date:
+
+```ts
+// a tariff that applies after noon of any day of the year
+const tt2 = new TemporalRangesTariff(
+	TemporalRangesTariff.ALL_MONTHS,
+	TemporalRangesTariff.ALL_DAYS_OF_MONTH,
+	TemporalRangesTariff.ALL_DAYS_OF_WEEK,
+	new IntRange(720, 1440), // noon - midnight
+	[new TariffRate("Afternoon Fixed", 2.34)]
+);
+
+// create a scheule with our two tariff rules
+const schedule = new TemporalRangesTariffSchedule([tt, tt2]);
+
+// resolve the rates that apply on a morning date (8 AM)
+const rates = schedule.resolve(new Date("2024-01-05T08:00"));
+
+// rates like:
+{
+  "Morning Fixed":    {amount: 1.25},
+  "Morning Variable": {amount: 0.10}
+}
+```
+
+## Multiple rules matching
+
+By default, a schedule will resolve the rates for the **first** available tariff matching
+a given date. You can turn on _multiple match mode_ by passing an additional `true`
+argument to the constructor. For example, imagine we add another tariff to the previous
+examples, and then resolve the rates for a date:
+
+```ts
+// a tariff that applies after noon of any day of the year
+const tt3 = new TemporalRangesTariff(
+	TemporalRangesTariff.ALL_MONTHS,
+	TemporalRangesTariff.ALL_DAYS_OF_MONTH,
+	TemporalRangesTariff.ALL_DAYS_OF_WEEK,
+	TemporalRangesTariff.ALL_MINUTES_OF_DAY,
+	[new TariffRate("Any Time", 3.45)]
+);
+
+// create a scheule with our three tariff rules, allowing mutiple matches
+const schedule = new TemporalRangesTariffSchedule([tt, tt2, tt3], true);
+
+// resolve the rates that apply on a morning date (8 AM)
+const rates = schedule.resolve(new Date("2024-01-05T08:00"));
+
+// rates like:
+{
+  "Morning Fixed":    {amount: 1.25},
+  "Morning Variable": {amount: 0.10},
+  "All Time":         {amount: 3.45}
+}
 ```
 
 # Integer amounts
@@ -86,7 +147,7 @@ const tt = TemporalRangesTariff.parse(
 	"1～31",
 	"月曜日～金曜日",
 	"0～24",
-	[TariffRate.parse("ja-JP", "午前固定", "1.23")]
+	[TariffRate.parse("ja-JP", "固定価格(午前中)", "1.23")]
 );
 ```
 

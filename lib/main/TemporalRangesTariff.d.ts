@@ -34,7 +34,7 @@ import TariffRate from "./TariffRate.js";
  *   "*",
  *   "Mon - Fri",
  *   "0 - 12",
- *   [new TariffRate("Morning Fixed", "1.23")]
+ *   [new TariffRate("Weekday AM", "1.23")]
  * );
  *
  * // a tariff for weekday evenings
@@ -44,7 +44,7 @@ import TariffRate from "./TariffRate.js";
  *   "*",
  *   "Mon - Fri",
  *   "12 - 24",
- *   [new TariffRate("Morning Fixed", "2.34")]
+ *   [new TariffRate("Weekday PM", "2.34")]
  * );
  * ```
  *
@@ -77,7 +77,7 @@ export default class TemporalRangesTariff {
      * @param minuteOfDayRange - the minute of day range (0-1440, inclusive minimum, exclusive maximum)
      * @param rates - the rates, as an array of `TariffRate` objects
      */
-    constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: Array<TariffRate>);
+    constructor(monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: TariffRate[]);
     /**
      * Get the month of year range.
      */
@@ -134,6 +134,6 @@ export default class TemporalRangesTariff {
      * @param rates - the tariff rates to associate with the time range criteria
      * @returns the new instance
      */
-    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: Array<TariffRate>): TemporalRangesTariff;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
 }
 //# sourceMappingURL=TemporalRangesTariff.d.ts.map

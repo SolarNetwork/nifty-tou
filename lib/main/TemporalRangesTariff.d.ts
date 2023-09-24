@@ -135,13 +135,24 @@ export default class TemporalRangesTariff {
     /**
      * Format a field range into a locale-specific string.
      *
-     * @param field - the field to format
      * @param locale - the desired locale
+     * @param field - the field to format
      * @param options - the options
      * @returns the formatted field range value
      * @throws `TypeError` if `field` is not supported
      */
-    format(field: ChronoField, locale: string, options?: TemporalRangesTariffFormatOptions): string;
+    format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
+    /**
+     * Format a field range value into a locale-specific string.
+     *
+     * @param locale - the desired locale
+     * @param field - the field to format
+     * @param value - the field value to format
+     * @param options - the options
+     * @returns the formatted field range value
+     * @throws `TypeError` if `field` is not supported
+     */
+    static format(locale: string, field: ChronoField, value: IntRange, options?: TemporalRangesTariffFormatOptions): string;
     /**
      * Parse time range criteria into a `TemporalRangesTariff` instance.
      *

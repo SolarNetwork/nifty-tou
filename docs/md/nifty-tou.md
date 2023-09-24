@@ -24,6 +24,12 @@ A delightful little library for working with time-of-use tariffs.
 |  --- | --- |
 |  [ChronoField](./nifty-tou.chronofield.md) | An enumeration of supported chronological fields of the Gregorian calendar. |
 
+## Interfaces
+
+|  Interface | Description |
+|  --- | --- |
+|  [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | Options to use when formatting in the [format()](./nifty-tou.temporalrangestariff.formatrange.md) method. |
+
 ## Namespaces
 
 |  Namespace | Description |

@@ -129,6 +129,11 @@ const tt = TemporalRangesTariff.parse(
 	"0 - 24",
 	[TariffRate.parse("en-US", "Morning Fixed", "1.23")]
 );
+TemporalRangesTariff.format(
+	"en-US",
+	ChronoField.MONTH_OF_YEAR,
+	new IntRange(1, 3)
+) === "Jan - Mar";
 
 // German
 const tt = TemporalRangesTariff.parse(
@@ -139,6 +144,11 @@ const tt = TemporalRangesTariff.parse(
 	"00:00 - 24:00",
 	[TariffRate.parse("de", "Morgen behoben", "1,23")]
 );
+TemporalRangesTariff.format(
+	"de",
+	ChronoField.MONTH_OF_YEAR,
+	new IntRange(1, 3)
+) === "Jan - Mär";
 
 // Japanese
 const tt = TemporalRangesTariff.parse(
@@ -149,4 +159,9 @@ const tt = TemporalRangesTariff.parse(
 	"0～24",
 	[TariffRate.parse("ja-JP", "固定価格(午前中)", "1.23")]
 );
+TemporalRangesTariff.format(
+	"ja-JP",
+	ChronoField.MONTH_OF_YEAR,
+	new IntRange(1, 3)
+) === "1月～3月";
 ```

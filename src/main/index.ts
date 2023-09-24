@@ -15,7 +15,10 @@ export {
 	DEFAULT_FORMAT_OPTIONS,
 } from "./NumberFormatter.js";
 export { default as TariffRate } from "./TariffRate.js";
-export { default as TemporalRangesTariff } from "./TemporalRangesTariff.js";
+export {
+	default as TemporalRangesTariff,
+	TemporalRangesTariffFormatOptions,
+} from "./TemporalRangesTariff.js";
 export { default as TemporalRangesTariffSchedule } from "./TemporalRangesTariffSchedule.js";
 
 // note TypeScript allows just `export * as Utils from X" but API Extractor

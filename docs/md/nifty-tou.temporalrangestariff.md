@@ -73,6 +73,8 @@ const tt = TemporalRangesTariff.parse(
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [appliesAt(date, utc)](./nifty-tou.temporalrangestariff.appliesat.md) |  | <p>Test if this tariff applies on a given date.</p><p>All range constraints are treated as inclusive bounds, except for the <code>minuteOfDayRange</code> that is treated as an inclusive minimum and exclusive maximum.</p> |
+|  [format(locale, field, options)](./nifty-tou.temporalrangestariff.format.md) |  | Format a field range into a locale-specific string. |
+|  [formatRange(locale, field, value, options)](./nifty-tou.temporalrangestariff.formatrange.md) | <code>static</code> | Format a field range value into a locale-specific string. |
 |  [parse(locale, monthRange, dayOfMonthRange, dayOfWeekRange, minuteOfDayRange, rates)](./nifty-tou.temporalrangestariff.parse.md) | <code>static</code> | Parse time range criteria into a <code>TemporalRangesTariff</code> instance. |
 |  [toString()](./nifty-tou.temporalrangestariff.tostring.md) |  | Get a string representation. |
 

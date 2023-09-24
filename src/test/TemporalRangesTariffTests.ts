@@ -1,6 +1,10 @@
 import test from "ava";
+import { ChronoField } from "../main/ChronoFieldFormatter.js";
 import IntRange from "../main/IntRange.js";
-import TemporalRangesTariff from "../main/TemporalRangesTariff.js";
+import {
+	default as TemporalRangesTariff,
+	TemporalRangesTariffFormatOptions,
+} from "../main/TemporalRangesTariff.js";
 import TariffRate from "../main/TariffRate.js";
 
 test("TemporalRangesTariff:construct", (t) => {
@@ -303,7 +307,6 @@ test("TemporalRangesTariff:parse:de", (t) => {
 		"00:00 - 24:00",
 		[TariffRate.parse("de", "Morgen behoben", "1,23")]
 	);
-
 	t.like(
 		tt,
 		{
@@ -411,5 +414,185 @@ test("TemporalRangesTariff:parse:en-US:sparse", (t) => {
 			},
 		},
 		"range tariff values parsed"
+	);
+});
+
+test("TemporalRangesTariff:format:en-US:all", (t) => {
+	const tt = new TemporalRangesTariff(
+		TemporalRangesTariff.ALL_MONTHS,
+		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
+		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
+		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+
+	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.MINUTE_OF_DAY), "*", "bounds formatted");
+});
+
+test("TemporalRangesTariff:format:en-US:all:custom", (t) => {
+	const tt = new TemporalRangesTariff(
+		TemporalRangesTariff.ALL_MONTHS,
+		TemporalRangesTariff.ALL_DAYS_OF_MONTH,
+		TemporalRangesTariff.ALL_DAYS_OF_WEEK,
+		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = { allValue: "ALL" };
+	t.is(
+		tt.format(locale, ChronoField.MONTH_OF_YEAR, opts),
+		"ALL",
+		"bounds formatted"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_MONTH, opts),
+		"ALL",
+		"bounds formatted"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_WEEK, opts),
+		"ALL",
+		"bounds formatted"
+	);
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY, opts),
+		"ALL",
+		"bounds formatted"
+	);
+});
+
+test("TemporalRangesTariff:format:en-US", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+
+	t.is(
+		tt.format(locale, ChronoField.MONTH_OF_YEAR),
+		"Jan - Mar",
+		"months formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MONTH_OF_YEAR,
+			new IntRange(1, 11)
+		),
+		"Jan - Nov",
+		"months formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_MONTH),
+		"4 - 6",
+		"days formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.DAY_OF_MONTH,
+			new IntRange(1, 12)
+		),
+		"1 - 12",
+		"days formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_WEEK),
+		"Fri - Sun",
+		"weedays formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.DAY_OF_WEEK,
+			new IntRange(1, 6)
+		),
+		"Mon - Sat",
+		"weekdays formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY),
+		"14:05 - 19:05",
+		"minutes formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(0, 720)
+		),
+		"00:00 - 12:00",
+		"minutes formatted statically"
+	);
+});
+
+test("TemporalRangesTariff:format:en-US:wholeHours", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = { wholeHours: true };
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY, opts),
+		"14 - 19",
+		"minutes formatted as whole hours"
+	);
+});
+
+test("TemporalRangesTariff:format:en-US:unsupportedRange", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = { wholeHours: true };
+	t.throws(
+		() => {
+			tt.format(locale, -1 as ChronoField, opts);
+		},
+		{ instanceOf: TypeError },
+		"TypeError thrown for unsupported ChronoField"
+	);
+});
+
+test("TemporalRangesTariff:format:ja-JP", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "ja-JP";
+
+	t.is(
+		tt.format(locale, ChronoField.MONTH_OF_YEAR),
+		"1月～3月",
+		"months formatted"
+	);
+	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "4～6", "days formatted");
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_WEEK),
+		"金～日",
+		"weedays formatted"
+	);
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY),
+		"14:05～19:05",
+		"minutes formatted"
 	);
 });

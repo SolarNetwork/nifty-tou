@@ -11,6 +11,23 @@ import TariffRate from "./TariffRate.js";
 import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
 
 /**
+ * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
+ * @public
+ */
+export interface TemporalRangesTariffFormatOptions {
+	/**
+	 * The value to use for a range equal to a field's bounding range, that is "all possible values".
+	 * The default value is `"*"`.
+	 */
+	allValue?: string;
+
+	/**
+	 * Format the minutes-of-day as whole hours, rather than the `HH:MM` format.
+	 */
+	wholeHours?: boolean;
+}
+
+/**
  * A tariff with time-based range rules.
  *
  * The rules associated with this tariff are represented by a set of date ranges
@@ -284,6 +301,77 @@ export default class TemporalRangesTariff {
 		);
 		s = cconcat(s, "r=[" + Object.values(this.#rates).join(",") + "]");
 		return "TemporalRangesTariff{" + s + "}";
+	}
+
+	/**
+	 * Format a field range into a locale-specific string.
+	 *
+	 * @param locale - the desired locale
+	 * @param field - the field to format
+	 * @param options - the options
+	 * @returns the formatted field range value
+	 * @throws `TypeError` if `field` is not supported
+	 */
+	format(
+		locale: string,
+		field: ChronoField,
+		options?: TemporalRangesTariffFormatOptions
+	): string {
+		let range: IntRange;
+		if (field === ChronoField.MONTH_OF_YEAR) {
+			range = this.#monthRange;
+		} else if (field === ChronoField.DAY_OF_MONTH) {
+			range = this.#dayOfMonthRange;
+		} else if (field === ChronoField.DAY_OF_WEEK) {
+			range = this.#dayOfWeekRange;
+		} else if (field === ChronoField.MINUTE_OF_DAY) {
+			range = this.#minuteOfDayRange;
+		}
+		return TemporalRangesTariff.formatRange(locale, field, range, options);
+	}
+
+	/**
+	 * Format a field range value into a locale-specific string.
+	 *
+	 * @param locale - the desired locale
+	 * @param field - the field to format
+	 * @param value - the field value to format
+	 * @param options - the options
+	 * @returns the formatted field range value
+	 * @throws `TypeError` if `field` is not supported
+	 */
+	static formatRange(
+		locale: string,
+		field: ChronoField,
+		value: IntRange,
+		options?: TemporalRangesTariffFormatOptions
+	) {
+		let bounds: IntRange;
+		if (field === ChronoField.MONTH_OF_YEAR) {
+			bounds = ALL_MONTHS;
+		} else if (field === ChronoField.DAY_OF_MONTH) {
+			bounds = ALL_DAYS_OF_MONTH;
+		} else if (field === ChronoField.DAY_OF_WEEK) {
+			bounds = ALL_DAYS_OF_WEEK;
+		} else if (field === ChronoField.MINUTE_OF_DAY) {
+			bounds = ALL_MINUTES_OF_DAY;
+		}
+		if (!value) {
+			throw new TypeError("Unsupported field value.");
+		}
+		if (value.equals(bounds)) {
+			return options?.allValue !== undefined ? options?.allValue : "*";
+		}
+		if (field === ChronoField.MINUTE_OF_DAY && options?.wholeHours) {
+			const hourRange = new IntRange(
+				Math.trunc(value.min / 60),
+				Math.trunc(value.max / 60)
+			);
+			return hourRange.min + IntRange.delimiter(locale) + hourRange.max;
+		}
+
+		const fmt = ChronoFieldFormatter.forLocale(locale);
+		return fmt.formatRange(field, value);
 	}
 
 	/**

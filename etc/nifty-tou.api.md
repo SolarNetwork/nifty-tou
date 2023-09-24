@@ -105,11 +105,18 @@ export class TemporalRangesTariff {
     appliesAt(date: Date, utc?: boolean): boolean;
     get dayOfMonthRange(): IntRange;
     get dayOfWeekRange(): IntRange;
+    format(field: ChronoField, locale: string, options?: TemporalRangesTariffFormatOptions): string;
     get minuteOfDayRange(): IntRange;
     get monthRange(): IntRange;
     static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
     get rates(): Record<string, TariffRate>;
     toString(): string;
+}
+
+// @public
+export interface TemporalRangesTariffFormatOptions {
+    allValue?: string;
+    wholeHours?: boolean;
 }
 
 // @public

@@ -595,6 +595,16 @@ export declare class TemporalRangesTariff {
      */
     toString(): string;
     /**
+     * Format a field range into a locale-specific string.
+     *
+     * @param field - the field to format
+     * @param locale - the desired locale
+     * @param options - the options
+     * @returns the formatted field range value
+     * @throws `TypeError` if `field` is not supported
+     */
+    format(field: ChronoField, locale: string, options?: TemporalRangesTariffFormatOptions): string;
+    /**
      * Parse time range criteria into a `TemporalRangesTariff` instance.
      *
      * @remarks
@@ -613,6 +623,22 @@ export declare class TemporalRangesTariff {
      * @returns the new instance
      */
     static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
+}
+
+/**
+ * Options to use when formatting in the {@link TemporalRangesTariff.format | format()} method.
+ * @public
+ */
+export declare interface TemporalRangesTariffFormatOptions {
+    /**
+     * The value to use for a range equal to a field's bounding range, that is "all possible values".
+     * The default value is `"*"`.
+     */
+    allValue?: string;
+    /**
+     * Format the minutes-of-day as whole hours, rather than the `HH:MM` format.
+     */
+    wholeHours?: boolean;
 }
 
 /**

@@ -3,6 +3,7 @@ const PARSER_CACHE: Map<string, NumberFormatter> = new Map();
 
 /**
  * Default number format options to use.
+ * @public
  */
 export const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions = {
 	useGrouping: true,
@@ -124,7 +125,7 @@ export default class NumberFormatter {
 	 *
 	 * This will return `"NaN"` if `n` is `NaN` or an empty string if `n` is `undefined` or `null`.
 	 * Otherwise, `n` will be formatted with `format` if provided, falling back to
-	 * a format with {@link (NumberFormatter:namespace).DEFAULT_FORMAT_OPTIONS}.
+	 * a format with {@link DEFAULT_FORMAT_OPTIONS}.
 	 *
 	 * @param n - the number to format
 	 * @param format - the format to use, or else a default format will be used

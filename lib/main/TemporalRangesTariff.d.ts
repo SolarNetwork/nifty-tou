@@ -147,12 +147,12 @@ export default class TemporalRangesTariff {
      *
      * @param locale - the desired locale
      * @param field - the field to format
-     * @param value - the field value to format
+     * @param value - the field value to format; if undefined then "all possible values" will be assumed
      * @param options - the options
      * @returns the formatted field range value
      * @throws `TypeError` if `field` is not supported
      */
-    static formatRange(locale: string, field: ChronoField, value: IntRange, options?: TemporalRangesTariffFormatOptions): string;
+    static formatRange(locale: string, field: ChronoField, value?: IntRange, options?: TemporalRangesTariffFormatOptions): string;
     /**
      * Parse time range criteria into a `TemporalRangesTariff` instance.
      *

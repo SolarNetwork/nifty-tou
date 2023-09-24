@@ -306,48 +306,72 @@ export default class TemporalRangesTariff {
 	/**
 	 * Format a field range into a locale-specific string.
 	 *
-	 * @param field - the field to format
 	 * @param locale - the desired locale
+	 * @param field - the field to format
 	 * @param options - the options
 	 * @returns the formatted field range value
 	 * @throws `TypeError` if `field` is not supported
 	 */
 	format(
-		field: ChronoField,
 		locale: string,
+		field: ChronoField,
 		options?: TemporalRangesTariffFormatOptions
 	): string {
 		let range: IntRange;
-		let bounds: IntRange;
 		if (field === ChronoField.MONTH_OF_YEAR) {
 			range = this.#monthRange;
-			bounds = ALL_MONTHS;
 		} else if (field === ChronoField.DAY_OF_MONTH) {
 			range = this.#dayOfMonthRange;
-			bounds = ALL_DAYS_OF_MONTH;
 		} else if (field === ChronoField.DAY_OF_WEEK) {
 			range = this.#dayOfWeekRange;
-			bounds = ALL_DAYS_OF_WEEK;
 		} else if (field === ChronoField.MINUTE_OF_DAY) {
 			range = this.#minuteOfDayRange;
+		}
+		return TemporalRangesTariff.format(locale, field, range, options);
+	}
+
+	/**
+	 * Format a field range value into a locale-specific string.
+	 *
+	 * @param locale - the desired locale
+	 * @param field - the field to format
+	 * @param value - the field value to format
+	 * @param options - the options
+	 * @returns the formatted field range value
+	 * @throws `TypeError` if `field` is not supported
+	 */
+	static format(
+		locale: string,
+		field: ChronoField,
+		value: IntRange,
+		options?: TemporalRangesTariffFormatOptions
+	) {
+		let bounds: IntRange;
+		if (field === ChronoField.MONTH_OF_YEAR) {
+			bounds = ALL_MONTHS;
+		} else if (field === ChronoField.DAY_OF_MONTH) {
+			bounds = ALL_DAYS_OF_MONTH;
+		} else if (field === ChronoField.DAY_OF_WEEK) {
+			bounds = ALL_DAYS_OF_WEEK;
+		} else if (field === ChronoField.MINUTE_OF_DAY) {
 			bounds = ALL_MINUTES_OF_DAY;
 		}
-		if (!range) {
+		if (!value) {
 			throw new TypeError("Unsupported field value.");
 		}
-		if (range.equals(bounds)) {
+		if (value.equals(bounds)) {
 			return options?.allValue !== undefined ? options?.allValue : "*";
 		}
 		if (field === ChronoField.MINUTE_OF_DAY && options?.wholeHours) {
 			const hourRange = new IntRange(
-				Math.trunc(range.min / 60),
-				Math.trunc(range.max / 60)
+				Math.trunc(value.min / 60),
+				Math.trunc(value.max / 60)
 			);
 			return hourRange.min + IntRange.delimiter(locale) + hourRange.max;
 		}
 
 		const fmt = ChronoFieldFormatter.forLocale(locale);
-		return fmt.formatRange(field, range);
+		return fmt.formatRange(field, value);
 	}
 
 	/**

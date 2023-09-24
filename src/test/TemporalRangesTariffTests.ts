@@ -307,7 +307,6 @@ test("TemporalRangesTariff:parse:de", (t) => {
 		"00:00 - 24:00",
 		[TariffRate.parse("de", "Morgen behoben", "1,23")]
 	);
-
 	t.like(
 		tt,
 		{
@@ -426,19 +425,12 @@ test("TemporalRangesTariff:format:en-US:all", (t) => {
 		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
 		[new TariffRate("a", 1.23)]
 	);
+	const locale = "en-US";
 
-	t.is(
-		tt.format(ChronoField.MONTH_OF_YEAR, "en-US"),
-		"*",
-		"bounds formatted"
-	);
-	t.is(tt.format(ChronoField.DAY_OF_MONTH, "en-US"), "*", "bounds formatted");
-	t.is(tt.format(ChronoField.DAY_OF_WEEK, "en-US"), "*", "bounds formatted");
-	t.is(
-		tt.format(ChronoField.MINUTE_OF_DAY, "en-US"),
-		"*",
-		"bounds formatted"
-	);
+	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.MINUTE_OF_DAY), "*", "bounds formatted");
 });
 
 test("TemporalRangesTariff:format:en-US:all:custom", (t) => {
@@ -449,24 +441,25 @@ test("TemporalRangesTariff:format:en-US:all:custom", (t) => {
 		TemporalRangesTariff.ALL_MINUTES_OF_DAY,
 		[new TariffRate("a", 1.23)]
 	);
+	const locale = "en-US";
 	const opts: TemporalRangesTariffFormatOptions = { allValue: "ALL" };
 	t.is(
-		tt.format(ChronoField.MONTH_OF_YEAR, "en-US", opts),
+		tt.format(locale, ChronoField.MONTH_OF_YEAR, opts),
 		"ALL",
 		"bounds formatted"
 	);
 	t.is(
-		tt.format(ChronoField.DAY_OF_MONTH, "en-US", opts),
+		tt.format(locale, ChronoField.DAY_OF_MONTH, opts),
 		"ALL",
 		"bounds formatted"
 	);
 	t.is(
-		tt.format(ChronoField.DAY_OF_WEEK, "en-US", opts),
+		tt.format(locale, ChronoField.DAY_OF_WEEK, opts),
 		"ALL",
 		"bounds formatted"
 	);
 	t.is(
-		tt.format(ChronoField.MINUTE_OF_DAY, "en-US", opts),
+		tt.format(locale, ChronoField.MINUTE_OF_DAY, opts),
 		"ALL",
 		"bounds formatted"
 	);
@@ -483,24 +476,60 @@ test("TemporalRangesTariff:format:en-US", (t) => {
 	const locale = "en-US";
 
 	t.is(
-		tt.format(ChronoField.MONTH_OF_YEAR, locale),
+		tt.format(locale, ChronoField.MONTH_OF_YEAR),
 		"Jan - Mar",
 		"months formatted"
 	);
 	t.is(
-		tt.format(ChronoField.DAY_OF_MONTH, locale),
+		TemporalRangesTariff.format(
+			locale,
+			ChronoField.MONTH_OF_YEAR,
+			new IntRange(1, 11)
+		),
+		"Jan - Nov",
+		"months formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_MONTH),
 		"4 - 6",
 		"days formatted"
 	);
 	t.is(
-		tt.format(ChronoField.DAY_OF_WEEK, locale),
+		TemporalRangesTariff.format(
+			locale,
+			ChronoField.DAY_OF_MONTH,
+			new IntRange(1, 12)
+		),
+		"1 - 12",
+		"days formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_WEEK),
 		"Fri - Sun",
 		"weedays formatted"
 	);
 	t.is(
-		tt.format(ChronoField.MINUTE_OF_DAY, locale),
+		TemporalRangesTariff.format(
+			locale,
+			ChronoField.DAY_OF_WEEK,
+			new IntRange(1, 6)
+		),
+		"Mon - Sat",
+		"weekdays formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY),
 		"14:05 - 19:05",
 		"minutes formatted"
+	);
+	t.is(
+		TemporalRangesTariff.format(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(0, 720)
+		),
+		"00:00 - 12:00",
+		"minutes formatted statically"
 	);
 });
 
@@ -515,7 +544,7 @@ test("TemporalRangesTariff:format:en-US:wholeHours", (t) => {
 	const locale = "en-US";
 	const opts: TemporalRangesTariffFormatOptions = { wholeHours: true };
 	t.is(
-		tt.format(ChronoField.MINUTE_OF_DAY, locale, opts),
+		tt.format(locale, ChronoField.MINUTE_OF_DAY, opts),
 		"14 - 19",
 		"minutes formatted as whole hours"
 	);
@@ -533,7 +562,7 @@ test("TemporalRangesTariff:format:en-US:unsupportedRange", (t) => {
 	const opts: TemporalRangesTariffFormatOptions = { wholeHours: true };
 	t.throws(
 		() => {
-			tt.format(-1 as ChronoField, locale, opts);
+			tt.format(locale, -1 as ChronoField, opts);
 		},
 		{ instanceOf: TypeError },
 		"TypeError thrown for unsupported ChronoField"
@@ -551,18 +580,18 @@ test("TemporalRangesTariff:format:ja-JP", (t) => {
 	const locale = "ja-JP";
 
 	t.is(
-		tt.format(ChronoField.MONTH_OF_YEAR, locale),
+		tt.format(locale, ChronoField.MONTH_OF_YEAR),
 		"1月～3月",
 		"months formatted"
 	);
-	t.is(tt.format(ChronoField.DAY_OF_MONTH, locale), "4～6", "days formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "4～6", "days formatted");
 	t.is(
-		tt.format(ChronoField.DAY_OF_WEEK, locale),
+		tt.format(locale, ChronoField.DAY_OF_WEEK),
 		"金～日",
 		"weedays formatted"
 	);
 	t.is(
-		tt.format(ChronoField.MINUTE_OF_DAY, locale),
+		tt.format(locale, ChronoField.MINUTE_OF_DAY),
 		"14:05～19:05",
 		"minutes formatted"
 	);

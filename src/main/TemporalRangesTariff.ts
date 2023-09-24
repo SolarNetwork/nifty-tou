@@ -4,8 +4,8 @@ import {
 	ALL_DAYS_OF_WEEK,
 	ALL_MINUTES_OF_DAY,
 	ChronoField,
-	ChronoFieldParser,
-} from "./ChronoFieldParser.js";
+	ChronoFieldFormatter,
+} from "./ChronoFieldFormatter.js";
 import IntRange from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
 import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
@@ -312,7 +312,7 @@ export default class TemporalRangesTariff {
 		minuteOfDayRange?: string,
 		rates?: TariffRate[]
 	): TemporalRangesTariff {
-		const p = ChronoFieldParser.forLocale(locale);
+		const p = ChronoFieldFormatter.forLocale(locale);
 		return new TemporalRangesTariff(
 			p.parseRange(ChronoField.MONTH_OF_YEAR, monthRange),
 			dayOfMonthRange === "*"

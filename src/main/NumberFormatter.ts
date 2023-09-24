@@ -1,5 +1,5 @@
 // a cache of parser instance, for locale keys
-const PARSER_CACHE: Map<string, NumberParser> = new Map();
+const PARSER_CACHE: Map<string, NumberFormatter> = new Map();
 
 /**
  * A locale-specific number parser.
@@ -9,7 +9,7 @@ const PARSER_CACHE: Map<string, NumberParser> = new Map();
  * unexpected results given the right input. For example:
  *
  * ```ts
- * NumberParser.forLcale("de").parse("1.23"); // returns 123
+ * NumberFormatter.forLcale("de").parse("1.23"); // returns 123
  * ```
  *
  * That example produces `123` instead of the (perhaps?) expected `1.23` because
@@ -23,7 +23,7 @@ const PARSER_CACHE: Map<string, NumberParser> = new Map();
  *
  * @public
  */
-export default class NumberParser {
+export default class NumberFormatter {
 	#locale: string;
 	#group: RegExp;
 	#decimal: RegExp;
@@ -42,7 +42,7 @@ export default class NumberParser {
 	static forLocale(locale: string) {
 		let p = PARSER_CACHE.get(locale);
 		if (!p) {
-			p = new NumberParser(locale);
+			p = new NumberFormatter(locale);
 			PARSER_CACHE.set(locale, p);
 		}
 		return p;

@@ -7,7 +7,7 @@ export { ChronoField, ChronoFieldValue, ChronoFieldFormatter, } from "./ChronoFi
 export { default as IntRange } from "./IntRange.js";
 export { default as NumberFormatter, DEFAULT_FORMAT_OPTIONS, } from "./NumberFormatter.js";
 export { default as TariffRate } from "./TariffRate.js";
-export { default as TemporalRangesTariff } from "./TemporalRangesTariff.js";
+export { default as TemporalRangesTariff, TemporalRangesTariffFormatOptions, } from "./TemporalRangesTariff.js";
 export { default as TemporalRangesTariffSchedule } from "./TemporalRangesTariffSchedule.js";
 import * as Utils from "./utils.js";
 export { Utils };

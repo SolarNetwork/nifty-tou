@@ -1,5 +1,21 @@
+import { ChronoField } from "./ChronoFieldFormatter.js";
 import IntRange from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
+/**
+ * Options to use when formatting in the {@link TemporalRangesTariff.format | format()} method.
+ * @public
+ */
+export interface TemporalRangesTariffFormatOptions {
+    /**
+     * The value to use for a range equal to a field's bounding range, that is "all possible values".
+     * The default value is `"*"`.
+     */
+    allValue?: string;
+    /**
+     * Format the minutes-of-day as whole hours, rather than the `HH:MM` format.
+     */
+    wholeHours?: boolean;
+}
 /**
  * A tariff with time-based range rules.
  *
@@ -116,6 +132,16 @@ export default class TemporalRangesTariff {
      * @returns the string representation
      */
     toString(): string;
+    /**
+     * Format a field range into a locale-specific string.
+     *
+     * @param field - the field to format
+     * @param locale - the desired locale
+     * @param options - the options
+     * @returns the formatted field range value
+     * @throws `TypeError` if `field` is not supported
+     */
+    format(field: ChronoField, locale: string, options?: TemporalRangesTariffFormatOptions): string;
     /**
      * Parse time range criteria into a `TemporalRangesTariff` instance.
      *

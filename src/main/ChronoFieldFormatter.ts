@@ -90,7 +90,7 @@ export const ALL_DAYS_OF_WEEK = new IntRange(1, 7);
 export const ALL_MINUTES_OF_DAY = new IntRange(0, 1440);
 
 // a cache of parser instance, for locale keys
-const PARSER_CACHE: Map<string, ChronoFieldParser> = new Map();
+const PARSER_CACHE: Map<string, ChronoFieldFormatter> = new Map();
 
 // a cache of field bounds
 const BOUNDS: Map<ChronoField, IntRange> = new Map();
@@ -174,7 +174,7 @@ function computeKeysAndNames(
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
  * @public
  */
-export class ChronoFieldParser {
+export class ChronoFieldFormatter {
 	#locale: string;
 
 	// note the string keys in these maps are locale lower-case values to support
@@ -193,7 +193,7 @@ export class ChronoFieldParser {
 	static forLocale(locale: string) {
 		let p = PARSER_CACHE.get(locale);
 		if (!p) {
-			p = new ChronoFieldParser(locale);
+			p = new ChronoFieldFormatter(locale);
 			PARSER_CACHE.set(locale, p);
 		}
 		return p;
@@ -203,7 +203,7 @@ export class ChronoFieldParser {
 	 * Constructor.
 	 *
 	 * @param locale - the desired locale
-	 * @see {@link ChronoFieldParser.forLocale | forLocale()} for a caching factory method
+	 * @see {@link ChronoFieldFormatter.forLocale | forLocale()} for a caching factory method
 	 */
 	constructor(locale: string) {
 		this.#locale = locale;
@@ -353,7 +353,7 @@ export class ChronoFieldParser {
 	 * Here are some basic examples:
 	 *
 	 * ```ts
-	 * const p = ChronoFieldParser.forLocale("en-US");
+	 * const p = ChronoFieldFormatter.forLocale("en-US");
 	 * p.parseRange(ChronoField.MONTH_OF_YEAR, "Jan-Dec");     // [1..12]
 	 * p.parseRange(ChronoField.MONTH_OF_YEAR, "4-6");         // [4..6]
 	 * p.parseRange(ChronoField.DAY_OF_MONTH, "1-31");         // [1..31]

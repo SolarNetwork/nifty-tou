@@ -1,4 +1,4 @@
-import NumberParser from "./NumberParser.js";
+import NumberFormatter from "./NumberFormatter.js";
 import { optional, required } from "./utils.js";
 
 /**
@@ -99,7 +99,7 @@ export default class TariffRate {
 		exponent?: string,
 		description?: string
 	): TariffRate {
-		const p = NumberParser.forLocale(locale);
+		const p = NumberFormatter.forLocale(locale);
 		const a = p.parse(amount);
 		if (Number.isNaN(a)) {
 			throw new TypeError(

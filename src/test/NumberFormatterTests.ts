@@ -1,58 +1,58 @@
 import test from "ava";
-import NumberParser from "../main/NumberParser.js";
+import NumberFormatter from "../main/NumberFormatter.js";
 
-test("NumberParser:construct", (t) => {
+test("NumberFormatter:construct", (t) => {
 	const locale = "en-US";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.locale, locale, "locale from constructor arg");
 });
 
-test("NumberParser:factory:en-US", (t) => {
-	const en = NumberParser.forLocale("en-US");
+test("NumberFormatter:factory:en-US", (t) => {
+	const en = NumberFormatter.forLocale("en-US");
 	t.is(
-		NumberParser.forLocale("en-US"),
+		NumberFormatter.forLocale("en-US"),
 		en,
 		"cached instance returned for previous locale"
 	);
 	t.not(
-		new NumberParser("en-US"),
+		new NumberFormatter("en-US"),
 		en,
 		"new instance differs from cached instance"
 	);
 
-	const fr = NumberParser.forLocale("fr-FR");
+	const fr = NumberFormatter.forLocale("fr-FR");
 	t.is(
-		NumberParser.forLocale("fr-FR"),
+		NumberFormatter.forLocale("fr-FR"),
 		fr,
 		"cached instance returned for previous locale"
 	);
 	t.not(
-		new NumberParser("fr-FR"),
+		new NumberFormatter("fr-FR"),
 		fr,
 		"new instance differs from cached instance"
 	);
 });
 
-test("NumberParser:parse:NaN", (t) => {
+test("NumberFormatter:parse:NaN", (t) => {
 	const locale = "en-US";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse(undefined), NaN, "undefined returns NaN");
 	t.is(p.parse(null), NaN, "null returns NaN");
 	t.is(p.parse("foo"), NaN, "unparsable returns NaN");
 	t.is(p.parse(""), NaN, "empty returns undefined");
 });
 
-test("NumberParser:parse:en-US:integer", (t) => {
+test("NumberFormatter:parse:en-US:integer", (t) => {
 	const locale = "en-US";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("123"), 123, "simple integer parsed");
 	t.is(p.parse("+123"), 123, "signed positive integer parsed");
 	t.is(p.parse("-123"), -123, "signed negative integer parsed");
 });
 
-test("NumberParser:parse:en-US:delimitedInteger", (t) => {
+test("NumberFormatter:parse:en-US:delimitedInteger", (t) => {
 	const locale = "en-US";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("1,234,567"), 1234567, "delimited integer parsed");
 	t.is(
 		p.parse("+1,234,567"),
@@ -66,17 +66,17 @@ test("NumberParser:parse:en-US:delimitedInteger", (t) => {
 	);
 });
 
-test("NumberParser:parse:en-US:decimal", (t) => {
+test("NumberFormatter:parse:en-US:decimal", (t) => {
 	const locale = "en-US";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("12.34"), 12.34, "simple decimal parsed");
 	t.is(p.parse("+12.34"), 12.34, "signed decimal integer parsed");
 	t.is(p.parse("-12.34"), -12.34, "signed negative decimal parsed");
 });
 
-test("NumberParser:parse:en-US:delimitedDecimal", (t) => {
+test("NumberFormatter:parse:en-US:delimitedDecimal", (t) => {
 	const locale = "en-US";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("1,234.567"), 1234.567, "delimited decimal parsed");
 	t.is(
 		p.parse("+1,234.567"),
@@ -90,17 +90,17 @@ test("NumberParser:parse:en-US:delimitedDecimal", (t) => {
 	);
 });
 
-test("NumberParser:parse:de:integer", (t) => {
+test("NumberFormatter:parse:de:integer", (t) => {
 	const locale = "de";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("123"), 123, "simple integer parsed");
 	t.is(p.parse("+123"), 123, "signed positive integer parsed");
 	t.is(p.parse("-123"), -123, "signed negative integer parsed");
 });
 
-test("NumberParser:parse:de:delimitedInteger", (t) => {
+test("NumberFormatter:parse:de:delimitedInteger", (t) => {
 	const locale = "de";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("1.234.567"), 1234567, "delimited integer parsed");
 	t.is(
 		p.parse("+1.234.567"),
@@ -114,17 +114,17 @@ test("NumberParser:parse:de:delimitedInteger", (t) => {
 	);
 });
 
-test("NumberParser:parse:de:decimal", (t) => {
+test("NumberFormatter:parse:de:decimal", (t) => {
 	const locale = "de";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("12,34"), 12.34, "simple decimal parsed");
 	t.is(p.parse("+12,34"), 12.34, "signed decimal integer parsed");
 	t.is(p.parse("-12,34"), -12.34, "signed negative decimal parsed");
 });
 
-test("NumberParser:norm:de:delimitedDecimal", (t) => {
+test("NumberFormatter:norm:de:delimitedDecimal", (t) => {
 	const locale = "de";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.norm("1.234,567"), "1234.567", "delimited decimal normalized");
 	t.is(
 		p.norm("+1.234,567"),
@@ -138,9 +138,9 @@ test("NumberParser:norm:de:delimitedDecimal", (t) => {
 	);
 });
 
-test("NumberParser:parse:de:delimitedDecimal", (t) => {
+test("NumberFormatter:parse:de:delimitedDecimal", (t) => {
 	const locale = "de";
-	const p = new NumberParser(locale);
+	const p = new NumberFormatter(locale);
 	t.is(p.parse("1.234,567"), 1234.567, "delimited decimal parsed");
 	t.is(
 		p.parse("+1.234,567"),

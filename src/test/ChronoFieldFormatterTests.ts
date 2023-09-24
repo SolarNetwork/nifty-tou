@@ -6,8 +6,8 @@ import {
 	ALL_MINUTES_OF_DAY,
 	ChronoField,
 	ChronoFieldValue,
-	ChronoFieldParser,
-} from "../main/ChronoFieldParser.js";
+	ChronoFieldFormatter,
+} from "../main/ChronoFieldFormatter.js";
 
 test("ChronoFieldValue:construct", (t) => {
 	const f = ChronoField.MONTH_OF_YEAR;
@@ -47,40 +47,40 @@ test("ChronoFieldValue:noShortName", (t) => {
 	t.is(o.shortName, n[0], "full name returned when no short name avaialble");
 });
 
-test("ChronoFieldParser:construct:en-US", (t) => {
+test("ChronoFieldFormatter:construct:en-US", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 	t.is(p.locale, locale, "locale from constructor arg");
 });
 
-test("ChronoFieldParser:factory:en-US", (t) => {
-	const en = ChronoFieldParser.forLocale("en-US");
+test("ChronoFieldFormatter:factory:en-US", (t) => {
+	const en = ChronoFieldFormatter.forLocale("en-US");
 	t.is(
-		ChronoFieldParser.forLocale("en-US"),
+		ChronoFieldFormatter.forLocale("en-US"),
 		en,
 		"cached instance returned for previous locale"
 	);
 	t.not(
-		new ChronoFieldParser("en-US"),
+		new ChronoFieldFormatter("en-US"),
 		en,
 		"new instance differs from cached instance"
 	);
 
-	const fr = ChronoFieldParser.forLocale("fr-FR");
+	const fr = ChronoFieldFormatter.forLocale("fr-FR");
 	t.is(
-		ChronoFieldParser.forLocale("fr-FR"),
+		ChronoFieldFormatter.forLocale("fr-FR"),
 		fr,
 		"cached instance returned for previous locale"
 	);
 	t.not(
-		new ChronoFieldParser("fr-FR"),
+		new ChronoFieldFormatter("fr-FR"),
 		fr,
 		"new instance differs from cached instance"
 	);
 });
 
-test("ChronoFieldParser:parse:unknown", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parse:unknown", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.throws(
 		() => {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -92,16 +92,16 @@ test("ChronoFieldParser:parse:unknown", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:bounds", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parseRange:bounds", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.is(p.parseRange(ChronoField.MONTH_OF_YEAR, "*"), ALL_MONTHS);
 	t.is(p.parseRange(ChronoField.DAY_OF_MONTH, "*"), ALL_DAYS_OF_MONTH);
 	t.is(p.parseRange(ChronoField.DAY_OF_WEEK, "*"), ALL_DAYS_OF_WEEK);
 	t.is(p.parseRange(ChronoField.MINUTE_OF_DAY, "*"), ALL_MINUTES_OF_DAY);
 });
 
-test("ChronoFieldParser:parse:month:undefined", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parse:month:undefined", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.is(
 		p.parse(undefined, undefined),
 		undefined,
@@ -130,9 +130,9 @@ test("ChronoFieldParser:parse:month:undefined", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:month:en-US", (t) => {
+test("ChronoFieldFormatter:parse:month:en-US", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 	t.like(
 		p.parse(ChronoField.MONTH_OF_YEAR, "January"),
 		{
@@ -286,9 +286,9 @@ test("ChronoFieldParser:parse:month:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:dom:en-US:undefined", (t) => {
+test("ChronoFieldFormatter:parse:dom:en-US:undefined", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.is(
 		p.parse(ChronoField.DAY_OF_MONTH, undefined),
@@ -302,9 +302,9 @@ test("ChronoFieldParser:parse:dom:en-US:undefined", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:dom:en-US", (t) => {
+test("ChronoFieldFormatter:parse:dom:en-US", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	const v = p.parse(ChronoField.DAY_OF_MONTH, "1");
 	t.like(v, {
@@ -320,9 +320,9 @@ test("ChronoFieldParser:parse:dom:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:weekday:en-US", (t) => {
+test("ChronoFieldFormatter:parse:weekday:en-US", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.like(
 		p.parse(ChronoField.DAY_OF_WEEK, "Monday"),
@@ -427,15 +427,15 @@ test("ChronoFieldParser:parse:weekday:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:construct:fr-FR", (t) => {
+test("ChronoFieldFormatter:construct:fr-FR", (t) => {
 	const locale = "fr-FR";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 	t.is(p.locale, locale, "locale from constructor arg");
 });
 
-test("ChronoFieldParser:parse:month:fr-FR", (t) => {
+test("ChronoFieldFormatter:parse:month:fr-FR", (t) => {
 	const locale = "fr-FR";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 	t.like(
 		p.parse(ChronoField.MONTH_OF_YEAR, "janvier"),
 		{
@@ -478,9 +478,9 @@ test("ChronoFieldParser:parse:month:fr-FR", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:month:fr-FR:accents", (t) => {
+test("ChronoFieldFormatter:parse:month:fr-FR:accents", (t) => {
 	const locale = "fr-FR";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 	t.like(
 		p.parse(ChronoField.MONTH_OF_YEAR, "février"),
 		{
@@ -563,9 +563,9 @@ test("ChronoFieldParser:parse:month:fr-FR:accents", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:mod:en-US:cached", (t) => {
+test("ChronoFieldFormatter:parse:mod:en-US:cached", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	const v = p.parse(ChronoField.MINUTE_OF_DAY, "0");
 	t.like(v, {
@@ -581,9 +581,9 @@ test("ChronoFieldParser:parse:mod:en-US:cached", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:mod:en-US:hours", (t) => {
+test("ChronoFieldFormatter:parse:mod:en-US:hours", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.like(
 		p.parse(ChronoField.MINUTE_OF_DAY, "1"),
@@ -614,9 +614,9 @@ test("ChronoFieldParser:parse:mod:en-US:hours", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:mod:en-US:minutes", (t) => {
+test("ChronoFieldFormatter:parse:mod:en-US:minutes", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.like(
 		p.parse(ChronoField.MINUTE_OF_DAY, "01:23"),
@@ -656,9 +656,9 @@ test("ChronoFieldParser:parse:mod:en-US:minutes", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parse:mod:en-US:undefined", (t) => {
+test("ChronoFieldFormatter:parse:mod:en-US:undefined", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.is(
 		p.parse(ChronoField.MINUTE_OF_DAY, undefined),
@@ -672,8 +672,8 @@ test("ChronoFieldParser:parse:mod:en-US:undefined", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:en-US:undefined", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parseRange:en-US:undefined", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.is(
 		p.parseRange(undefined, undefined),
 		undefined,
@@ -696,8 +696,8 @@ test("ChronoFieldParser:parseRange:en-US:undefined", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:month:en-US", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parseRange:month:en-US", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.like(
 		p.parseRange(ChronoField.MONTH_OF_YEAR, "February - December"),
 		{
@@ -740,8 +740,8 @@ test("ChronoFieldParser:parseRange:month:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:month:nums:en-US", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parseRange:month:nums:en-US", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.like(
 		p.parseRange(ChronoField.MONTH_OF_YEAR, "1-12"),
 		{
@@ -791,8 +791,8 @@ test("ChronoFieldParser:parseRange:month:nums:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:month:fr-FR", (t) => {
-	const p = new ChronoFieldParser("fr-FR");
+test("ChronoFieldFormatter:parseRange:month:fr-FR", (t) => {
+	const p = new ChronoFieldFormatter("fr-FR");
 	t.like(
 		p.parseRange(ChronoField.MONTH_OF_YEAR, "février - décembre"),
 		{
@@ -835,8 +835,8 @@ test("ChronoFieldParser:parseRange:month:fr-FR", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:month:nums:fr-FR", (t) => {
-	const p = new ChronoFieldParser("fr-FR");
+test("ChronoFieldFormatter:parseRange:month:nums:fr-FR", (t) => {
+	const p = new ChronoFieldFormatter("fr-FR");
 	t.like(
 		p.parseRange(ChronoField.MONTH_OF_YEAR, "1-12"),
 		{
@@ -886,9 +886,9 @@ test("ChronoFieldParser:parseRange:month:nums:fr-FR", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:dom:en-US", (t) => {
+test("ChronoFieldFormatter:parseRange:dom:en-US", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_MONTH, "1-31"),
@@ -916,8 +916,8 @@ test("ChronoFieldParser:parseRange:dom:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:week:en-US", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parseRange:week:en-US", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "Tuesday - Sunday"),
 		{
@@ -960,8 +960,8 @@ test("ChronoFieldParser:parseRange:week:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:week:nums:en-US", (t) => {
-	const p = new ChronoFieldParser("en-US");
+test("ChronoFieldFormatter:parseRange:week:nums:en-US", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "1-7"),
 		{
@@ -1011,8 +1011,8 @@ test("ChronoFieldParser:parseRange:week:nums:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:week:fr-FR", (t) => {
-	const p = new ChronoFieldParser("fr-FR");
+test("ChronoFieldFormatter:parseRange:week:fr-FR", (t) => {
+	const p = new ChronoFieldFormatter("fr-FR");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "mar - dim"),
 		{
@@ -1055,8 +1055,8 @@ test("ChronoFieldParser:parseRange:week:fr-FR", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:week:nums:fr-FR", (t) => {
-	const p = new ChronoFieldParser("fr-FR");
+test("ChronoFieldFormatter:parseRange:week:nums:fr-FR", (t) => {
+	const p = new ChronoFieldFormatter("fr-FR");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "1-7"),
 		{
@@ -1106,9 +1106,9 @@ test("ChronoFieldParser:parseRange:week:nums:fr-FR", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:mod:en-US:hours", (t) => {
+test("ChronoFieldFormatter:parseRange:mod:en-US:hours", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.like(
 		p.parseRange(ChronoField.MINUTE_OF_DAY, "0-24"),
@@ -1136,9 +1136,9 @@ test("ChronoFieldParser:parseRange:mod:en-US:hours", (t) => {
 	);
 });
 
-test("ChronoFieldParser:parseRange:mod:en-US:minutes", (t) => {
+test("ChronoFieldFormatter:parseRange:mod:en-US:minutes", (t) => {
 	const locale = "en-US";
-	const p = new ChronoFieldParser(locale);
+	const p = new ChronoFieldFormatter(locale);
 
 	t.like(
 		p.parseRange(ChronoField.MINUTE_OF_DAY, "00:00-24:00"),

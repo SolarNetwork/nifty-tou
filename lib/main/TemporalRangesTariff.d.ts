@@ -2,7 +2,7 @@ import { ChronoField } from "./ChronoFieldFormatter.js";
 import IntRange from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
 /**
- * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | format()} method.
+ * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
 export interface TemporalRangesTariffFormatOptions {

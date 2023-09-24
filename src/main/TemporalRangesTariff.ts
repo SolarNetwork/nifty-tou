@@ -335,7 +335,7 @@ export default class TemporalRangesTariff {
 	 *
 	 * @param locale - the desired locale
 	 * @param field - the field to format
-	 * @param value - the field value to format
+	 * @param value - the field value to format; if undefined then "all possible values" will be assumed
 	 * @param options - the options
 	 * @returns the formatted field range value
 	 * @throws `TypeError` if `field` is not supported
@@ -343,7 +343,7 @@ export default class TemporalRangesTariff {
 	static formatRange(
 		locale: string,
 		field: ChronoField,
-		value: IntRange,
+		value?: IntRange,
 		options?: TemporalRangesTariffFormatOptions
 	) {
 		let bounds: IntRange;
@@ -356,10 +356,10 @@ export default class TemporalRangesTariff {
 		} else if (field === ChronoField.MINUTE_OF_DAY) {
 			bounds = ALL_MINUTES_OF_DAY;
 		}
-		if (!value) {
+		if (!bounds) {
 			throw new TypeError("Unsupported field value.");
 		}
-		if (value.equals(bounds)) {
+		if (!value || value.equals(bounds)) {
 			return options?.allValue !== undefined ? options?.allValue : "*";
 		}
 		if (field === ChronoField.MINUTE_OF_DAY && options?.wholeHours) {

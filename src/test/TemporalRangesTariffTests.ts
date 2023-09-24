@@ -433,6 +433,22 @@ test("TemporalRangesTariff:format:en-US:all", (t) => {
 	t.is(tt.format(locale, ChronoField.MINUTE_OF_DAY), "*", "bounds formatted");
 });
 
+test("TemporalRangesTariff:format:en-US:all:undefined", (t) => {
+	const tt = new TemporalRangesTariff(
+		undefined,
+		undefined,
+		undefined,
+		undefined,
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+
+	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
+	t.is(tt.format(locale, ChronoField.MINUTE_OF_DAY), "*", "bounds formatted");
+});
+
 test("TemporalRangesTariff:format:en-US:all:custom", (t) => {
 	const tt = new TemporalRangesTariff(
 		TemporalRangesTariff.ALL_MONTHS,

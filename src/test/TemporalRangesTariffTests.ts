@@ -481,7 +481,7 @@ test("TemporalRangesTariff:format:en-US", (t) => {
 		"months formatted"
 	);
 	t.is(
-		TemporalRangesTariff.format(
+		TemporalRangesTariff.formatRange(
 			locale,
 			ChronoField.MONTH_OF_YEAR,
 			new IntRange(1, 11)
@@ -495,7 +495,7 @@ test("TemporalRangesTariff:format:en-US", (t) => {
 		"days formatted"
 	);
 	t.is(
-		TemporalRangesTariff.format(
+		TemporalRangesTariff.formatRange(
 			locale,
 			ChronoField.DAY_OF_MONTH,
 			new IntRange(1, 12)
@@ -509,7 +509,7 @@ test("TemporalRangesTariff:format:en-US", (t) => {
 		"weedays formatted"
 	);
 	t.is(
-		TemporalRangesTariff.format(
+		TemporalRangesTariff.formatRange(
 			locale,
 			ChronoField.DAY_OF_WEEK,
 			new IntRange(1, 6)
@@ -523,7 +523,7 @@ test("TemporalRangesTariff:format:en-US", (t) => {
 		"minutes formatted"
 	);
 	t.is(
-		TemporalRangesTariff.format(
+		TemporalRangesTariff.formatRange(
 			locale,
 			ChronoField.MINUTE_OF_DAY,
 			new IntRange(0, 720)

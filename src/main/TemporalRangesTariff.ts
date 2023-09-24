@@ -11,7 +11,7 @@ import TariffRate from "./TariffRate.js";
 import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
 
 /**
- * Options to use when formatting in the {@link TemporalRangesTariff.format | format()} method.
+ * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
 export interface TemporalRangesTariffFormatOptions {
@@ -327,7 +327,7 @@ export default class TemporalRangesTariff {
 		} else if (field === ChronoField.MINUTE_OF_DAY) {
 			range = this.#minuteOfDayRange;
 		}
-		return TemporalRangesTariff.format(locale, field, range, options);
+		return TemporalRangesTariff.formatRange(locale, field, range, options);
 	}
 
 	/**
@@ -340,7 +340,7 @@ export default class TemporalRangesTariff {
 	 * @returns the formatted field range value
 	 * @throws `TypeError` if `field` is not supported
 	 */
-	static format(
+	static formatRange(
 		locale: string,
 		field: ChronoField,
 		value: IntRange,

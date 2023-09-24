@@ -181,6 +181,9 @@ export class ChronoFieldFormatter {
 	// case-insensitive matching
 	#values: Map<ChronoField, Map<string, ChronoFieldValue>>;
 
+	#monthFormat: Intl.DateTimeFormat;
+	#weekdayFormat: Intl.DateTimeFormat;
+
 	/**
 	 * Get a parser for a given locale.
 	 *
@@ -211,6 +214,15 @@ export class ChronoFieldFormatter {
 
 		this.#computeMonths(locale);
 		this.#computeWeekdays(locale);
+
+		this.#monthFormat = new Intl.DateTimeFormat(this.#locale, {
+			month: "short",
+			timeZone: "UTC",
+		});
+		this.#weekdayFormat = new Intl.DateTimeFormat(this.#locale, {
+			weekday: "short",
+			timeZone: "UTC",
+		});
 	}
 
 	/**
@@ -392,5 +404,71 @@ export class ChronoFieldFormatter {
 			return b;
 		}
 		return result;
+	}
+
+	/**
+	 * Format a field value into a locale-specific string.
+	 *
+	 * @param field - the field to format
+	 * @param value - the field value to format
+	 * @returns the formatted field value
+	 */
+	format(field: ChronoField, value: number): string {
+		if (
+			field == undefined ||
+			field === null ||
+			value === undefined ||
+			value === null
+		) {
+			return "";
+		}
+		if (field === ChronoField.MONTH_OF_YEAR) {
+			const date = new Date(Date.UTC(2024, value - 1, 1));
+			return this.#monthFormat.format(date).replaceAll(".", "");
+		} else if (field === ChronoField.DAY_OF_WEEK) {
+			const date = new Date(Date.UTC(2024, 0, value));
+			return this.#weekdayFormat.format(date).replaceAll(".", "");
+		} else if (field === ChronoField.MINUTE_OF_DAY) {
+			return this.#hhmm(value);
+		}
+		return value.toString();
+	}
+
+	/**
+	 * Format a field range into a locale-specific string.
+	 *
+	 * @param field - the field to format
+	 * @param value - the range to format
+	 * @returns the formatted range
+	 */
+	formatRange(field: ChronoField, value: IntRange): string {
+		if (
+			field === undefined ||
+			field === null ||
+			value === undefined ||
+			value === null
+		) {
+			return "";
+		}
+		if (value.isSingleton) {
+			return this.format(field, value.min);
+		}
+		return (
+			this.format(field, value.min) +
+			IntRange.delimiter(this.#locale) +
+			this.format(field, value.max)
+		);
+	}
+
+	/**
+	 * Format a minutes-of-day value into a HH:MM style string.
+	 *
+	 * @param mins - the minutes of day to format
+	 * @returns the formatted value
+	 */
+	#hhmm(mins: number): string {
+		const h = Math.trunc(mins / 60);
+		const m = mins % 60;
+		return (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
 	}
 }

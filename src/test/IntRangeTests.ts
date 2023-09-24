@@ -323,3 +323,47 @@ test("IntRange:parseRange:range:reverse", (t) => {
 		"range reverse parsed"
 	);
 });
+
+test("IntRange:parseRange:stringSingleton", (t) => {
+	t.like(
+		IntRange.parseRange("123"),
+		{ min: 123, max: 123 },
+		"string range reverse parsed"
+	);
+});
+
+test("IntRange:parseRange:stringRange", (t) => {
+	t.like(
+		IntRange.parseRange("123-234"),
+		{ min: 123, max: 234 },
+		"string range reverse parsed"
+	);
+});
+
+test("IntRange:parseRange:stringRange:reverse", (t) => {
+	t.like(
+		IntRange.parseRange("234-123"),
+		{ min: 123, max: 234 },
+		"string range reverse parsed"
+	);
+});
+
+test("IntRange:delimiter:default", (t) => {
+	t.is(
+		IntRange.delimiter(),
+		IntRange.delimiter(new Intl.NumberFormat().resolvedOptions().locale),
+		"delimiter for default locale returned if no locale provided"
+	);
+});
+
+test("IntRange:delimiter:en-US", (t) => {
+	t.is(IntRange.delimiter("en-US"), " - ", "delimiter for locale returned");
+});
+
+test("IntRange:delimiter:ja-JP", (t) => {
+	t.is(
+		IntRange.delimiter("ja-JP"),
+		"\uff5e",
+		"delimiter for locale returned"
+	);
+});

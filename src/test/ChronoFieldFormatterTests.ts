@@ -8,6 +8,7 @@ import {
 	ChronoFieldValue,
 	ChronoFieldFormatter,
 } from "../main/ChronoFieldFormatter.js";
+import IntRange from "../main/IntRange.js";
 
 test("ChronoFieldValue:construct", (t) => {
 	const f = ChronoField.MONTH_OF_YEAR;
@@ -1163,5 +1164,282 @@ test("ChronoFieldFormatter:parseRange:mod:en-US:minutes", (t) => {
 			max: 601,
 		},
 		"singleton parsed"
+	);
+});
+
+test("ChronoFieldFormatter:format:undefined", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.format(undefined, undefined),
+		"",
+		"undefined field returns empty string"
+	);
+	t.is(p.format(null, undefined), "", "null field returns empty string");
+	t.is(
+		p.format(ChronoField.MONTH_OF_YEAR, undefined),
+		"",
+		"undefined value returns empty string"
+	);
+	t.is(
+		p.format(ChronoField.MONTH_OF_YEAR, null),
+		"",
+		"null value returns empty string"
+	);
+});
+
+test("ChronoFieldFormatter:format:month:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	const expected = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+	const result: string[] = [];
+	for (let i = 0; i < expected.length; i += 1) {
+		result[i] = p.format(ChronoField.MONTH_OF_YEAR, i + 1);
+	}
+	t.deepEqual(result, expected, "months formatted");
+});
+
+test("ChronoFieldFormatter:format:month:fr-FR", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+
+	const expected = [
+		"janv",
+		"févr",
+		"mars",
+		"avr",
+		"mai",
+		"juin",
+		"juil",
+		"août",
+		"sept",
+		"oct",
+		"nov",
+		"déc",
+	];
+	const result: string[] = [];
+	for (let i = 0; i < expected.length; i += 1) {
+		result[i] = p.format(ChronoField.MONTH_OF_YEAR, i + 1);
+	}
+	t.deepEqual(result, expected, "months formatted");
+});
+
+test("ChronoFieldFormatter:format:dom:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	for (let i = 1; i <= 31; i += 1) {
+		t.is(
+			p.format(ChronoField.DAY_OF_MONTH, i),
+			"" + i,
+			`day of month ${i} formatted`
+		);
+	}
+});
+
+test("ChronoFieldFormatter:format:weekday:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	const expected = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	const result: string[] = [];
+	for (let i = 0; i < expected.length; i += 1) {
+		result[i] = p.format(ChronoField.DAY_OF_WEEK, i + 1);
+	}
+	t.deepEqual(result, expected, "weedays formatted");
+});
+
+test("ChronoFieldFormatter:format:weekday:fr-FR", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+
+	const expected = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
+	const result: string[] = [];
+	for (let i = 0; i < expected.length; i += 1) {
+		result[i] = p.format(ChronoField.DAY_OF_WEEK, i + 1);
+	}
+	t.deepEqual(result, expected, "weekdays formatted");
+});
+
+test("ChronoFieldFormatter:format:mod:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(p.format(ChronoField.MINUTE_OF_DAY, 0), "00:00", "midnight formatted");
+
+	t.is(p.format(ChronoField.MINUTE_OF_DAY, 510), "08:30", "8:30am formatted");
+
+	t.is(
+		p.format(ChronoField.MINUTE_OF_DAY, 1155),
+		"19:15",
+		"7:15pm formatted"
+	);
+
+	t.is(
+		p.format(ChronoField.MINUTE_OF_DAY, 1440),
+		"24:00",
+		"midnight (end) formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:undefined", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(undefined, undefined),
+		"",
+		"undefined field returns empty string"
+	);
+	t.is(p.formatRange(null, undefined), "", "null field returns empty string");
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, undefined),
+		"",
+		"undefined value returns empty string"
+	);
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, null),
+		"",
+		"null value returns empty string"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:month:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, new IntRange(1, 7)),
+		"Jan - Jul",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, IntRange.of(1)),
+		"Jan",
+		"singleton formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:month:fr-FR", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, new IntRange(1, 7)),
+		"janv - juil",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, IntRange.of(1)),
+		"janv",
+		"singleton formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:month:ja-JP", (t) => {
+	const locale = "ja-JP";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, new IntRange(1, 7)),
+		"1月\uff5e7月",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.MONTH_OF_YEAR, IntRange.of(1)),
+		"1月",
+		"singleton formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:dom:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.DAY_OF_MONTH, new IntRange(1, 7)),
+		"1 - 7",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.DAY_OF_MONTH, IntRange.of(1)),
+		"1",
+		"singleton formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:weekday:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.DAY_OF_WEEK, new IntRange(1, 7)),
+		"Mon - Sun",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.DAY_OF_WEEK, IntRange.of(1)),
+		"Mon",
+		"singleton formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:weekday:fr-FR", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.DAY_OF_WEEK, new IntRange(1, 7)),
+		"lun - dim",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.DAY_OF_WEEK, IntRange.of(1)),
+		"lun",
+		"singleton formatted"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:mod:en-US", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.MINUTE_OF_DAY, new IntRange(0, 1440)),
+		"00:00 - 24:00",
+		"full range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.MINUTE_OF_DAY, new IntRange(510, 930)),
+		"08:30 - 15:30",
+		"range formatted"
+	);
+
+	t.is(
+		p.formatRange(ChronoField.MINUTE_OF_DAY, IntRange.of(1234)),
+		"20:34",
+		"singleton formatted"
 	);
 });

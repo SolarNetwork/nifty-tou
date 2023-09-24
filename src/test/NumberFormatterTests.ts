@@ -153,3 +153,36 @@ test("NumberFormatter:parse:de:delimitedDecimal", (t) => {
 		"signed negative delimited decimal parsed"
 	);
 });
+
+test("NumberFormatter:format:en-US:undefined", (t) => {
+	const f = new NumberFormatter("en-US");
+	t.is(f.format(undefined), "", "undefined formatted as empty string");
+	t.is(f.format(null), "", "null formatted as empty string");
+	t.is(f.format(NaN), "NaN", "NaN formatted as NaN");
+});
+
+test("NumberFormatter:format:en-US:defaultOptions", (t) => {
+	const f = new NumberFormatter("en-US");
+	t.is(f.format(123), "123", "small number formatted");
+	t.is(
+		f.format(1234567.89),
+		"1,234,567.89",
+		"large number formatted with grouping"
+	);
+});
+
+test("NumberFormatter:format:en-US:custom", (t) => {
+	const f = new NumberFormatter("en-US");
+	const fmt = new Intl.NumberFormat(f.locale, {
+		useGrouping: true,
+		style: "currency",
+		currency: "USD",
+		maximumFractionDigits: 2,
+	});
+	t.is(f.format(123, fmt), "$123.00", "small number formatted");
+	t.is(
+		f.format(1234567.89, fmt),
+		"$1,234,567.89",
+		"large number formatted with grouping"
+	);
+});

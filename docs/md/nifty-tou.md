@@ -28,7 +28,7 @@ A delightful little library for working with time-of-use tariffs.
 
 |  Interface | Description |
 |  --- | --- |
-|  [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | Options to use when formatting in the [format()](./nifty-tou.temporalrangestariff.format.md) method. |
+|  [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | Options to use when formatting in the [format()](./nifty-tou.temporalrangestariff.formatrange.md) method. |
 
 ## Namespaces
 

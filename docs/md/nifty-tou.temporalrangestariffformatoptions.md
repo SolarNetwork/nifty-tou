@@ -4,7 +4,7 @@
 
 ## TemporalRangesTariffFormatOptions interface
 
-Options to use when formatting in the [format()](./nifty-tou.temporalrangestariff.format.md) method.
+Options to use when formatting in the [format()](./nifty-tou.temporalrangestariff.formatrange.md) method.
 
 **Signature:**
 

@@ -637,7 +637,7 @@ export declare class TemporalRangesTariff {
 }
 
 /**
- * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | format()} method.
+ * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
 export declare interface TemporalRangesTariffFormatOptions {

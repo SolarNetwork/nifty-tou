@@ -10,10 +10,10 @@ A delightful little library for working with time-of-use tariffs.
 
 |  Class | Description |
 |  --- | --- |
-|  [ChronoFieldParser](./nifty-tou.chronofieldparser.md) | Class to parse locale-specific chronological field names of the Gregorian calendar. |
+|  [ChronoFieldFormatter](./nifty-tou.chronofieldformatter.md) | Class to parse locale-specific chronological field names of the Gregorian calendar. |
 |  [ChronoFieldValue](./nifty-tou.chronofieldvalue.md) | A chronological field value. |
 |  [IntRange](./nifty-tou.intrange.md) | An immutable number range with min/max values. |
-|  [NumberParser](./nifty-tou.numberparser.md) | A locale-specific number parser. |
+|  [NumberFormatter](./nifty-tou.numberformatter.md) | A locale-specific number parser. |
 |  [TariffRate](./nifty-tou.tariffrate.md) | An identifiable tariff rate. |
 |  [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) | <p>A tariff with time-based range rules.</p><p>The rules associated with this tariff are represented by a set of date ranges that serve as the constraints that must be satisfied by a given date for the rule to apply.</p> |
 |  [TemporalRangesTariffSchedule](./nifty-tou.temporalrangestariffschedule.md) | A schedule, or collection, of [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) rules that supports resolving rates for dates. |
@@ -29,4 +29,10 @@ A delightful little library for working with time-of-use tariffs.
 |  Namespace | Description |
 |  --- | --- |
 |  [Utils](./nifty-tou.utils.md) |  |
+
+## Variables
+
+|  Variable | Description |
+|  --- | --- |
+|  [DEFAULT\_FORMAT\_OPTIONS](./nifty-tou.default_format_options.md) | Default number format options to use. |
 

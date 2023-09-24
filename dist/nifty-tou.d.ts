@@ -37,7 +37,7 @@ export declare enum ChronoField {
  * Class to parse locale-specific chronological field names of the Gregorian calendar.
  * @public
  */
-export declare class ChronoFieldParser {
+export declare class ChronoFieldFormatter {
     #private;
     /**
      * Get a parser for a given locale.
@@ -48,12 +48,12 @@ export declare class ChronoFieldParser {
      * @param locale - the locale of the parser to get
      * @returns the parser
      */
-    static forLocale(locale: string): ChronoFieldParser;
+    static forLocale(locale: string): ChronoFieldFormatter;
     /**
      * Constructor.
      *
      * @param locale - the desired locale
-     * @see {@link ChronoFieldParser.forLocale | forLocale()} for a caching factory method
+     * @see {@link ChronoFieldFormatter.forLocale | forLocale()} for a caching factory method
      */
     constructor(locale: string);
     /**
@@ -84,7 +84,7 @@ export declare class ChronoFieldParser {
      * Here are some basic examples:
      *
      * ```ts
-     * const p = ChronoFieldParser.forLocale("en-US");
+     * const p = ChronoFieldFormatter.forLocale("en-US");
      * p.parseRange(ChronoField.MONTH_OF_YEAR, "Jan-Dec");     // [1..12]
      * p.parseRange(ChronoField.MONTH_OF_YEAR, "4-6");         // [4..6]
      * p.parseRange(ChronoField.DAY_OF_MONTH, "1-31");         // [1..31]
@@ -98,6 +98,22 @@ export declare class ChronoFieldParser {
      * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
     parseRange(field: ChronoField, value: string): IntRange;
+    /**
+     * Format a field value into a locale-specific string.
+     *
+     * @param field - the field to format
+     * @param value - the field value to format
+     * @returns the formatted field value
+     */
+    format(field: ChronoField, value: number): string;
+    /**
+     * Format a field range into a locale-specific string.
+     *
+     * @param field - the field to format
+     * @param value - the range to format
+     * @returns the formatted range
+     */
+    formatRange(field: ChronoField, value: IntRange): string;
 }
 
 /**
@@ -123,6 +139,12 @@ export declare class ChronoFieldValue {
     /** Get the value. */
     get value(): number;
 }
+
+/**
+ * Default number format options to use.
+ * @public
+ */
+export declare const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
 
 /**
  * An immutable number range with min/max values.
@@ -155,13 +177,19 @@ export declare class IntRange {
     /**
      * Parse a range array of number strings into an `IntRange`.
      *
-     * @param value - the range array to parse; can have 1 or 2 elements;
-     *     all elements must have number values
+     * @param value - the range to parse; can be a string adhering to {@link Utils.splitRange | splitRange()}
+     *     or an array with 1 or 2 number value elements
      * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(array: string[], bounds?: IntRange): IntRange;
+    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
+    /**
+     * Get a locale-specific range delimiter to use.
+     * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
+     * @returns the default range delimiter for the given locale
+     */
+    static delimiter(locale?: string): string;
     /**
      * Get the minimum value.
      */
@@ -284,7 +312,7 @@ export declare class IntRange {
  * unexpected results given the right input. For example:
  *
  * ```ts
- * NumberParser.forLcale("de").parse("1.23"); // returns 123
+ * NumberFormatter.forLcale("de").parse("1.23"); // returns 123
  * ```
  *
  * That example produces `123` instead of the (perhaps?) expected `1.23` because
@@ -298,7 +326,7 @@ export declare class IntRange {
  *
  * @public
  */
-export declare class NumberParser {
+export declare class NumberFormatter {
     #private;
     /**
      * Get a parser for a given locale.
@@ -309,7 +337,7 @@ export declare class NumberParser {
      * @param locale - the locale of the parser to get
      * @returns the parser
      */
-    static forLocale(locale: string): NumberParser;
+    static forLocale(locale: string): NumberFormatter;
     /**
      * Constructor.
      *
@@ -332,6 +360,18 @@ export declare class NumberParser {
      * @returns the parsed number, or `undefined` if `s` is `undefined`
      */
     parse(s: string): number;
+    /**
+     * Format a number into a string.
+     *
+     * This will return `"NaN"` if `n` is `NaN` or an empty string if `n` is `undefined` or `null`.
+     * Otherwise, `n` will be formatted with `format` if provided, falling back to
+     * a format with {@link DEFAULT_FORMAT_OPTIONS}.
+     *
+     * @param n - the number to format
+     * @param format - the format to use, or else a default format will be used
+     * @returns the formatted number
+     */
+    format(n: number, format?: Intl.NumberFormat): string;
 }
 
 /**

@@ -29,13 +29,19 @@ export default class IntRange {
     /**
      * Parse a range array of number strings into an `IntRange`.
      *
-     * @param value - the range array to parse; can have 1 or 2 elements;
-     *     all elements must have number values
+     * @param value - the range to parse; can be a string adhering to {@link Utils.splitRange | splitRange()}
+     *     or an array with 1 or 2 number value elements
      * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(array: string[], bounds?: IntRange): IntRange;
+    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
+    /**
+     * Get a locale-specific range delimiter to use.
+     * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
+     * @returns the default range delimiter for the given locale
+     */
+    static delimiter(locale?: string): string;
     /**
      * Get the minimum value.
      */

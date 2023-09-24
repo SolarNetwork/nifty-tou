@@ -16,9 +16,11 @@ export enum ChronoField {
 }
 
 // @public
-export class ChronoFieldParser {
+export class ChronoFieldFormatter {
     constructor(locale: string);
-    static forLocale(locale: string): ChronoFieldParser;
+    static forLocale(locale: string): ChronoFieldFormatter;
+    format(field: ChronoField, value: number): string;
+    formatRange(field: ChronoField, value: IntRange): string;
     get locale(): string;
     parse(field: ChronoField, value: string): ChronoFieldValue;
     parseRange(field: ChronoField, value: string): IntRange;
@@ -34,6 +36,9 @@ export class ChronoFieldValue {
 }
 
 // @public
+export const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
+
+// @public
 export class IntRange {
     constructor(min: number, max: number);
     adjacentTo(o: IntRange): boolean;
@@ -42,6 +47,7 @@ export class IntRange {
     contains(value: number): boolean;
     containsAll(min: number, max: number): boolean;
     containsRange(o: IntRange): boolean;
+    static delimiter(locale?: string): string;
     static description(bounds: IntRange, r?: IntRange): string;
     equals(obj: any): boolean;
     intersects(o: IntRange): boolean;
@@ -51,15 +57,16 @@ export class IntRange {
     mergeWith(o: IntRange): IntRange;
     get min(): number;
     static of(value: number): IntRange;
-    static parseRange(array: string[], bounds?: IntRange): IntRange;
+    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
     static rangeOf(min: number, max: number): IntRange;
     toString(): string;
 }
 
 // @public
-export class NumberParser {
+export class NumberFormatter {
     constructor(locale: string);
-    static forLocale(locale: string): NumberParser;
+    static forLocale(locale: string): NumberFormatter;
+    format(n: number, format?: Intl.NumberFormat): string;
     get locale(): string;
     norm(s: string): string;
     parse(s: string): number;

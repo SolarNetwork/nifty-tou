@@ -2,6 +2,14 @@
 const PARSER_CACHE: Map<string, NumberFormatter> = new Map();
 
 /**
+ * Default number format options to use.
+ * @public
+ */
+export const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions = {
+	useGrouping: true,
+};
+
+/**
  * A locale-specific number parser.
  *
  * @remarks
@@ -29,6 +37,7 @@ export default class NumberFormatter {
 	#decimal: RegExp;
 	#numeral: RegExp;
 	#index: (d: string) => string;
+	#format: Intl.NumberFormat;
 
 	/**
 	 * Get a parser for a given locale.
@@ -73,6 +82,7 @@ export default class NumberFormatter {
 		);
 		this.#numeral = new RegExp(`[${numerals.join("")}]`, "g");
 		this.#index = (d) => index.get(d);
+		this.#format = new Intl.NumberFormat(locale, DEFAULT_FORMAT_OPTIONS);
 	}
 
 	/** Get the locale. */
@@ -108,5 +118,26 @@ export default class NumberFormatter {
 	parse(s: string): number {
 		s = this.norm(s);
 		return s ? +s : NaN;
+	}
+
+	/**
+	 * Format a number into a string.
+	 *
+	 * This will return `"NaN"` if `n` is `NaN` or an empty string if `n` is `undefined` or `null`.
+	 * Otherwise, `n` will be formatted with `format` if provided, falling back to
+	 * a format with {@link DEFAULT_FORMAT_OPTIONS}.
+	 *
+	 * @param n - the number to format
+	 * @param format - the format to use, or else a default format will be used
+	 * @returns the formatted number
+	 */
+	format(n: number, format?: Intl.NumberFormat): string {
+		if (Number.isNaN(n)) {
+			return "NaN";
+		} else if (n === undefined || n === null) {
+			return "";
+		}
+		const fmt = format || this.#format;
+		return fmt.format(n);
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "nifty-tou",
-	"version": "1.0.0",
+	"version": "1.0.0-dev.0",
 	"description": "A delightful little data model and utilities for working with time-of-use tariff policies.",
 	"keywords": [
 		"solarnetwork",
@@ -14,7 +14,8 @@
 		"test": "c8 ava",
 		"coverage": "c8 --reporter=lcov ava",
 		"preapidocs": "npm run build && api-extractor run --local --verbose",
-		"apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc"
+		"apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
+		"release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
 	},
 	"homepage": "https://solarnetwork.github.io/nifty-tou/",
 	"license": "Apache-2.0",
@@ -74,6 +75,7 @@
 		"c8": "^8.0.1",
 		"eslint": "^8.49.0",
 		"generate-release": "^1.1.1",
+		"semver": "^7.5.4",
 		"typedoc": "^0.25.1",
 		"typescript": "^5.2.2"
 	}

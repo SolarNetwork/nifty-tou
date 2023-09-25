@@ -1,82 +1,82 @@
 {
-	"name": "nifty-tou",
-	"version": "0.1.0-dev.0",
-	"description": "A delightful little data model and utilities for working with time-of-use tariff policies.",
-	"keywords": [
-		"solarnetwork",
-		"tariff"
-	],
-	"type": "module",
-	"main": "lib/main/index.js",
-	"module": "lib/main/index.js",
-	"scripts": {
-		"build": "tsc",
-		"test": "c8 ava",
-		"coverage": "c8 --reporter=lcov ava",
-		"preapidocs": "npm run build && api-extractor run --local --verbose",
-		"apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
-		"release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
-	},
-	"homepage": "https://solarnetwork.github.io/nifty-tou/",
-	"license": "Apache-2.0",
-	"author": {
-		"name": "SolarNetwork Foundation",
-		"email": "code@solarnetwork.net"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/SolarNetwork/nifty-tou.git"
-	},
-	"engines": {
-		"node": ">=16"
-	},
-	"sideEffects": false,
-	"ava": {
-		"files": [
-			"src/test/**/*"
-		],
-		"typescript": {
-			"rewritePaths": {
-				"src/": "lib/"
-			},
-			"compile": "tsc"
-		}
-	},
-	"c8": {
-		"exclude": [
-			"src/test/**"
-		],
-		"exclude-after-remap": true,
-		"reporter": [
-			"text",
-			"html"
-		]
-	},
-	"config": {
-		"generateRelease": {
-			"no_confirm": false,
-			"remote": "origin",
-			"post_commit_commands": [
-				"npm test"
-			],
-			"post_complete_commands": [
-				"npm publish",
-				"npmversion --increment prepatch --preid dev --nogit-tag"
-			]
-		}
-	},
-	"devDependencies": {
-		"@ava/typescript": "^4.1.0",
-		"@microsoft/api-documenter": "^7.23.1",
-		"@microsoft/api-extractor": "^7.37.0",
-		"@typescript-eslint/eslint-plugin": "^6.7.2",
-		"@typescript-eslint/parser": "^6.7.2",
-		"ava": "^5.3.1",
-		"c8": "^8.0.1",
-		"eslint": "^8.49.0",
-		"generate-release": "^1.1.1",
-		"semver": "^7.5.4",
-		"typedoc": "^0.25.1",
-		"typescript": "^5.2.2"
-	}
+  "name": "nifty-tou",
+  "version": "1.0.0",
+  "description": "A delightful little data model and utilities for working with time-of-use tariff policies.",
+  "keywords": [
+    "solarnetwork",
+    "tariff"
+  ],
+  "type": "module",
+  "main": "lib/main/index.js",
+  "module": "lib/main/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "c8 ava",
+    "coverage": "c8 --reporter=lcov ava",
+    "preapidocs": "npm run build && api-extractor run --local --verbose",
+    "apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
+    "release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
+  },
+  "homepage": "https://solarnetwork.github.io/nifty-tou/",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "SolarNetwork Foundation",
+    "email": "code@solarnetwork.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SolarNetwork/nifty-tou.git"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "sideEffects": false,
+  "ava": {
+    "files": [
+      "src/test/**/*"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      },
+      "compile": "tsc"
+    }
+  },
+  "c8": {
+    "exclude": [
+      "src/test/**"
+    ],
+    "exclude-after-remap": true,
+    "reporter": [
+      "text",
+      "html"
+    ]
+  },
+  "config": {
+    "generateRelease": {
+      "no_confirm": false,
+      "remote": "origin",
+      "post_commit_commands": [
+        "npm test"
+      ],
+      "post_complete_commands": [
+        "npm publish",
+        "npmversion --increment prepatch --preid dev --nogit-tag"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@ava/typescript": "^4.1.0",
+    "@microsoft/api-documenter": "^7.23.1",
+    "@microsoft/api-extractor": "^7.37.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "ava": "^5.3.1",
+    "c8": "^8.0.1",
+    "eslint": "^8.49.0",
+    "generate-release": "^1.1.1",
+    "semver": "^7.5.4",
+    "typedoc": "^0.25.1",
+    "typescript": "^5.2.2"
+  }
 }

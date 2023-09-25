@@ -51,6 +51,19 @@
 			"html"
 		]
 	},
+	"config": {
+		"generateRelease": {
+			"no_confirm": false,
+			"remote": "origin",
+			"post_commit_commands": [
+				"npm test"
+			],
+			"post_complete_commands": [
+				"npm publish",
+				"npmversion --increment prepatch --preid dev --nogit-tag"
+			]
+		}
+	},
 	"devDependencies": {
 		"@ava/typescript": "^4.1.0",
 		"@microsoft/api-documenter": "^7.23.1",
@@ -60,6 +73,7 @@
 		"ava": "^5.3.1",
 		"c8": "^8.0.1",
 		"eslint": "^8.49.0",
+		"generate-release": "^1.1.1",
 		"typedoc": "^0.25.1",
 		"typescript": "^5.2.2"
 	}

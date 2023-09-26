@@ -6,15 +6,27 @@ import {
 	ChronoField,
 	ChronoFieldFormatter,
 } from "./ChronoFieldFormatter.js";
-import IntRange from "./IntRange.js";
+import {
+	default as IntRange,
+	IntRangeFormatOptions,
+	UNBOUNDED_RANGE,
+	UNBOUNDED_VALUE,
+} from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
-import { cconcat, optional, prefix, required, splitRange } from "./utils.js";
+import { cconcat, optional, prefix, required } from "./utils.js";
+
+/**
+ * The default "all values" representation.
+ * @public
+ */
+export const ALL_VALUES = UNBOUNDED_VALUE;
 
 /**
  * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
-export interface TemporalRangesTariffFormatOptions {
+export interface TemporalRangesTariffFormatOptions
+	extends IntRangeFormatOptions {
 	/**
 	 * The value to use for a range equal to a field's bounding range, that is "all possible values".
 	 * The default value is `"*"`.
@@ -25,6 +37,24 @@ export interface TemporalRangesTariffFormatOptions {
 	 * Format the minutes-of-day as whole hours, rather than the `HH:MM` format.
 	 */
 	wholeHours?: boolean;
+}
+
+function clamped(bounds: IntRange, r?: IntRange): IntRange | undefined {
+	if (r === undefined) {
+		return undefined;
+	}
+	if (UNBOUNDED_RANGE.equals(r)) {
+		return bounds;
+	}
+	if (bounds.containsRange(r)) {
+		return r;
+	}
+	const min = r.min === null || r.min < bounds.min ? bounds.min : r.min;
+	const max = r.max === null || r.max > bounds.max ? bounds.max : r.max;
+	if (min == bounds.min && max == bounds.max) {
+		return bounds;
+	}
+	return new IntRange(min, max);
 }
 
 /**
@@ -128,21 +158,21 @@ export default class TemporalRangesTariff {
 		minuteOfDayRange?: IntRange,
 		rates?: TariffRate[]
 	) {
-		this.#monthRange = optional(monthRange, "monthRange", IntRange);
-		this.#dayOfMonthRange = optional(
-			dayOfMonthRange,
-			"dayOfMonthRange",
-			IntRange
+		this.#monthRange = clamped(
+			ALL_MONTHS,
+			optional(monthRange, "monthRange", IntRange)
 		);
-		this.#dayOfWeekRange = optional(
-			dayOfWeekRange,
-			"dayOfWeekRange",
-			IntRange
+		this.#dayOfMonthRange = clamped(
+			ALL_DAYS_OF_MONTH,
+			optional(dayOfMonthRange, "dayOfMonthRange", IntRange)
 		);
-		this.#minuteOfDayRange = optional(
-			minuteOfDayRange,
-			"minuteOfDayRange",
-			IntRange
+		this.#dayOfWeekRange = clamped(
+			ALL_DAYS_OF_WEEK,
+			optional(dayOfWeekRange, "dayOfWeekRange", IntRange)
+		);
+		this.#minuteOfDayRange = clamped(
+			ALL_MINUTES_OF_DAY,
+			optional(minuteOfDayRange, "minuteOfDayRange", IntRange)
 		);
 
 		// turn array of rates into Object of id -> rate
@@ -268,11 +298,10 @@ export default class TemporalRangesTariff {
 	}
 
 	/**
-	 * Get a string representation.
-	 *
-	 * @returns the string representation
+	 * Get a string representation of the components of this description.
+	 * @returns string representation of the components of this tariff
 	 */
-	toString(): string {
+	protected componentsDescription(): string {
 		let s = "";
 		s = cconcat(
 			s,
@@ -300,7 +329,17 @@ export default class TemporalRangesTariff {
 			)
 		);
 		s = cconcat(s, "r=[" + Object.values(this.#rates).join(",") + "]");
-		return "TemporalRangesTariff{" + s + "}";
+		return s;
+	}
+
+	/**
+	 * Get a string representation.
+	 *
+	 * @returns the string representation
+	 */
+	toString(): string {
+		const s = this.componentsDescription();
+		return this.constructor.name + "{" + s + "}";
 	}
 
 	/**
@@ -308,7 +347,7 @@ export default class TemporalRangesTariff {
 	 *
 	 * @param locale - the desired locale
 	 * @param field - the field to format
-	 * @param options - the options
+	 * @param options - the formatting options
 	 * @returns the formatted field range value
 	 * @throws `TypeError` if `field` is not supported
 	 */
@@ -335,7 +374,7 @@ export default class TemporalRangesTariff {
 	 *
 	 * @param locale - the desired locale
 	 * @param field - the field to format
-	 * @param value - the field value to format
+	 * @param value - the field value to format; if undefined then "all possible values" will be assumed
 	 * @param options - the options
 	 * @returns the formatted field range value
 	 * @throws `TypeError` if `field` is not supported
@@ -343,11 +382,13 @@ export default class TemporalRangesTariff {
 	static formatRange(
 		locale: string,
 		field: ChronoField,
-		value: IntRange,
+		value?: IntRange,
 		options?: TemporalRangesTariffFormatOptions
 	) {
 		let bounds: IntRange;
-		if (field === ChronoField.MONTH_OF_YEAR) {
+		if (field === ChronoField.YEAR) {
+			bounds = UNBOUNDED_RANGE;
+		} else if (field === ChronoField.MONTH_OF_YEAR) {
 			bounds = ALL_MONTHS;
 		} else if (field === ChronoField.DAY_OF_MONTH) {
 			bounds = ALL_DAYS_OF_MONTH;
@@ -356,22 +397,22 @@ export default class TemporalRangesTariff {
 		} else if (field === ChronoField.MINUTE_OF_DAY) {
 			bounds = ALL_MINUTES_OF_DAY;
 		}
-		if (!value) {
+		if (!bounds) {
 			throw new TypeError("Unsupported field value.");
 		}
-		if (value.equals(bounds)) {
-			return options?.allValue !== undefined ? options?.allValue : "*";
+		if (!value || value.equals(bounds)) {
+			return options?.allValue !== undefined
+				? options?.allValue
+				: ALL_VALUES;
 		}
 		if (field === ChronoField.MINUTE_OF_DAY && options?.wholeHours) {
-			const hourRange = new IntRange(
-				Math.trunc(value.min / 60),
-				Math.trunc(value.max / 60)
-			);
-			return hourRange.min + IntRange.delimiter(locale) + hourRange.max;
+			const h = Math.trunc(value.min / 60);
+			const m = Math.trunc(value.max / 60);
+			return h + IntRange.delimiter(locale) + m;
 		}
 
 		const fmt = ChronoFieldFormatter.forLocale(locale);
-		return fmt.formatRange(field, value);
+		return fmt.formatRange(field, value, options);
 	}
 
 	/**
@@ -390,6 +431,7 @@ export default class TemporalRangesTariff {
 	 * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
 	 * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
 	 * @param rates - the tariff rates to associate with the time range criteria
+	 * @param options - the formatting options to use
 	 * @returns the new instance
 	 */
 	static parse(
@@ -398,16 +440,15 @@ export default class TemporalRangesTariff {
 		dayOfMonthRange?: string,
 		dayOfWeekRange?: string,
 		minuteOfDayRange?: string,
-		rates?: TariffRate[]
+		rates?: TariffRate[],
+		options?: TemporalRangesTariffFormatOptions
 	): TemporalRangesTariff {
 		const p = ChronoFieldFormatter.forLocale(locale);
 		return new TemporalRangesTariff(
-			p.parseRange(ChronoField.MONTH_OF_YEAR, monthRange),
-			dayOfMonthRange === "*"
-				? ALL_DAYS_OF_MONTH
-				: IntRange.parseRange(splitRange(dayOfMonthRange)),
-			p.parseRange(ChronoField.DAY_OF_WEEK, dayOfWeekRange),
-			p.parseRange(ChronoField.MINUTE_OF_DAY, minuteOfDayRange),
+			p.parseRange(ChronoField.MONTH_OF_YEAR, monthRange, options),
+			IntRange.parseRange(dayOfMonthRange, ALL_DAYS_OF_MONTH, options),
+			p.parseRange(ChronoField.DAY_OF_WEEK, dayOfWeekRange, options),
+			p.parseRange(ChronoField.MINUTE_OF_DAY, minuteOfDayRange, options),
 			rates
 		);
 	}

@@ -9,13 +9,13 @@ Constructor.
 **Signature:**
 
 ```typescript
-constructor(min: number, max: number);
+constructor(min: number | null, max: number | null);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  min | number | the mimnimum value |
-|  max | number | the maximum value |
+|  min | number \| null | the mimnimum value or <code>null</code> for "no minimum" |
+|  max | number \| null | the maximum value or <code>null</code> for "no maximum" |
 

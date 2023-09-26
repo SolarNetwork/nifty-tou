@@ -5,6 +5,12 @@
  */
 
 /**
+ * The default "all values" representation.
+ * @public
+ */
+export declare const ALL_VALUES = "*";
+
+/**
  * Concatenate two strings with a comma.
  *
  * If `s1` has no length then `s2` is returned as-is. If `s2` has no length
@@ -23,14 +29,16 @@ declare function cconcat(s1?: string, s2?: string): string;
  * @public
  */
 export declare enum ChronoField {
+    /** Year. */
+    YEAR = 1,
     /** The month of year, from January (1) to December (12). */
-    MONTH_OF_YEAR = 1,
+    MONTH_OF_YEAR = 2,
     /** The day of month, from 1 - 31. */
-    DAY_OF_MONTH = 2,
+    DAY_OF_MONTH = 3,
     /** The day of the week, from Monday (1) to Sunday (7). */
-    DAY_OF_WEEK = 3,
+    DAY_OF_WEEK = 4,
     /** The minute of the day, from 0 to 1440 (assuming exclusive maximum). */
-    MINUTE_OF_DAY = 4
+    MINUTE_OF_DAY = 5
 }
 
 /**
@@ -67,7 +75,7 @@ export declare class ChronoFieldFormatter {
      * @param value - the field value to parse
      * @returns the associated field value, or undefined if not found
      */
-    parse(field: ChronoField, value: string): ChronoFieldValue;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
     /**
      * Parse a chronological field range string.
      *
@@ -78,7 +86,8 @@ export declare class ChronoFieldFormatter {
      *
      * @remarks
      * If `value` is `*` then a range of "all possible values" is returned,
-     * in other words the bounding range for that field.
+     * in other words the bounding range for that field. If a field has
+     * no implicit bounds (such as `YEAR`) then an unbounded range is returned.
      *
      * @example
      * Here are some basic examples:
@@ -94,26 +103,29 @@ export declare class ChronoFieldFormatter {
      *
      * @param field - the field to parse the range values as
      * @param value - the range string to parse
+     * @param options - the options
      * @returns the parsed range, or `undefined` if not parsable as a range
      * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
-    parseRange(field: ChronoField, value: string): IntRange;
+    parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
     /**
      * Format a field value into a locale-specific string.
      *
      * @param field - the field to format
      * @param value - the field value to format
+     * @param options - the options
      * @returns the formatted field value
      */
-    format(field: ChronoField, value: number): string;
+    format(field: ChronoField, value: number, options?: IntRangeFormatOptions): string;
     /**
      * Format a field range into a locale-specific string.
      *
      * @param field - the field to format
      * @param value - the range to format
+     * @param options - options
      * @returns the formatted range
      */
-    formatRange(field: ChronoField, value: IntRange): string;
+    formatRange(field: ChronoField, value: IntRange, options?: IntRangeFormatOptions): string;
 }
 
 /**
@@ -138,6 +150,11 @@ export declare class ChronoFieldValue {
     get shortName(): string;
     /** Get the value. */
     get value(): number;
+    /**
+     * Get the value in range form.
+     * If `value` is `Infinity` this will return `null`.
+     */
+    get rangeValue(): number | null;
 }
 
 /**
@@ -148,6 +165,10 @@ export declare const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
 
 /**
  * An immutable number range with min/max values.
+ *
+ * @remarks
+ * The minimum and maximum values can use `null` to represent "none".
+ *
  * @public
  */
 export declare class IntRange {
@@ -155,17 +176,17 @@ export declare class IntRange {
     /**
      * Constructor.
      *
-     * @param min - the mimnimum value
-     * @param max - the maximum value
+     * @param min - the mimnimum value or `null` for "no minimum"
+     * @param max - the maximum value or `null` for "no maximum"
      */
-    constructor(min: number, max: number);
+    constructor(min: number | null, max: number | null);
     /**
      * Create a singleton range, where the minimum and maximum values are equal.
      *
      * @param value - the minimum and maximum value
      * @returns the new singleton range instance
      */
-    static of(value: number): IntRange;
+    static of(value: number | null): IntRange;
     /**
      * Create a range.
      *
@@ -173,17 +194,18 @@ export declare class IntRange {
      * @param max - the maximum value
      * @returns the new range instance
      */
-    static rangeOf(min: number, max: number): IntRange;
+    static rangeOf(min: number | null, max: number | null): IntRange;
     /**
      * Parse a range array of number strings into an `IntRange`.
      *
      * @param value - the range to parse; can be a string adhering to {@link Utils.splitRange | splitRange()}
-     *     or an array with 1 or 2 number value elements
+     *     or an array with 1 or 2 number value elements, or `*` to represent "none"
      * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
+     * @param options - options to control the formatting
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
+    static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
     /**
      * Get a locale-specific range delimiter to use.
      * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
@@ -193,13 +215,16 @@ export declare class IntRange {
     /**
      * Get the minimum value.
      */
-    get min(): number;
+    get min(): number | null;
     /**
      * Get the minimum value.
      */
-    get max(): number;
+    get max(): number | null;
     /**
      * Get the number of values between `min` and `max`, inclusive.
+     *
+     * @remarks
+     * This will return `+Inf` if either `min` or `max` is `null`.
      */
     get length(): number;
     /**
@@ -210,7 +235,7 @@ export declare class IntRange {
     /**
      * Test if a value is within this range, inclusive.
      *
-     * @param value - the value to test
+     * @param value - the value to test (`null` represents infinity)
      * @returns `true` if `min <= value <= max`
      */
     contains(value: number): boolean;
@@ -266,7 +291,7 @@ export declare class IntRange {
      * This implementation only compares the `min` values of each range.
      *
      * @param o - the range to compare to
-     * @returns `-1`, `0`, or `1` if `o` is less than, equal to, or greater than this range
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
      */
     compareTo(o: IntRange): number;
     /**
@@ -282,7 +307,7 @@ export declare class IntRange {
     /**
      * Get a string representation.
      *
-     * The format returned by this method is `[min..max]`.
+     * The format returned by this method is `[min..max]`. Any `null` value will be represented as an empty string.
      *
      * @returns the string representation
      */
@@ -298,10 +323,23 @@ export declare class IntRange {
      *
      * @param bounds - the "full" range that defines the bounds of `r`
      * @param r - the range
+     * @param options - options to control formatting
      * @returns if `r` represents "all possible values" then the literal string `*`,
      *     otherwise the string representation of `r`
      */
-    static description(bounds: IntRange, r?: IntRange): string;
+    static description(bounds: IntRange, r?: IntRange, options?: IntRangeFormatOptions): string;
+}
+
+/**
+ * Options to use when formatting in the {@link ChronoFieldFormatter.formatRange | formatRange()} method.
+ * @public
+ */
+export declare interface IntRangeFormatOptions {
+    /**
+     * The value to use for an "unbounded" value.
+     * The default value is `"*"`.
+     */
+    unboundedValue?: string;
 }
 
 /**
@@ -589,6 +627,11 @@ export declare class TemporalRangesTariff {
      */
     appliesAt(date: Date, utc?: boolean): boolean;
     /**
+     * Get a string representation of the components of this description.
+     * @returns string representation of the components of this tariff
+     */
+    protected componentsDescription(): string;
+    /**
      * Get a string representation.
      *
      * @returns the string representation
@@ -599,7 +642,7 @@ export declare class TemporalRangesTariff {
      *
      * @param locale - the desired locale
      * @param field - the field to format
-     * @param options - the options
+     * @param options - the formatting options
      * @returns the formatted field range value
      * @throws `TypeError` if `field` is not supported
      */
@@ -609,12 +652,12 @@ export declare class TemporalRangesTariff {
      *
      * @param locale - the desired locale
      * @param field - the field to format
-     * @param value - the field value to format
+     * @param value - the field value to format; if undefined then "all possible values" will be assumed
      * @param options - the options
      * @returns the formatted field range value
      * @throws `TypeError` if `field` is not supported
      */
-    static formatRange(locale: string, field: ChronoField, value: IntRange, options?: TemporalRangesTariffFormatOptions): string;
+    static formatRange(locale: string, field: ChronoField, value?: IntRange, options?: TemporalRangesTariffFormatOptions): string;
     /**
      * Parse time range criteria into a `TemporalRangesTariff` instance.
      *
@@ -631,16 +674,17 @@ export declare class TemporalRangesTariff {
      * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
      * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
      * @param rates - the tariff rates to associate with the time range criteria
+     * @param options - the formatting options to use
      * @returns the new instance
      */
-    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): TemporalRangesTariff;
 }
 
 /**
  * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
-export declare interface TemporalRangesTariffFormatOptions {
+export declare interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions {
     /**
      * The value to use for a range equal to a field's bounding range, that is "all possible values".
      * The default value is `"*"`.
@@ -705,6 +749,18 @@ export declare class TemporalRangesTariffSchedule {
      */
     resolve(date: Date, utc?: boolean): Record<string, TariffRate>;
 }
+
+/**
+ * An unbounded range constant.
+ * @public
+ */
+export declare const UNBOUNDED_RANGE: IntRange;
+
+/**
+ * The default unbounded display value.
+ * @public
+ */
+export declare const UNBOUNDED_VALUE = "*";
 
 declare namespace Utils {
     export {

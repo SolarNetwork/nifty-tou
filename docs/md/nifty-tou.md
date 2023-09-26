@@ -28,6 +28,7 @@ A delightful little library for working with time-of-use tariffs.
 
 |  Interface | Description |
 |  --- | --- |
+|  [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | Options to use when formatting in the [formatRange()](./nifty-tou.chronofieldformatter.formatrange.md) method. |
 |  [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | Options to use when formatting in the [formatRange()](./nifty-tou.temporalrangestariff.formatrange.md) method. |
 
 ## Namespaces
@@ -40,5 +41,8 @@ A delightful little library for working with time-of-use tariffs.
 
 |  Variable | Description |
 |  --- | --- |
+|  [ALL\_VALUES](./nifty-tou.all_values.md) | The default "all values" representation. |
 |  [DEFAULT\_FORMAT\_OPTIONS](./nifty-tou.default_format_options.md) | Default number format options to use. |
+|  [UNBOUNDED\_RANGE](./nifty-tou.unbounded_range.md) | An unbounded range constant. |
+|  [UNBOUNDED\_VALUE](./nifty-tou.unbounded_value.md) | The default unbounded display value. |
 

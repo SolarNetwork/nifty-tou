@@ -9,5 +9,5 @@ Get the minimum value.
 **Signature:**
 
 ```typescript
-get max(): number;
+get max(): number | null;
 ```

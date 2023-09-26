@@ -9,7 +9,7 @@ Format a field range value into a locale-specific string.
 **Signature:**
 
 ```typescript
-static formatRange(locale: string, field: ChronoField, value: IntRange, options?: TemporalRangesTariffFormatOptions): string;
+static formatRange(locale: string, field: ChronoField, value?: IntRange, options?: TemporalRangesTariffFormatOptions): string;
 ```
 
 ## Parameters
@@ -18,7 +18,7 @@ static formatRange(locale: string, field: ChronoField, value: IntRange, options?
 |  --- | --- | --- |
 |  locale | string | the desired locale |
 |  field | [ChronoField](./nifty-tou.chronofield.md) | the field to format |
-|  value | [IntRange](./nifty-tou.intrange.md) | the field value to format |
+|  value | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the field value to format; if undefined then "all possible values" will be assumed |
 |  options | [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | _(Optional)_ the options |
 
 **Returns:**

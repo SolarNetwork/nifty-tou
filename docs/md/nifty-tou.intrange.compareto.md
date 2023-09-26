@@ -24,5 +24,5 @@ compareTo(o: IntRange): number;
 
 number
 
-`-1`<!-- -->, `0`<!-- -->, or `1` if `o` is less than, equal to, or greater than this range
+`-1`<!-- -->, `0`<!-- -->, or `1` if this is less than, equal to, or greater than `o`
 

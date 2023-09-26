@@ -1,4 +1,9 @@
-import IntRange from "./IntRange.js";
+import {
+	default as IntRange,
+	IntRangeFormatOptions,
+	UNBOUNDED_RANGE,
+	UNBOUNDED_VALUE,
+} from "./IntRange.js";
 import { splitRange } from "./utils.js";
 
 /**
@@ -6,17 +11,20 @@ import { splitRange } from "./utils.js";
  * @public
  */
 export enum ChronoField {
+	/** Year. */
+	YEAR = 1,
+
 	/** The month of year, from January (1) to December (12). */
-	MONTH_OF_YEAR = 1,
+	MONTH_OF_YEAR = 2,
 
 	/** The day of month, from 1 - 31. */
-	DAY_OF_MONTH = 2,
+	DAY_OF_MONTH = 3,
 
 	/** The day of the week, from Monday (1) to Sunday (7). */
-	DAY_OF_WEEK = 3,
+	DAY_OF_WEEK = 4,
 
 	/** The minute of the day, from 0 to 1440 (assuming exclusive maximum). */
-	MINUTE_OF_DAY = 4,
+	MINUTE_OF_DAY = 5,
 }
 
 /**
@@ -26,7 +34,7 @@ export enum ChronoField {
 export class ChronoFieldValue {
 	#field: ChronoField;
 	#names: string[];
-	#value;
+	#value: number;
 
 	/**
 	 * Constructor.
@@ -63,6 +71,14 @@ export class ChronoFieldValue {
 	get value(): number {
 		return this.#value;
 	}
+
+	/**
+	 * Get the value in range form.
+	 * If `value` is `Infinity` this will return `null`.
+	 */
+	get rangeValue(): number | null {
+		return Number.isFinite(this.#value) ? this.#value : null;
+	}
 }
 
 /**
@@ -94,10 +110,31 @@ const PARSER_CACHE: Map<string, ChronoFieldFormatter> = new Map();
 
 // a cache of field bounds
 const BOUNDS: Map<ChronoField, IntRange> = new Map();
+BOUNDS.set(ChronoField.YEAR, UNBOUNDED_RANGE);
 BOUNDS.set(ChronoField.MONTH_OF_YEAR, ALL_MONTHS);
 BOUNDS.set(ChronoField.DAY_OF_MONTH, ALL_DAYS_OF_MONTH);
 BOUNDS.set(ChronoField.DAY_OF_WEEK, ALL_DAYS_OF_WEEK);
 BOUNDS.set(ChronoField.MINUTE_OF_DAY, ALL_MINUTES_OF_DAY);
+
+// a cache of year values
+const YEAR_CACHE: Map<number, ChronoFieldValue> = new Map();
+const YEAR_NAME = "Y";
+
+/**
+ * Get a (possibly cached) year chronologial field value.
+ *
+ * @param n - the number to get a year field value for
+ * @returns the field value
+ */
+function yearChronoFieldValue(n: number): ChronoFieldValue {
+	const y = Number.isFinite(n) ? Math.trunc(n) : Infinity;
+	let v = YEAR_CACHE.get(y);
+	if (!v) {
+		v = new ChronoFieldValue(ChronoField.YEAR, [YEAR_NAME], y);
+		YEAR_CACHE.set(n, v);
+	}
+	return v;
+}
 
 // a cache of day-of-month values
 const DOM_CACHE: Map<number, ChronoFieldValue> = new Map();
@@ -110,9 +147,10 @@ const DOM_NAME = "D";
  * @returns the field value
  */
 function dayOfMonthChronoFieldValue(n: number): ChronoFieldValue {
-	let v = DOM_CACHE.get(Math.trunc(n));
+	const d = Number.isFinite(n) ? Math.trunc(n) : Infinity;
+	let v = DOM_CACHE.get(d);
 	if (!v) {
-		v = new ChronoFieldValue(ChronoField.DAY_OF_MONTH, [DOM_NAME], n);
+		v = new ChronoFieldValue(ChronoField.DAY_OF_MONTH, [DOM_NAME], d);
 		DOM_CACHE.set(n, v);
 	}
 	return v;
@@ -129,9 +167,10 @@ const MOD_NAME = "M";
  * @returns the field value
  */
 function minuteOfDayChronoFieldValue(n: number): ChronoFieldValue {
-	let v = MOD_CACHE.get(Math.trunc(n));
+	const m = Number.isFinite(n) ? Math.trunc(n) : Infinity;
+	let v = MOD_CACHE.get(m);
 	if (!v) {
-		v = new ChronoFieldValue(ChronoField.MINUTE_OF_DAY, [MOD_NAME], n);
+		v = new ChronoFieldValue(ChronoField.MINUTE_OF_DAY, [MOD_NAME], m);
 		MOD_CACHE.set(n, v);
 	}
 	return v;
@@ -256,6 +295,14 @@ export class ChronoFieldFormatter {
 				values.set(key.toLocaleLowerCase(locale), value);
 			}
 		}
+		values.set(
+			UNBOUNDED_VALUE,
+			new ChronoFieldValue(
+				ChronoField.MONTH_OF_YEAR,
+				[UNBOUNDED_VALUE],
+				Infinity
+			)
+		);
 		this.#values.set(ChronoField.MONTH_OF_YEAR, values);
 	}
 
@@ -282,6 +329,14 @@ export class ChronoFieldFormatter {
 				values.set(key.toLocaleLowerCase(locale), value);
 			}
 		}
+		values.set(
+			UNBOUNDED_VALUE,
+			new ChronoFieldValue(
+				ChronoField.MONTH_OF_YEAR,
+				[UNBOUNDED_VALUE],
+				Infinity
+			)
+		);
 		this.#values.set(ChronoField.DAY_OF_WEEK, values);
 	}
 
@@ -292,14 +347,26 @@ export class ChronoFieldFormatter {
 	 * @param value - the field value to parse
 	 * @returns the associated field value, or undefined if not found
 	 */
-	parse(field: ChronoField, value: string): ChronoFieldValue {
+	parse(
+		field: ChronoField,
+		value: string,
+		options?: IntRangeFormatOptions
+	): ChronoFieldValue {
 		if (!value) {
 			return undefined;
 		}
+
+		const ubv =
+			options?.unboundedValue !== undefined
+				? options?.unboundedValue
+				: UNBOUNDED_VALUE;
+
 		if (field === ChronoField.MINUTE_OF_DAY) {
-			return this.#parseMinuteOfDay(value);
+			return this.#parseMinuteOfDay(value, ubv);
 		} else if (field === ChronoField.DAY_OF_MONTH) {
-			return this.#parseDayOfMonth(value);
+			return this.#parseDayOfMonth(value, ubv);
+		} else if (field === ChronoField.YEAR) {
+			return this.#parseYear(value, ubv);
 		}
 
 		const values = this.#values.get(field);
@@ -307,16 +374,38 @@ export class ChronoFieldFormatter {
 			throw new TypeError(`Unsupported ChronoField [${field}].`);
 		}
 		const lcValue = value.toLocaleLowerCase(this.#locale);
-		return values.get(lcValue);
+		return values.get(lcValue === ubv ? UNBOUNDED_VALUE : lcValue);
+	}
+
+	/**
+	 * Parse a year value in string number form.
+	 *
+	 * @param value - the value to parse as a year number
+	 * @param ubv - the unbounded value to use
+	 * @returns the field value, or `undefined` if not parsable
+	 */
+	#parseYear(value: string, ubv: string): ChronoFieldValue {
+		if (value === ubv) {
+			return yearChronoFieldValue(Infinity);
+		}
+		const n = Number(value);
+		if (Number.isNaN(n)) {
+			return undefined;
+		}
+		return yearChronoFieldValue(n);
 	}
 
 	/**
 	 * Parse a day-of-month value in string number form.
 	 *
-	 * @param value = the value to parse as a day-of-month number
+	 * @param value - the value to parse as a day-of-month number
+	 * @param ubv - the unbounded value to use
 	 * @returns the field value, or `undefined` if not parsable
 	 */
-	#parseDayOfMonth(value: string): ChronoFieldValue {
+	#parseDayOfMonth(value: string, ubv: string): ChronoFieldValue {
+		if (value === ubv) {
+			return dayOfMonthChronoFieldValue(Infinity);
+		}
 		const n = Number(value);
 		if (Number.isNaN(n)) {
 			return undefined;
@@ -328,9 +417,13 @@ export class ChronoFieldFormatter {
 	 * Parse a minute-of-day value in `HH:MM` or `HH` form.
 	 *
 	 * @param value - the value to parse as a minute-of-day number
+	 * @param ubv - the unbounded value to use
 	 * @returns the field value, or `undefined` if not parsable
 	 */
-	#parseMinuteOfDay(value: string): ChronoFieldValue {
+	#parseMinuteOfDay(value: string, ubv: string): ChronoFieldValue {
+		if (value === ubv) {
+			return minuteOfDayChronoFieldValue(Infinity);
+		}
 		let h = 0;
 		let m = 0;
 		const idx = value.indexOf(":");
@@ -359,7 +452,8 @@ export class ChronoFieldFormatter {
 	 *
 	 * @remarks
 	 * If `value` is `*` then a range of "all possible values" is returned,
-	 * in other words the bounding range for that field.
+	 * in other words the bounding range for that field. If a field has
+	 * no implicit bounds (such as `YEAR`) then an unbounded range is returned.
 	 *
 	 * @example
 	 * Here are some basic examples:
@@ -375,31 +469,42 @@ export class ChronoFieldFormatter {
 	 *
 	 * @param field - the field to parse the range values as
 	 * @param value - the range string to parse
+	 * @param options - the options
 	 * @returns the parsed range, or `undefined` if not parsable as a range
 	 * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
 	 */
-	parseRange(field: ChronoField, value: string): IntRange {
+	parseRange(
+		field: ChronoField,
+		value: string,
+		options?: IntRangeFormatOptions
+	): IntRange {
 		if (!field) {
 			return undefined;
 		}
+		const ubv = options?.unboundedValue
+			? options?.unboundedValue
+			: UNBOUNDED_VALUE;
 		const b = BOUNDS.get(field);
-		if (value === "*") {
+		if (value === ubv) {
 			return b;
 		}
 		const a = splitRange(value);
 		if (!a) {
 			return undefined;
 		}
-		const l = this.parse(field, a[0]);
-		const r = a.length > 1 ? this.parse(field, a[1]) : l;
+		const l = this.parse(field, a[0], options);
+		const r = a.length > 1 ? this.parse(field, a[1], options) : l;
 		let result: IntRange;
 		if (l && r) {
-			result = new IntRange(l.value, r.value);
+			result = new IntRange(
+				l.rangeValue === null ? b.min : l.rangeValue,
+				r.rangeValue === null ? b.max : r.rangeValue
+			);
 		} else {
 			// try as numbers, constrained by field bounds
-			result = IntRange.parseRange(a, BOUNDS.get(field));
+			result = IntRange.parseRange(a, b, options);
 		}
-		if (result && b.equals(result)) {
+		if (result && result.equals(b)) {
 			// return known bounds instance to free up memory
 			return b;
 		}
@@ -411,16 +516,24 @@ export class ChronoFieldFormatter {
 	 *
 	 * @param field - the field to format
 	 * @param value - the field value to format
+	 * @param options - the options
 	 * @returns the formatted field value
 	 */
-	format(field: ChronoField, value: number): string {
+	format(
+		field: ChronoField,
+		value: number,
+		options?: IntRangeFormatOptions
+	): string {
 		if (
 			field == undefined ||
 			field === null ||
 			value === undefined ||
-			value === null
+			value === null ||
+			!Number.isFinite(value)
 		) {
-			return "";
+			return options?.unboundedValue !== undefined
+				? options?.unboundedValue
+				: UNBOUNDED_VALUE;
 		}
 		if (field === ChronoField.MONTH_OF_YEAR) {
 			const date = new Date(Date.UTC(2024, value - 1, 1));
@@ -439,24 +552,31 @@ export class ChronoFieldFormatter {
 	 *
 	 * @param field - the field to format
 	 * @param value - the range to format
+	 * @param options - options
 	 * @returns the formatted range
 	 */
-	formatRange(field: ChronoField, value: IntRange): string {
+	formatRange(
+		field: ChronoField,
+		value: IntRange,
+		options?: IntRangeFormatOptions
+	): string {
 		if (
 			field === undefined ||
 			field === null ||
 			value === undefined ||
-			value === null
+			value === null ||
+			value.equals(UNBOUNDED_RANGE)
 		) {
-			return "";
-		}
-		if (value.isSingleton) {
+			return options?.unboundedValue !== undefined
+				? options?.unboundedValue
+				: UNBOUNDED_VALUE;
+		} else if (value.isSingleton) {
 			return this.format(field, value.min);
 		}
 		return (
-			this.format(field, value.min) +
+			this.format(field, value.min, options) +
 			IntRange.delimiter(this.#locale) +
-			this.format(field, value.max)
+			this.format(field, value.max, options)
 		);
 	}
 

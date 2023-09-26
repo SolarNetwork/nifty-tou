@@ -12,6 +12,10 @@ An immutable number range with min/max values.
 export default class IntRange 
 ```
 
+## Remarks
+
+The minimum and maximum values can use `null` to represent "none".
+
 ## Constructors
 
 |  Constructor | Modifiers | Description |
@@ -24,8 +28,8 @@ export default class IntRange
 |  --- | --- | --- | --- |
 |  [isSingleton](./nifty-tou.intrange.issingleton.md) | <code>readonly</code> | boolean | Test if this range represents a singleton value, where the minimum and maximum values in the range are equal. |
 |  [length](./nifty-tou.intrange.length.md) | <code>readonly</code> | number | Get the number of values between <code>min</code> and <code>max</code>, inclusive. |
-|  [max](./nifty-tou.intrange.max.md) | <code>readonly</code> | number | Get the minimum value. |
-|  [min](./nifty-tou.intrange.min.md) | <code>readonly</code> | number | Get the minimum value. |
+|  [max](./nifty-tou.intrange.max.md) | <code>readonly</code> | number \| null | Get the minimum value. |
+|  [min](./nifty-tou.intrange.min.md) | <code>readonly</code> | number \| null | Get the minimum value. |
 
 ## Methods
 
@@ -38,12 +42,12 @@ export default class IntRange
 |  [containsAll(min, max)](./nifty-tou.intrange.containsall.md) |  | Test if another range is completely within this range, inclusive. |
 |  [containsRange(o)](./nifty-tou.intrange.containsrange.md) |  | Test if another range is completely within this range, inclusive. |
 |  [delimiter(locale)](./nifty-tou.intrange.delimiter.md) | <code>static</code> | Get a locale-specific range delimiter to use. |
-|  [description(bounds, r)](./nifty-tou.intrange.description.md) | <code>static</code> | Generate a description of a range. |
+|  [description(bounds, r, options)](./nifty-tou.intrange.description.md) | <code>static</code> | Generate a description of a range. |
 |  [equals(obj)](./nifty-tou.intrange.equals.md) |  | <p>Test for equality.</p><p>This method tests if <code>obj</code> is an instance of <code>IntRange</code> and compares the <code>min</code> and <code>max</code> values for strict equality.</p> |
 |  [intersects(o)](./nifty-tou.intrange.intersects.md) |  | Test if this range intersects with a given range. |
 |  [mergeWith(o)](./nifty-tou.intrange.mergewith.md) |  | Merge this range with a given range, returning the merged range. |
 |  [of(value)](./nifty-tou.intrange.of.md) | <code>static</code> | Create a singleton range, where the minimum and maximum values are equal. |
-|  [parseRange(value, bounds)](./nifty-tou.intrange.parserange.md) | <code>static</code> | Parse a range array of number strings into an <code>IntRange</code>. |
+|  [parseRange(value, bounds, options)](./nifty-tou.intrange.parserange.md) | <code>static</code> | Parse a range array of number strings into an <code>IntRange</code>. |
 |  [rangeOf(min, max)](./nifty-tou.intrange.rangeof.md) | <code>static</code> | Create a range. |
-|  [toString()](./nifty-tou.intrange.tostring.md) |  | <p>Get a string representation.</p><p>The format returned by this method is <code>[min..max]</code>.</p> |
+|  [toString()](./nifty-tou.intrange.tostring.md) |  | <p>Get a string representation.</p><p>The format returned by this method is <code>[min..max]</code>. Any <code>null</code> value will be represented as an empty string.</p> |
 

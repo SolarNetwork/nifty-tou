@@ -11,7 +11,7 @@ A "range string" is a string formatted like `VALUE - VALUE`<!-- -->. Whitespace 
 **Signature:**
 
 ```typescript
-parseRange(field: ChronoField, value: string): IntRange;
+parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
 ```
 
 ## Parameters
@@ -20,6 +20,7 @@ parseRange(field: ChronoField, value: string): IntRange;
 |  --- | --- | --- |
 |  field | [ChronoField](./nifty-tou.chronofield.md) | the field to parse the range values as |
 |  value | string | the range string to parse |
+|  options | [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | _(Optional)_ the options |
 
 **Returns:**
 
@@ -29,7 +30,7 @@ the parsed range, or `undefined` if not parsable as a range
 
 ## Remarks
 
-If `value` is `*` then a range of "all possible values" is returned, in other words the bounding range for that field.
+If `value` is `*` then a range of "all possible values" is returned, in other words the bounding range for that field. If a field has no implicit bounds (such as `YEAR`<!-- -->) then an unbounded range is returned.
 
 ## Example
 

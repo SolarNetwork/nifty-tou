@@ -133,11 +133,22 @@ export default class TemporalRangesTariff {
     appliesAt(date: Date, utc?: boolean): boolean;
     /**
      * Get a string representation of the components of this description.
+     *
+     * @remarks
+     * The {@link TemporalRangesTariff.toString | toString()} method will call this
+     * to generate a string representation of this tariff. Extending classes can
+     * override this method (possibly invoking this implementation to pick up the
+     * components rendered by this class).
+     *
      * @returns string representation of the components of this tariff
      */
     protected componentsDescription(): string;
     /**
      * Get a string representation.
+     *
+     * @remarks
+     * This method will call the {@link TemporalRangesTariff.componentsDescription | componentsDescription()}
+     * method to generate a string representation of this tariff.
      *
      * @returns the string representation
      */

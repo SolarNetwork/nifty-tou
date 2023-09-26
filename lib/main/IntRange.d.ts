@@ -1,5 +1,25 @@
 /**
+ * The default unbounded display value.
+ * @public
+ */
+export declare const UNBOUNDED_VALUE = "*";
+/**
+ * Options to use when formatting in the {@link ChronoFieldFormatter.formatRange | formatRange()} method.
+ * @public
+ */
+export interface IntRangeFormatOptions {
+    /**
+     * The value to use for an "unbounded" value.
+     * The default value is `"*"`.
+     */
+    unboundedValue?: string;
+}
+/**
  * An immutable number range with min/max values.
+ *
+ * @remarks
+ * The minimum and maximum values can use `null` to represent "none".
+ *
  * @public
  */
 export default class IntRange {
@@ -7,17 +27,17 @@ export default class IntRange {
     /**
      * Constructor.
      *
-     * @param min - the mimnimum value
-     * @param max - the maximum value
+     * @param min - the mimnimum value or `null` for "no minimum"
+     * @param max - the maximum value or `null` for "no maximum"
      */
-    constructor(min: number, max: number);
+    constructor(min: number | null, max: number | null);
     /**
      * Create a singleton range, where the minimum and maximum values are equal.
      *
      * @param value - the minimum and maximum value
      * @returns the new singleton range instance
      */
-    static of(value: number): IntRange;
+    static of(value: number | null): IntRange;
     /**
      * Create a range.
      *
@@ -25,17 +45,18 @@ export default class IntRange {
      * @param max - the maximum value
      * @returns the new range instance
      */
-    static rangeOf(min: number, max: number): IntRange;
+    static rangeOf(min: number | null, max: number | null): IntRange;
     /**
      * Parse a range array of number strings into an `IntRange`.
      *
      * @param value - the range to parse; can be a string adhering to {@link Utils.splitRange | splitRange()}
-     *     or an array with 1 or 2 number value elements
+     *     or an array with 1 or 2 number value elements, or `*` to represent "none"
      * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
+     * @param options - options to control the formatting
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
+    static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
     /**
      * Get a locale-specific range delimiter to use.
      * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
@@ -45,13 +66,16 @@ export default class IntRange {
     /**
      * Get the minimum value.
      */
-    get min(): number;
+    get min(): number | null;
     /**
      * Get the minimum value.
      */
-    get max(): number;
+    get max(): number | null;
     /**
      * Get the number of values between `min` and `max`, inclusive.
+     *
+     * @remarks
+     * This will return `+Inf` if either `min` or `max` is `null`.
      */
     get length(): number;
     /**
@@ -62,7 +86,7 @@ export default class IntRange {
     /**
      * Test if a value is within this range, inclusive.
      *
-     * @param value - the value to test
+     * @param value - the value to test (`null` represents infinity)
      * @returns `true` if `min <= value <= max`
      */
     contains(value: number): boolean;
@@ -118,7 +142,7 @@ export default class IntRange {
      * This implementation only compares the `min` values of each range.
      *
      * @param o - the range to compare to
-     * @returns `-1`, `0`, or `1` if `o` is less than, equal to, or greater than this range
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
      */
     compareTo(o: IntRange): number;
     /**
@@ -134,7 +158,7 @@ export default class IntRange {
     /**
      * Get a string representation.
      *
-     * The format returned by this method is `[min..max]`.
+     * The format returned by this method is `[min..max]`. Any `null` value will be represented as an empty string.
      *
      * @returns the string representation
      */
@@ -150,9 +174,15 @@ export default class IntRange {
      *
      * @param bounds - the "full" range that defines the bounds of `r`
      * @param r - the range
+     * @param options - options to control formatting
      * @returns if `r` represents "all possible values" then the literal string `*`,
      *     otherwise the string representation of `r`
      */
-    static description(bounds: IntRange, r?: IntRange): string;
+    static description(bounds: IntRange, r?: IntRange, options?: IntRangeFormatOptions): string;
 }
+/**
+ * An unbounded range constant.
+ * @public
+ */
+export declare const UNBOUNDED_RANGE: IntRange;
 //# sourceMappingURL=IntRange.d.ts.map

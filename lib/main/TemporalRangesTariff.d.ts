@@ -1,11 +1,16 @@
 import { ChronoField } from "./ChronoFieldFormatter.js";
-import IntRange from "./IntRange.js";
+import { default as IntRange, IntRangeFormatOptions } from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
+/**
+ * The default "all values" representation.
+ * @public
+ */
+export declare const ALL_VALUES = "*";
 /**
  * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
-export interface TemporalRangesTariffFormatOptions {
+export interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions {
     /**
      * The value to use for a range equal to a field's bounding range, that is "all possible values".
      * The default value is `"*"`.
@@ -127,6 +132,11 @@ export default class TemporalRangesTariff {
      */
     appliesAt(date: Date, utc?: boolean): boolean;
     /**
+     * Get a string representation of the components of this description.
+     * @returns string representation of the components of this tariff
+     */
+    protected componentsDescription(): string;
+    /**
      * Get a string representation.
      *
      * @returns the string representation
@@ -137,7 +147,7 @@ export default class TemporalRangesTariff {
      *
      * @param locale - the desired locale
      * @param field - the field to format
-     * @param options - the options
+     * @param options - the formatting options
      * @returns the formatted field range value
      * @throws `TypeError` if `field` is not supported
      */
@@ -169,8 +179,9 @@ export default class TemporalRangesTariff {
      * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
      * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
      * @param rates - the tariff rates to associate with the time range criteria
+     * @param options - the formatting options to use
      * @returns the new instance
      */
-    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): TemporalRangesTariff;
 }
 //# sourceMappingURL=TemporalRangesTariff.d.ts.map

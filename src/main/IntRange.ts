@@ -27,8 +27,8 @@ export interface IntRangeFormatOptions {
  * @public
  */
 export default class IntRange {
-	#min: number;
-	#max: number;
+	#min: number | null;
+	#max: number | null;
 
 	/**
 	 * Constructor.
@@ -265,17 +265,59 @@ export default class IntRange {
 	/**
 	 * Compares this object with the specified object for order.
 	 *
-	 * This implementation only compares the `min` values of each range.
+	 * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
 	 *
 	 * @param o - the range to compare to
 	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
 	 */
 	compareTo(o: IntRange): number {
-		return this.#min === null || this.#min < o.#min
-			? -1
-			: o.#min === null || this.#min > o.#min
-			? 1
-			: 0;
+		if (this === o) {
+			return 0;
+		} else if (!o) {
+			return 1;
+		}
+		const cmp = this.#compareRangeComponent(this.#min, o.#min);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		return this.#compareRangeComponent(this.#max, o.#max);
+	}
+
+	/**
+	 * Compare two ranges.
+	 *
+	 * This function is useful for sorting arrays, for example:
+	 *
+	 * ```ts
+	 * const data = [new IntRange(2, 3), new IntRange(0, 2)];
+	 * data.sort(IntRange.compare);
+	 *
+	 * // now data like [ [0..2], [2..3] ]
+	 * ```
+	 *
+	 * @param l - the left value
+	 * @param r - the right value
+	 * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+	 * @see {@link IntRange.compareTo | compareTo()}
+	 */
+	static compare(l: IntRange, r: IntRange): number {
+		if (l === r) {
+			return 0;
+		} else if (!l) {
+			return -1;
+		}
+		return l.compareTo(r);
+	}
+
+	/**
+	 * Compare two range values.
+	 *
+	 * @param l the left value
+	 * @param r  the right value
+	 * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+	 */
+	#compareRangeComponent(l: number | null, r: number | null) {
+		return l === r ? 0 : l === null ? -1 : r === null ? 1 : l < r ? -1 : 1;
 	}
 
 	/**

@@ -48,18 +48,32 @@ test("IntRange:equals", (t) => {
 	t.false(r1.equals({ a: "b" }), "different object types are not equal");
 });
 
-test("IntRange:compareTo:lessThan", (t) => {
-	const r1 = new IntRange(1, 2);
-	const r2 = new IntRange(2, 2);
-	t.is(r1.compareTo(r2), -1);
-	t.is(r2.compareTo(r1), 1);
+test("IntRange:equals:unboundedMin", (t) => {
+	const r1 = new IntRange(null, 1);
+	const r2 = new IntRange(null, 1);
+	const r3 = new IntRange(null, 2);
+	t.true(r1.equals(r1), "same objects are equal");
+	t.true(r1.equals(r2), "identical range values are equal");
+	t.false(r1.equals(r3), "different range values are not equal");
+	t.false(r1.equals({ a: "b" }), "different object types are not equal");
 });
 
-test("IntRange:compareTo:greaterThan", (t) => {
-	const r1 = new IntRange(2, 2);
-	const r2 = new IntRange(1, 2);
-	t.is(r1.compareTo(r2), 1);
-	t.is(r2.compareTo(r1), -1);
+test("IntRange:equals:unboundedMax", (t) => {
+	const r1 = new IntRange(1, null);
+	const r2 = new IntRange(1, null);
+	const r3 = new IntRange(2, null);
+	t.true(r1.equals(r1), "same objects are equal");
+	t.true(r1.equals(r2), "identical range values are equal");
+	t.false(r1.equals(r3), "different range values are not equal");
+});
+
+test("IntRange:equals:unbounded", (t) => {
+	const r1 = new IntRange(null, null);
+	const r2 = new IntRange(null, null);
+	const r3 = new IntRange(1, null);
+	t.true(r1.equals(r1), "same objects are equal");
+	t.true(r1.equals(r2), "identical range values are equal");
+	t.false(r1.equals(r3), "different range values are not equal");
 });
 
 test("IntRange:compareTo:equal", (t) => {
@@ -69,25 +83,109 @@ test("IntRange:compareTo:equal", (t) => {
 	t.is(r2.compareTo(r1), 0);
 });
 
-test("IntRange:compareTo:equal:minOnly", (t) => {
+test("IntRange:compareTo", (t) => {
 	const r1 = new IntRange(1, 2);
-	const r2 = new IntRange(1, 3);
-	t.is(r1.compareTo(r2), 0, "compares only min value");
-	t.is(r2.compareTo(r1), 0, "compares only min value");
-});
-
-test("IntRange:compareTo:unbounded:left", (t) => {
-	const r1 = new IntRange(null, 2);
-	const r2 = new IntRange(0, 2);
+	const r2 = new IntRange(2, 2);
 	t.is(r1.compareTo(r2), -1);
 	t.is(r2.compareTo(r1), 1);
 });
 
-test("IntRange:compareTo:unboudned:right", (t) => {
-	const r1 = new IntRange(0, 2);
+test("IntRange:compareTo:unboundedMin:equal", (t) => {
+	const r1 = new IntRange(null, 2);
 	const r2 = new IntRange(null, 2);
-	t.is(r1.compareTo(r2), 1);
-	t.is(r2.compareTo(r1), -1);
+	t.is(r1.compareTo(r2), 0);
+	t.is(r2.compareTo(r1), 0);
+});
+
+test("IntRange:compareTo:unboundedMin", (t) => {
+	const r1 = new IntRange(null, 1);
+	const r2 = new IntRange(null, 2);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:unboundedMin:maxBoundsMax", (t) => {
+	const r1 = new IntRange(null, null);
+	const r2 = new IntRange(null, 2);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:unboundedMinBounded", (t) => {
+	const r1 = new IntRange(null, 1);
+	const r2 = new IntRange(1, 1);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:unboundedMixed:unboundedMax", (t) => {
+	const r1 = new IntRange(null, null);
+	const r2 = new IntRange(-1, null);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:minEqual", (t) => {
+	const r1 = new IntRange(1, 2);
+	const r2 = new IntRange(1, 3);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:minEqual:unboundedMax", (t) => {
+	const r1 = new IntRange(1, null);
+	const r2 = new IntRange(1, 2);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:undefined", (t) => {
+	const r1 = new IntRange(1, null);
+	t.is(r1.compareTo(undefined), 1);
+});
+
+test("IntRange:compareTo:self", (t) => {
+	const r1 = new IntRange(1, null);
+	t.is(r1.compareTo(r1), 0);
+});
+
+test("IntRange:compare", (t) => {
+	const r = new IntRange(1, 4);
+	const a = [
+		new IntRange(1, 2),
+		new IntRange(3, null),
+		r,
+		new IntRange(null, null),
+		new IntRange(10, 100),
+		new IntRange(-1, 1),
+		new IntRange(null, 1000),
+		new IntRange(0, 5),
+		new IntRange(null, 10),
+		r,
+		new IntRange(-10, null),
+		new IntRange(3, 8),
+	];
+	a.sort(IntRange.compare);
+	t.like(a, [
+		{ min: null, max: null },
+		{ min: null, max: 10 },
+		{ min: null, max: 1000 },
+		{ min: -10, max: null },
+		{ min: -1, max: 1 },
+		{ min: 0, max: 5 },
+		{ min: 1, max: 2 },
+		{ min: 1, max: 4 },
+		{ min: 1, max: 4 },
+		{ min: 3, max: null },
+		{ min: 3, max: 8 },
+		{ min: 10, max: 100 },
+	]);
+});
+
+test("IntRange:compare:undefined", (t) => {
+	const r = new IntRange(1, 4);
+	t.is(IntRange.compare(r, undefined), 1);
+	t.is(IntRange.compare(undefined, r), -1);
 });
 
 test("IntRange:length", (t) => {

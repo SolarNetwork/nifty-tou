@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>TemporalRangesTariff | nifty-tou</title><meta name="description" content="Documentation for nifty-tou"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>YearTemporalRangesTariff | nifty-tou</title><meta name="description" content="Documentation for nifty-tou"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -13,39 +13,20 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">nifty-tou</a></li>
-<li><a href="TemporalRangesTariff.html">TemporalRangesTariff</a></li></ul>
-<h1>Class TemporalRangesTariff</h1></div>
+<li><a href="YearTemporalRangesTariff.html">YearTemporalRangesTariff</a></li></ul>
+<h1>Class YearTemporalRangesTariff</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>A tariff with time-based range rules.</p>
-<p>The rules associated with this tariff are represented by a set of date ranges
-that serve as the constraints that must be satisfied by a given date for the
-rule to apply.</p>
+<div class="tsd-comment tsd-typography"><p>An extension of <a href="TemporalRangesTariff.html" class="tsd-kind-class">TemporalRangesTariff</a> with support for an additional year range constraint.</p>
 </div>
-<div class="tsd-comment tsd-typography">
-<h4>Remarks</h4><p>The date range constraints use inclusive minimum/maximum matching semantics,
-<b>except</b> for the <code>minuteOfDayRange</code> constraint, that uses inclusive
-minimum and <b>exclusive</b> maximum semantics.</p>
-<p>The time-based constraints supported are:</p>
-<table>
-<tr><th>Constraint</th><th>Bounds</th><th>Description</th></tr>
-<tr><td>monthRange</td><td>1 - 12</td><td>January - December</td></tr>
-<tr><td>dayOfMonthRange</td><td>1 - 31</td><td></td></tr>
-<tr><td>dayOfWeekRange</td><td>1 - 7</td><td>Monday - Friday</td></tr>
-<tr><td>minuteOfDayRange</td><td>0 - 1440</td><td>00:00 - 24:00</td></tr>
-</table>
-<h4>Example</h4><p>The <a href="TemporalRangesTariff.html#parse" class="tsd-kind-method">parse()</a> method provides an easy way
-to parse instances from language-specific time range values:</p>
-<pre><code class="language-ts"><span class="hl-0">// a tariff for weekday mornings</span><br/><span class="hl-1">const</span><span class="hl-2"> </span><span class="hl-3">tt</span><span class="hl-2"> = </span><span class="hl-5">TemporalRangesTariff</span><span class="hl-2">.</span><span class="hl-4">parse</span><span class="hl-2">(</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;en-US&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;*&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;*&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;Mon - Fri&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;0 - 12&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  [</span><span class="hl-1">new</span><span class="hl-2"> </span><span class="hl-4">TariffRate</span><span class="hl-2">(</span><span class="hl-7">&quot;Weekday AM&quot;</span><span class="hl-2">, </span><span class="hl-7">&quot;1.23&quot;</span><span class="hl-2">)]</span><br/><span class="hl-2">);</span><br/><br/><span class="hl-0">// a tariff for weekday evenings</span><br/><span class="hl-1">const</span><span class="hl-2"> </span><span class="hl-3">tt</span><span class="hl-2"> = </span><span class="hl-5">TemporalRangesTariff</span><span class="hl-2">.</span><span class="hl-4">parse</span><span class="hl-2">(</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;en-US&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;*&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;*&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;Mon - Fri&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  </span><span class="hl-7">&quot;12 - 24&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">  [</span><span class="hl-1">new</span><span class="hl-2"> </span><span class="hl-4">TariffRate</span><span class="hl-2">(</span><span class="hl-7">&quot;Weekday PM&quot;</span><span class="hl-2">, </span><span class="hl-7">&quot;2.34&quot;</span><span class="hl-2">)]</span><br/><span class="hl-2">);</span>
-</code><button>Copy</button></pre>
-</div></section>
+<div class="tsd-comment tsd-typography"></div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><span class="target">TemporalRangesTariff</span>
+<li><a href="TemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariff</a>
 <ul class="tsd-hierarchy">
-<li><a href="YearTemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">YearTemporalRangesTariff</a></li></ul></li></ul></section><aside class="tsd-sources">
+<li><span class="target">YearTemporalRangesTariff</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L110">TemporalRangesTariff.ts:110</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L20">YearTemporalRangesTariff.ts:20</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -53,52 +34,61 @@ to parse instances from language-specific time range values:</p>
 <div class="tsd-accordion-details">
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Constructors</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariff.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a>
+<div class="tsd-index-list"><a href="YearTemporalRangesTariff.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariff.html#_dayOfMonthRange" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Month<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#_dayOfWeekRange" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Week<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#_minuteOfDayRange" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#_monthRange" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#month<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#_rates" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rates</span></a>
+<div class="tsd-index-list"><a href="YearTemporalRangesTariff.html#_dayOfMonthRange" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Month<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#_dayOfWeekRange" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Week<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#_minuteOfDayRange" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#_monthRange" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#month<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#_rates" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rates</span></a>
+<a href="YearTemporalRangesTariff.html#_yearRange" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#year<wbr/>Range</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Accessors</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariff.html#dayOfMonthRange" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Month<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#dayOfWeekRange" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Week<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#minuteOfDayRange" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#monthRange" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>month<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#rates" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rates</span></a>
-<a href="TemporalRangesTariff.html#ALL_DAYS_OF_MONTH" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>MONTH</span></a>
-<a href="TemporalRangesTariff.html#ALL_DAYS_OF_WEEK" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>WEEK</span></a>
-<a href="TemporalRangesTariff.html#ALL_MINUTES_OF_DAY" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MINUTES_<wbr/>OF_<wbr/>DAY</span></a>
-<a href="TemporalRangesTariff.html#ALL_MONTHS" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MONTHS</span></a>
+<div class="tsd-index-list"><a href="YearTemporalRangesTariff.html#dayOfMonthRange" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Month<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#dayOfWeekRange" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Week<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#minuteOfDayRange" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#monthRange" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>month<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#rates" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rates</span></a>
+<a href="YearTemporalRangesTariff.html#yearRange" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>year<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#ALL_DAYS_OF_MONTH" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>MONTH</span></a>
+<a href="YearTemporalRangesTariff.html#ALL_DAYS_OF_WEEK" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>WEEK</span></a>
+<a href="YearTemporalRangesTariff.html#ALL_MINUTES_OF_DAY" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MINUTES_<wbr/>OF_<wbr/>DAY</span></a>
+<a href="YearTemporalRangesTariff.html#ALL_MONTHS" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MONTHS</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariff.html#_dateDow" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Dow</span></a>
-<a href="TemporalRangesTariff.html#_dateMonth" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Month</span></a>
-<a href="TemporalRangesTariff.html#_rangeApplies" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#range<wbr/>Applies</span></a>
-<a href="TemporalRangesTariff.html#appliesAt" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>applies<wbr/>At</span></a>
-<a href="TemporalRangesTariff.html#componentsDescription" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>components<wbr/>Description</span></a>
-<a href="TemporalRangesTariff.html#format" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format</span></a>
-<a href="TemporalRangesTariff.html#toString" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a>
-<a href="TemporalRangesTariff.html#formatRange" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format<wbr/>Range</span></a>
-<a href="TemporalRangesTariff.html#parse" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse</span></a>
+<div class="tsd-index-list"><a href="YearTemporalRangesTariff.html#_dateDow" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Dow</span></a>
+<a href="YearTemporalRangesTariff.html#_dateMonth" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Month</span></a>
+<a href="YearTemporalRangesTariff.html#_rangeApplies" class="tsd-index-link tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#range<wbr/>Applies</span></a>
+<a href="YearTemporalRangesTariff.html#_yearRangeApplies" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#year<wbr/>Range<wbr/>Applies</span></a>
+<a href="YearTemporalRangesTariff.html#appliesAt" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>applies<wbr/>At</span></a>
+<a href="YearTemporalRangesTariff.html#componentsDescription" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>components<wbr/>Description</span></a>
+<a href="YearTemporalRangesTariff.html#format" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format</span></a>
+<a href="YearTemporalRangesTariff.html#toString" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a>
+<a href="YearTemporalRangesTariff.html#formatRange" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format<wbr/>Range</span></a>
+<a href="YearTemporalRangesTariff.html#parse" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse</span></a>
+<a href="YearTemporalRangesTariff.html#parseYears" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse<wbr/>Years</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_TemporalRangesTariff"><span class="tsd-kind-constructor-signature">new <wbr/>Temporal<wbr/>Ranges<wbr/>Tariff</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">monthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfMonthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfWeekRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">minuteOfDayRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">rates</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariff</a><a href="#constructor.new_TemporalRangesTariff" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_YearTemporalRangesTariff"><span class="tsd-kind-constructor-signature">new <wbr/>Year<wbr/>Temporal<wbr/>Ranges<wbr/>Tariff</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">yearRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">monthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfMonthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfWeekRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">minuteOfDayRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">rates</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="YearTemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">YearTemporalRangesTariff</a><a href="#constructor.new_YearTemporalRangesTariff" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Constructor.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">yearRange</span>: <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h5>
+<div class="tsd-comment tsd-typography"><p>the year range</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">monthRange</span>: <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h5>
 <div class="tsd-comment tsd-typography"><p>the month range (1-12, inclusive)</p>
@@ -124,143 +114,174 @@ to parse instances from language-specific time range values:</p>
 <div class="tsd-comment tsd-typography"><p>the rates, as an array of <code>TariffRate</code> objects</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="TemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariff</a></h4>
+<h4 class="tsd-returns-title">Returns <a href="YearTemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">YearTemporalRangesTariff</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Overrides <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L154">TemporalRangesTariff.ts:154</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L33">YearTemporalRangesTariff.ts:33</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_dayOfMonthRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_dayOfMonthRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#day<wbr/>Of<wbr/>Month<wbr/>Range</span><a href="#_dayOfMonthRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#day<wbr/>Of<wbr/>Month<wbr/>Range</span><span class="tsd-signature-symbol">:</span> <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_dayOfMonthRange">#dayOfMonthRange</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L112">TemporalRangesTariff.ts:112</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_dayOfWeekRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_dayOfWeekRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#day<wbr/>Of<wbr/>Week<wbr/>Range</span><a href="#_dayOfWeekRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#day<wbr/>Of<wbr/>Week<wbr/>Range</span><span class="tsd-signature-symbol">:</span> <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_dayOfWeekRange">#dayOfWeekRange</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L113">TemporalRangesTariff.ts:113</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_minuteOfDayRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_minuteOfDayRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#minute<wbr/>Of<wbr/>Day<wbr/>Range</span><a href="#_minuteOfDayRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#minute<wbr/>Of<wbr/>Day<wbr/>Range</span><span class="tsd-signature-symbol">:</span> <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_minuteOfDayRange">#minuteOfDayRange</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L114">TemporalRangesTariff.ts:114</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_monthRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_monthRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#month<wbr/>Range</span><a href="#_monthRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#month<wbr/>Range</span><span class="tsd-signature-symbol">:</span> <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_monthRange">#monthRange</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L111">TemporalRangesTariff.ts:111</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_rates" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_rates" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#rates</span><a href="#_rates" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">#rates</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_rates">#rates</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L115">TemporalRangesTariff.ts:115</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L115">TemporalRangesTariff.ts:115</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_yearRange" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#year<wbr/>Range</span><a href="#_yearRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">#year<wbr/>Range</span><span class="tsd-signature-symbol">:</span> <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L21">YearTemporalRangesTariff.ts:21</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
-<section class="tsd-panel tsd-member"><a id="dayOfMonthRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="dayOfMonthRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>day<wbr/>Of<wbr/>Month<wbr/>Range</span><a href="#dayOfMonthRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="dayOfMonthRange.dayOfMonthRange-1"><span class="tsd-signature-symbol">get</span> dayOfMonthRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the day of month range.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.dayOfMonthRange</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L199">TemporalRangesTariff.ts:199</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="dayOfWeekRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="dayOfWeekRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>day<wbr/>Of<wbr/>Week<wbr/>Range</span><a href="#dayOfWeekRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="dayOfWeekRange.dayOfWeekRange-1"><span class="tsd-signature-symbol">get</span> dayOfWeekRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the day of week range.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.dayOfWeekRange</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L206">TemporalRangesTariff.ts:206</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="minuteOfDayRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="minuteOfDayRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>minute<wbr/>Of<wbr/>Day<wbr/>Range</span><a href="#minuteOfDayRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="minuteOfDayRange.minuteOfDayRange-1"><span class="tsd-signature-symbol">get</span> minuteOfDayRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the minute of day range.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.minuteOfDayRange</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L213">TemporalRangesTariff.ts:213</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="monthRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="monthRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>month<wbr/>Range</span><a href="#monthRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="monthRange.monthRange-1"><span class="tsd-signature-symbol">get</span> monthRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the month of year range.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.monthRange</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L192">TemporalRangesTariff.ts:192</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="rates" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="rates" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>rates</span><a href="#rates" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="rates.rates-1"><span class="tsd-signature-symbol">get</span> rates<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><span class="tsd-signature-symbol">&gt;</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the rates, as an object of rate ID to <code>TariffRate</code> objects.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.rates</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L220">TemporalRangesTariff.ts:220</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="ALL_DAYS_OF_MONTH" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>MONTH</span><a href="#ALL_DAYS_OF_MONTH" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<section class="tsd-panel tsd-member"><a id="yearRange" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>year<wbr/>Range</span><a href="#yearRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
+<li class="tsd-signature" id="yearRange.yearRange-1"><span class="tsd-signature-symbol">get</span> yearRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get the month of year range.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L54">YearTemporalRangesTariff.ts:54</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="ALL_DAYS_OF_MONTH" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>MONTH</span><a href="#ALL_DAYS_OF_MONTH" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="ALL_DAYS_OF_MONTH.ALL_DAYS_OF_MONTH-1"><span class="tsd-signature-symbol">get</span> ALL_DAYS_OF_MONTH<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Range for all days of a month: 1 - 31 (inclusive).</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.ALL_DAYS_OF_MONTH</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L127">TemporalRangesTariff.ts:127</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="ALL_DAYS_OF_WEEK" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="ALL_DAYS_OF_WEEK" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>WEEK</span><a href="#ALL_DAYS_OF_WEEK" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="ALL_DAYS_OF_WEEK.ALL_DAYS_OF_WEEK-1"><span class="tsd-signature-symbol">get</span> ALL_DAYS_OF_WEEK<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Range for all days of a week: 1 - 7 (inclusive).</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.ALL_DAYS_OF_WEEK</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L134">TemporalRangesTariff.ts:134</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="ALL_MINUTES_OF_DAY" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="ALL_MINUTES_OF_DAY" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>ALL_<wbr/>MINUTES_<wbr/>OF_<wbr/>DAY</span><a href="#ALL_MINUTES_OF_DAY" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="ALL_MINUTES_OF_DAY.ALL_MINUTES_OF_DAY-1"><span class="tsd-signature-symbol">get</span> ALL_MINUTES_OF_DAY<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Range for all minutes of a day: 0 - 1440 (inclusive min, exclusive max).</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.ALL_MINUTES_OF_DAY</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L141">TemporalRangesTariff.ts:141</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="ALL_MONTHS" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="ALL_MONTHS" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>ALL_<wbr/>MONTHS</span><a href="#ALL_MONTHS" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature" id="ALL_MONTHS.ALL_MONTHS-1"><span class="tsd-signature-symbol">get</span> ALL_MONTHS<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Range for all months of a year: 1 - 12 (inclusive).</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from TemporalRangesTariff.ALL_MONTHS</p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L120">TemporalRangesTariff.ts:120</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_dateDow" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_dateDow" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#date<wbr/>Dow</span><a href="#_dateDow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-is-private">
+<ul class="tsd-signatures tsd-is-private tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="_dateDow._dateDow-1"><span class="tsd-kind-call-signature">#date<wbr/>Dow</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_dateDow._dateDow-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Translate a <code>Date</code> day value into a range between 1..7.</p>
@@ -276,11 +297,12 @@ to parse instances from language-specific time range values:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the day-of-week value with Monday == 1, Sunday == 7</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_dateDow">#dateDow</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L296">TemporalRangesTariff.ts:296</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_dateMonth" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_dateMonth" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#date<wbr/>Month</span><a href="#_dateMonth" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-is-private">
+<ul class="tsd-signatures tsd-is-private tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="_dateMonth._dateMonth-1"><span class="tsd-kind-call-signature">#date<wbr/>Month</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_dateMonth._dateMonth-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Translate a <code>Date</code> month value into a range between 1..12.</p>
@@ -296,11 +318,12 @@ to parse instances from language-specific time range values:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the month value with January == 1, December == 12</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_dateMonth">#dateMonth</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L286">TemporalRangesTariff.ts:286</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_rangeApplies" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-private tsd-is-inherited"><a id="_rangeApplies" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#range<wbr/>Applies</span><a href="#_rangeApplies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-is-private">
+<ul class="tsd-signatures tsd-is-private tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="_rangeApplies._rangeApplies-1"><span class="tsd-kind-call-signature">#range<wbr/>Applies</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span>, <span class="tsd-kind-parameter">range</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">exclusiveEnd</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#_rangeApplies._rangeApplies-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Test if an optional range contains a value.</p>
@@ -326,8 +349,34 @@ to parse instances from language-specific time range values:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if the given range is not defined, or it contains the given value</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#_rangeApplies">#rangeApplies</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L268">TemporalRangesTariff.ts:268</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_yearRangeApplies" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#year<wbr/>Range<wbr/>Applies</span><a href="#_yearRangeApplies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-private">
+<li class="tsd-signature tsd-anchor-link" id="_yearRangeApplies._yearRangeApplies-1"><span class="tsd-kind-call-signature">#year<wbr/>Range<wbr/>Applies</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span>, <span class="tsd-kind-parameter">range</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#_yearRangeApplies._yearRangeApplies-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Test if an optional year range contains a value.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>the number to test if the range contains</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">range</span>: <a href="IntRange.html" class="tsd-signature-type tsd-kind-class">IntRange</a></h5>
+<div class="tsd-comment tsd-typography"><p>the range to test</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if the given range is not defined, or it contains the given value</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L88">YearTemporalRangesTariff.ts:88</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="appliesAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>applies<wbr/>At</span><a href="#appliesAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -354,8 +403,9 @@ exclusive maximum.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if this tariff applies on the given date</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Overrides <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#appliesAt">appliesAt</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L235">TemporalRangesTariff.ts:235</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L70">YearTemporalRangesTariff.ts:70</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="componentsDescription" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>components<wbr/>Description</span><a href="#componentsDescription" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -365,17 +415,13 @@ exclusive maximum.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>string representation of the components of this tariff</p>
 
-<div class="tsd-comment tsd-typography">
-<h4>Remarks</h4><p>The <a href="TemporalRangesTariff.html#toString" class="tsd-kind-method">toString()</a> method will call this
-to generate a string representation of this tariff. Extending classes can
-override this method (possibly invoking this implementation to pick up the
-components rendered by this class).</p>
-</div><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Overrides <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#componentsDescription">componentsDescription</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L311">TemporalRangesTariff.ts:311</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="format" class="tsd-anchor"></a>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L97">YearTemporalRangesTariff.ts:97</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="format" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>format</span><a href="#format" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="format.format-1"><span class="tsd-kind-call-signature">format</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">locale</span>, <span class="tsd-kind-parameter">field</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#format.format-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Format a field range into a locale-specific string.</p>
@@ -403,11 +449,12 @@ components rendered by this class).</p>
 <div class="tsd-comment tsd-typography">
 <h4>Throws</h4><p><code>TypeError</code> if <code>field</code> is not supported</p>
 </div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#format">format</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L365">TemporalRangesTariff.ts:365</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="toString" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="toString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>String</span><a href="#toString" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="toString.toString-1"><span class="tsd-kind-call-signature">to<wbr/>String</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#toString.toString-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get a string representation.</p>
@@ -418,11 +465,12 @@ components rendered by this class).</p>
 <h4>Remarks</h4><p>This method will call the <a href="TemporalRangesTariff.html#componentsDescription" class="tsd-kind-method">componentsDescription()</a>
 method to generate a string representation of this tariff.</p>
 </div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#toString">toString</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L351">TemporalRangesTariff.ts:351</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="formatRange" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="formatRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>format<wbr/>Range</span><a href="#formatRange" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="formatRange.formatRange-1"><span class="tsd-kind-call-signature">format<wbr/>Range</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">locale</span>, <span class="tsd-kind-parameter">field</span>, <span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#formatRange.formatRange-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Format a field range value into a locale-specific string.</p>
@@ -455,11 +503,12 @@ method to generate a string representation of this tariff.</p>
 <div class="tsd-comment tsd-typography">
 <h4>Throws</h4><p><code>TypeError</code> if <code>field</code> is not supported</p>
 </div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#formatRange">formatRange</a></p>
 <ul>
 <li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L393">TemporalRangesTariff.ts:393</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="parse" class="tsd-anchor"></a>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="parse" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>parse</span><a href="#parse" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
+<ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="parse.parse-1"><span class="tsd-kind-call-signature">parse</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">locale</span>, <span class="tsd-kind-parameter">monthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfMonthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfWeekRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">minuteOfDayRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">rates</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariff</a><a href="#parse.parse-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Parse time range criteria into a <code>TemporalRangesTariff</code> instance.</p>
@@ -510,8 +559,69 @@ values, <b>or</b> whole hours. For example <code>01:00-08:00</code> and <code>1-
 <p>Additionally, all range values may be specified as <code>*</code> to mean &quot;all possible values&quot;, in which
 that range will be resolved to <code>undefined</code>.</p>
 </div><aside class="tsd-sources">
+<p>Inherited from <a href="TemporalRangesTariff.html">TemporalRangesTariff</a>.<a href="TemporalRangesTariff.html#parse">parse</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L448">TemporalRangesTariff.ts:448</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/TemporalRangesTariff.ts#L448">TemporalRangesTariff.ts:448</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="parseYears" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>parse<wbr/>Years</span><a href="#parseYears" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="parseYears.parseYears-1"><span class="tsd-kind-call-signature">parse<wbr/>Years</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">locale</span>, <span class="tsd-kind-parameter">yearRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">monthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfMonthRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">dayOfWeekRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">minuteOfDayRange</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">rates</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="YearTemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">YearTemporalRangesTariff</a><a href="#parseYears.parseYears-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Parse time range criteria into a <code>YearTemporalRangesTariff</code> instance.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">locale</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the locale to parse the ranges as</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">yearRange</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the year range to parse, for example <code>2000-2023</code></p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">monthRange</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the month range to parse, for example <code>January-December</code>, <code>Jan-Dec</code>, or <code>1-12</code></p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">dayOfMonthRange</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the day of month range to parse, for example <code>1-31</code></p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">dayOfWeekRange</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the day of week range to parse, for example <code>Monday-Sunday</code>, <code>Mon-Sun</code>, or <code>1-7</code></p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">minuteOfDayRange</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the minute of day range to parse, for example <code>00:00-24:00</code> or <code>0-24</code></p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">rates</span>: <a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>the tariff rates to associate with the time range criteria</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">options</span>: <a href="../interfaces/TemporalRangesTariffFormatOptions.html" class="tsd-signature-type tsd-kind-interface">TemporalRangesTariffFormatOptions</a></h5>
+<div class="tsd-comment tsd-typography"><p>the formatting options</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="YearTemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">YearTemporalRangesTariff</a></h4><p>the new instance</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Remarks</h4><p>Note that the <code>minuteOfDayRange</code> can be specified as a range of <code>HH:MM</code> 24-hour hour and minute
+values, <b>or</b> whole hours. For example <code>01:00-08:00</code> and <code>1-8</code> are equivalent.</p>
+<p>Additionally, all range values may be specified as <code>*</code> to mean &quot;all possible values&quot;, in which
+that range will be resolved to <code>undefined</code>.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/241a4e4/src/main/YearTemporalRangesTariff.ts#L124">YearTemporalRangesTariff.ts:124</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -532,29 +642,33 @@ that range will be resolved to <code>undefined</code>.</p>
 <div class="tsd-accordion-details">
 <ul>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
-<li><a href="#_dayOfMonthRange" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Month<wbr/>Range</span></a></li>
-<li><a href="#_dayOfWeekRange" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Week<wbr/>Range</span></a></li>
-<li><a href="#_minuteOfDayRange" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a></li>
-<li><a href="#_monthRange" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#month<wbr/>Range</span></a></li>
-<li><a href="#_rates" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rates</span></a></li>
-<li><a href="#dayOfMonthRange" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Month<wbr/>Range</span></a></li>
-<li><a href="#dayOfWeekRange" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Week<wbr/>Range</span></a></li>
-<li><a href="#minuteOfDayRange" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a></li>
-<li><a href="#monthRange" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>month<wbr/>Range</span></a></li>
-<li><a href="#rates" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rates</span></a></li>
-<li><a href="#ALL_DAYS_OF_MONTH" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>MONTH</span></a></li>
-<li><a href="#ALL_DAYS_OF_WEEK" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>WEEK</span></a></li>
-<li><a href="#ALL_MINUTES_OF_DAY" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MINUTES_<wbr/>OF_<wbr/>DAY</span></a></li>
-<li><a href="#ALL_MONTHS" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MONTHS</span></a></li>
-<li><a href="#_dateDow" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Dow</span></a></li>
-<li><a href="#_dateMonth" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Month</span></a></li>
-<li><a href="#_rangeApplies" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#range<wbr/>Applies</span></a></li>
+<li><a href="#_dayOfMonthRange" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Month<wbr/>Range</span></a></li>
+<li><a href="#_dayOfWeekRange" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#day<wbr/>Of<wbr/>Week<wbr/>Range</span></a></li>
+<li><a href="#_minuteOfDayRange" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a></li>
+<li><a href="#_monthRange" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#month<wbr/>Range</span></a></li>
+<li><a href="#_rates" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rates</span></a></li>
+<li><a href="#_yearRange" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#year<wbr/>Range</span></a></li>
+<li><a href="#dayOfMonthRange" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Month<wbr/>Range</span></a></li>
+<li><a href="#dayOfWeekRange" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>day<wbr/>Of<wbr/>Week<wbr/>Range</span></a></li>
+<li><a href="#minuteOfDayRange" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>minute<wbr/>Of<wbr/>Day<wbr/>Range</span></a></li>
+<li><a href="#monthRange" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>month<wbr/>Range</span></a></li>
+<li><a href="#rates" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rates</span></a></li>
+<li><a href="#yearRange" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>year<wbr/>Range</span></a></li>
+<li><a href="#ALL_DAYS_OF_MONTH" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>MONTH</span></a></li>
+<li><a href="#ALL_DAYS_OF_WEEK" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>DAYS_<wbr/>OF_<wbr/>WEEK</span></a></li>
+<li><a href="#ALL_MINUTES_OF_DAY" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MINUTES_<wbr/>OF_<wbr/>DAY</span></a></li>
+<li><a href="#ALL_MONTHS" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>ALL_<wbr/>MONTHS</span></a></li>
+<li><a href="#_dateDow" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Dow</span></a></li>
+<li><a href="#_dateMonth" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#date<wbr/>Month</span></a></li>
+<li><a href="#_rangeApplies" class="tsd-is-private tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#range<wbr/>Applies</span></a></li>
+<li><a href="#_yearRangeApplies" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#year<wbr/>Range<wbr/>Applies</span></a></li>
 <li><a href="#appliesAt" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>applies<wbr/>At</span></a></li>
 <li><a href="#componentsDescription" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>components<wbr/>Description</span></a></li>
-<li><a href="#format" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format</span></a></li>
-<li><a href="#toString" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a></li>
-<li><a href="#formatRange" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format<wbr/>Range</span></a></li>
-<li><a href="#parse" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse</span></a></li></ul></div></details></div>
+<li><a href="#format" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format</span></a></li>
+<li><a href="#toString" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>to<wbr/>String</span></a></li>
+<li><a href="#formatRange" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>format<wbr/>Range</span></a></li>
+<li><a href="#parse" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse</span></a></li>
+<li><a href="#parseYears" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>parse<wbr/>Years</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>nifty-tou</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
@@ -565,9 +679,9 @@ that range will be resolved to <code>undefined</code>.</p>
 <li><a href="IntRange.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>IntRange</a></li>
 <li><a href="NumberFormatter.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>NumberFormatter</a></li>
 <li><a href="TariffRate.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TariffRate</a></li>
-<li><a href="TemporalRangesTariff.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TemporalRangesTariff</a></li>
+<li><a href="TemporalRangesTariff.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TemporalRangesTariff</a></li>
 <li><a href="TemporalRangesTariffSchedule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TemporalRangesTariffSchedule</a></li>
-<li><a href="YearTemporalRangesTariff.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YearTemporalRangesTariff</a></li>
+<li><a href="YearTemporalRangesTariff.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YearTemporalRangesTariff</a></li>
 <li><a href="../interfaces/IntRangeFormatOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>IntRangeFormatOptions</a></li>
 <li><a href="../interfaces/TemporalRangesTariffFormatOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>TemporalRangesTariffFormatOptions</a></li>
 <li><a href="../variables/ALL_VALUES.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg>ALL_VALUES</a></li>

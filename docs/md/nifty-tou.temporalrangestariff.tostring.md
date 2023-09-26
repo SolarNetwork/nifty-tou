@@ -17,3 +17,7 @@ string
 
 the string representation
 
+## Remarks
+
+This method will call the [componentsDescription()](./nifty-tou.temporalrangestariff.componentsdescription.md) method to generate a string representation of this tariff.
+

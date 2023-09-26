@@ -17,3 +17,7 @@ string
 
 string representation of the components of this tariff
 
+## Remarks
+
+The [toString()](./nifty-tou.temporalrangestariff.tostring.md) method will call this to generate a string representation of this tariff. Extending classes can override this method (possibly invoking this implementation to pick up the components rendered by this class).
+

@@ -158,4 +158,15 @@ declare namespace Utils {
 }
 export { Utils }
 
+// @public
+export class YearTemporalRangesTariff extends TemporalRangesTariff {
+    constructor(yearRange?: IntRange, monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: TariffRate[]);
+    // @override
+    appliesAt(date: Date, utc?: boolean): boolean;
+    // @override
+    protected componentsDescription(): string;
+    static parseYears(locale: string, yearRange?: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): YearTemporalRangesTariff;
+    get yearRange(): IntRange;
+}
+
 ```

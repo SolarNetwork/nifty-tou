@@ -9,6 +9,7 @@ export { default as NumberFormatter, DEFAULT_FORMAT_OPTIONS, } from "./NumberFor
 export { default as TariffRate } from "./TariffRate.js";
 export { default as TemporalRangesTariff, TemporalRangesTariffFormatOptions, ALL_VALUES, } from "./TemporalRangesTariff.js";
 export { default as TemporalRangesTariffSchedule } from "./TemporalRangesTariffSchedule.js";
+export { default as YearTemporalRangesTariff } from "./YearTemporalRangesTariff.js";
 import * as Utils from "./utils.js";
 export { Utils };
 //# sourceMappingURL=index.d.ts.map

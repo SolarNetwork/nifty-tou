@@ -18,7 +18,7 @@ format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatO
 |  --- | --- | --- |
 |  locale | string | the desired locale |
 |  field | [ChronoField](./nifty-tou.chronofield.md) | the field to format |
-|  options | [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | _(Optional)_ the options |
+|  options | [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | _(Optional)_ the formatting options |
 
 **Returns:**
 

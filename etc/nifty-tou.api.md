@@ -5,25 +5,29 @@
 ```ts
 
 // @public
+export const ALL_VALUES = "*";
+
+// @public
 function cconcat(s1?: string, s2?: string): string;
 
 // @public
 export enum ChronoField {
-    DAY_OF_MONTH = 2,
-    DAY_OF_WEEK = 3,
-    MINUTE_OF_DAY = 4,
-    MONTH_OF_YEAR = 1
+    DAY_OF_MONTH = 3,
+    DAY_OF_WEEK = 4,
+    MINUTE_OF_DAY = 5,
+    MONTH_OF_YEAR = 2,
+    YEAR = 1
 }
 
 // @public
 export class ChronoFieldFormatter {
     constructor(locale: string);
     static forLocale(locale: string): ChronoFieldFormatter;
-    format(field: ChronoField, value: number): string;
-    formatRange(field: ChronoField, value: IntRange): string;
+    format(field: ChronoField, value: number, options?: IntRangeFormatOptions): string;
+    formatRange(field: ChronoField, value: IntRange, options?: IntRangeFormatOptions): string;
     get locale(): string;
-    parse(field: ChronoField, value: string): ChronoFieldValue;
-    parseRange(field: ChronoField, value: string): IntRange;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
+    parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
 }
 
 // @public
@@ -31,6 +35,7 @@ export class ChronoFieldValue {
     constructor(field: ChronoField, names: string[], value: number);
     get field(): ChronoField;
     get name(): string;
+    get rangeValue(): number | null;
     get shortName(): string;
     get value(): number;
 }
@@ -40,7 +45,7 @@ export const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
 
 // @public
 export class IntRange {
-    constructor(min: number, max: number);
+    constructor(min: number | null, max: number | null);
     adjacentTo(o: IntRange): boolean;
     canMergeWith(o: IntRange): boolean;
     compareTo(o: IntRange): number;
@@ -48,18 +53,23 @@ export class IntRange {
     containsAll(min: number, max: number): boolean;
     containsRange(o: IntRange): boolean;
     static delimiter(locale?: string): string;
-    static description(bounds: IntRange, r?: IntRange): string;
+    static description(bounds: IntRange, r?: IntRange, options?: IntRangeFormatOptions): string;
     equals(obj: any): boolean;
     intersects(o: IntRange): boolean;
     get isSingleton(): boolean;
     get length(): number;
-    get max(): number;
+    get max(): number | null;
     mergeWith(o: IntRange): IntRange;
-    get min(): number;
-    static of(value: number): IntRange;
-    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
-    static rangeOf(min: number, max: number): IntRange;
+    get min(): number | null;
+    static of(value: number | null): IntRange;
+    static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
+    static rangeOf(min: number | null, max: number | null): IntRange;
     toString(): string;
+}
+
+// @public
+export interface IntRangeFormatOptions {
+    unboundedValue?: string;
 }
 
 // @public
@@ -103,19 +113,20 @@ export class TemporalRangesTariff {
     static get ALL_MINUTES_OF_DAY(): IntRange;
     static get ALL_MONTHS(): IntRange;
     appliesAt(date: Date, utc?: boolean): boolean;
+    protected componentsDescription(): string;
     get dayOfMonthRange(): IntRange;
     get dayOfWeekRange(): IntRange;
     format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
     static formatRange(locale: string, field: ChronoField, value?: IntRange, options?: TemporalRangesTariffFormatOptions): string;
     get minuteOfDayRange(): IntRange;
     get monthRange(): IntRange;
-    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): TemporalRangesTariff;
     get rates(): Record<string, TariffRate>;
     toString(): string;
 }
 
 // @public
-export interface TemporalRangesTariffFormatOptions {
+export interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions {
     allValue?: string;
     wholeHours?: boolean;
 }
@@ -129,6 +140,12 @@ export class TemporalRangesTariffSchedule {
     resolve(date: Date, utc?: boolean): Record<string, TariffRate>;
     get rules(): readonly TemporalRangesTariff[];
 }
+
+// @public
+export const UNBOUNDED_RANGE: IntRange;
+
+// @public
+export const UNBOUNDED_VALUE = "*";
 
 declare namespace Utils {
     export {

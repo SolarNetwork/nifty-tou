@@ -24,6 +24,7 @@ export declare class ChronoFieldValue
 |  --- | --- | --- | --- |
 |  [field](./nifty-tou.chronofieldvalue.field.md) | <code>readonly</code> | [ChronoField](./nifty-tou.chronofield.md) | Get the field. |
 |  [name](./nifty-tou.chronofieldvalue.name.md) | <code>readonly</code> | string | Get the full name. |
+|  [rangeValue](./nifty-tou.chronofieldvalue.rangevalue.md) | <code>readonly</code> | number \| null | Get the value in range form. If <code>value</code> is <code>Infinity</code> this will return <code>null</code>. |
 |  [shortName](./nifty-tou.chronofieldvalue.shortname.md) | <code>readonly</code> | string | Get the short name. |
 |  [value](./nifty-tou.chronofieldvalue.value.md) | <code>readonly</code> | number | Get the value. |
 

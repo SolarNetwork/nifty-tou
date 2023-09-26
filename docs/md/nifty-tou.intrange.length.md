@@ -11,3 +11,8 @@ Get the number of values between `min` and `max`<!-- -->, inclusive.
 ```typescript
 get length(): number;
 ```
+
+## Remarks
+
+This will return `+Inf` if either `min` or `max` is `null`<!-- -->.
+

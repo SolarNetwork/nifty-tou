@@ -6,7 +6,7 @@
 
 Get a string representation.
 
-The format returned by this method is `[min..max]`<!-- -->.
+The format returned by this method is `[min..max]`<!-- -->. Any `null` value will be represented as an empty string.
 
 **Signature:**
 

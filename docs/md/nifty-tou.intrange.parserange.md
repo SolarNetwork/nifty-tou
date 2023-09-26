@@ -9,15 +9,16 @@ Parse a range array of number strings into an `IntRange`<!-- -->.
 **Signature:**
 
 ```typescript
-static parseRange(value: string | string[], bounds?: IntRange): IntRange;
+static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | string \| string\[\] | the range to parse; can be a string adhering to [splitRange()](./nifty-tou.utils.splitrange.md) or an array with 1 or 2 number value elements |
+|  value | string \| string\[\] | the range to parse; can be a string adhering to [splitRange()](./nifty-tou.utils.splitrange.md) or an array with 1 or 2 number value elements, or <code>*</code> to represent "none" |
 |  bounds | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the optional bounds (inclusive) to enforce; if the parsed range |
+|  options | [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | _(Optional)_ options to control the formatting |
 
 **Returns:**
 

@@ -9,15 +9,15 @@ Create a range.
 **Signature:**
 
 ```typescript
-static rangeOf(min: number, max: number): IntRange;
+static rangeOf(min: number | null, max: number | null): IntRange;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  min | number | the minimum value |
-|  max | number | the maximum value |
+|  min | number \| null | the minimum value |
+|  max | number \| null | the maximum value |
 
 **Returns:**
 

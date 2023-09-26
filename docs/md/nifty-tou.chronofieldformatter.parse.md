@@ -9,7 +9,7 @@ Parse a field value.
 **Signature:**
 
 ```typescript
-parse(field: ChronoField, value: string): ChronoFieldValue;
+parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
 ```
 
 ## Parameters
@@ -18,6 +18,7 @@ parse(field: ChronoField, value: string): ChronoFieldValue;
 |  --- | --- | --- |
 |  field | [ChronoField](./nifty-tou.chronofield.md) | the field to treat <code>val</code> as |
 |  value | string | the field value to parse |
+|  options | [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | _(Optional)_ |
 
 **Returns:**
 

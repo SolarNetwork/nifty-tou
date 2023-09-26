@@ -16,7 +16,7 @@ contains(value: number): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | number | the value to test |
+|  value | number | the value to test (<code>null</code> represents infinity) |
 
 **Returns:**
 

@@ -76,6 +76,20 @@ test("IntRange:compareTo:equal:minOnly", (t) => {
 	t.is(r2.compareTo(r1), 0, "compares only min value");
 });
 
+test("IntRange:compareTo:unbounded:left", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(0, 2);
+	t.is(r1.compareTo(r2), -1);
+	t.is(r2.compareTo(r1), 1);
+});
+
+test("IntRange:compareTo:unboudned:right", (t) => {
+	const r1 = new IntRange(0, 2);
+	const r2 = new IntRange(null, 2);
+	t.is(r1.compareTo(r2), 1);
+	t.is(r2.compareTo(r1), -1);
+});
+
 test("IntRange:length", (t) => {
 	const r = new IntRange(1, 10);
 	t.is(r.length, 10);
@@ -84,6 +98,21 @@ test("IntRange:length", (t) => {
 test("IntRange:length:singleton", (t) => {
 	const r = new IntRange(1, 1);
 	t.is(r.length, 1);
+});
+
+test("IntRange:length:unboundedMin", (t) => {
+	const r = new IntRange(null, 1);
+	t.is(r.length, Infinity);
+});
+
+test("IntRange:length:unboundedMax", (t) => {
+	const r = new IntRange(1, null);
+	t.is(r.length, Infinity);
+});
+
+test("IntRange:length:unbounded", (t) => {
+	const r = new IntRange(null, null);
+	t.is(r.length, Infinity);
 });
 
 test("IntRange:contains", (t) => {
@@ -124,6 +153,22 @@ test("IntRange:containsRange", (t) => {
 	t.false(r.containsRange(new IntRange(0, 11)), "does not contain larger");
 });
 
+test("IntRange:containsRangeunbounded", (t) => {
+	const r = new IntRange(1, 10);
+
+	let r2 = new IntRange(5, null);
+	t.false(r.containsRange(r2), "does not contain unbounded max");
+	t.false(r2.containsRange(r), "does not contain unbounded max reversed");
+
+	r2 = new IntRange(null, 5);
+	t.false(r.containsRange(r2), "does not contain unbounded min");
+	t.false(r2.containsRange(r), "does not contain unbounded min reversed");
+
+	r2 = new IntRange(null, null);
+	t.false(r.containsRange(r2), "does not contain unbounded");
+	t.true(r2.containsRange(r), "does contain unbounded reversed");
+});
+
 test("IntRange:adjacent", (t) => {
 	const r1 = new IntRange(1, 2);
 	const r2 = new IntRange(3, 4);
@@ -148,6 +193,30 @@ test("IntRange:adjacent:overlap", (t) => {
 	t.false(r2.adjacentTo(r1), "ranges not adjacent reverse");
 });
 
+test("IntRange:adjacent:unboundedMin", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(3, 4);
+
+	t.true(r1.adjacentTo(r2), "ranges adjacent");
+	t.true(r2.adjacentTo(r1), "ranges adjacent reverse");
+});
+
+test("IntRange:adjacent:unboundedMin:gap", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(4, 5);
+
+	t.false(r1.adjacentTo(r2), "ranges not adjacent");
+	t.false(r2.adjacentTo(r1), "ranges not adjacent reverse");
+});
+
+test("IntRange:adjacent:unboundedMin:unboundedMax", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(3, null);
+
+	t.true(r1.adjacentTo(r2), "ranges adjacent");
+	t.true(r2.adjacentTo(r1), "ranges adjacent reverse");
+});
+
 test("IntRange:intersects:overlap", (t) => {
 	const r1 = new IntRange(1, 3);
 	const r2 = new IntRange(2, 5);
@@ -167,6 +236,78 @@ test("IntRange:intersects:gap", (t) => {
 test("IntRange:intersects:touch", (t) => {
 	const r1 = new IntRange(1, 2);
 	const r2 = new IntRange(2, 3);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unboundedMin:overlap", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(1, 3);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unboundedMin:gap", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(3, 4);
+
+	t.false(r1.intersects(r2), "ranges do not intersect");
+	t.false(r2.intersects(r1), "ranges do not intersect reverse");
+});
+
+test("IntRange:intersects:unboundedMin:touch", (t) => {
+	const r1 = new IntRange(null, 2);
+	const r2 = new IntRange(2, 3);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unboundedMax:overlap", (t) => {
+	const r1 = new IntRange(1, 2);
+	const r2 = new IntRange(1, null);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unboundedMax:gap", (t) => {
+	const r1 = new IntRange(1, 2);
+	const r2 = new IntRange(3, null);
+
+	t.false(r1.intersects(r2), "ranges do not intersect");
+	t.false(r2.intersects(r1), "ranges do not intersect reverse");
+});
+
+test("IntRange:intersects:unboundedMax:touch", (t) => {
+	const r1 = new IntRange(1, 2);
+	const r2 = new IntRange(2, null);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unbounded:all", (t) => {
+	const r1 = new IntRange(null, null);
+	const r2 = new IntRange(null, null);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unbounded:min", (t) => {
+	const r1 = new IntRange(null, null);
+	const r2 = new IntRange(1, null);
+
+	t.true(r1.intersects(r2), "ranges intersect");
+	t.true(r2.intersects(r1), "ranges intersect reverse");
+});
+
+test("IntRange:intersects:unbounded:max", (t) => {
+	const r1 = new IntRange(null, null);
+	const r2 = new IntRange(null, 1);
 
 	t.true(r1.intersects(r2), "ranges intersect");
 	t.true(r2.intersects(r1), "ranges intersect reverse");
@@ -248,11 +389,81 @@ test("IntRange:merge:gap", (t) => {
 	);
 });
 
+test("IntRange:merge:unboundedMin:adjacent", (t) => {
+	const r1 = new IntRange(null, 10);
+	const r2 = new IntRange(11, 15);
+
+	t.like(r1.mergeWith(r2), { min: null, max: 15 }, "ranges merged");
+	t.like(r2.mergeWith(r1), { min: null, max: 15 }, "ranges merged reverse");
+});
+
+test("IntRange:merge:unboundedMin:adjacent:unboundedMax", (t) => {
+	const r1 = new IntRange(null, 10);
+	const r2 = new IntRange(11, null);
+
+	t.like(r1.mergeWith(r2), { min: null, max: null }, "ranges merged");
+	t.like(r2.mergeWith(r1), { min: null, max: null }, "ranges merged reverse");
+});
+
+test("IntRange:merge:unboundedMin:subset", (t) => {
+	const r1 = new IntRange(null, 10);
+	const r2 = new IntRange(1, 5);
+
+	t.like(r1.mergeWith(r2), { min: null, max: 10 }, "ranges merged");
+	t.like(r2.mergeWith(r1), { min: null, max: 10 }, "ranges merged reverse");
+});
+
+test("IntRange:merge:unboundedMin:overlap", (t) => {
+	const r1 = new IntRange(null, 10);
+	const r2 = new IntRange(1, 15);
+
+	t.like(r1.mergeWith(r2), { min: null, max: 15 }, "ranges merged");
+	t.like(r2.mergeWith(r1), { min: null, max: 15 }, "ranges merged reverse");
+});
+
+test("IntRange:merge:unboundedMin:overlap:unboundedMax", (t) => {
+	const r1 = new IntRange(null, 10);
+	const r2 = new IntRange(1, null);
+
+	t.like(r1.mergeWith(r2), { min: null, max: null }, "ranges merged");
+	t.like(r2.mergeWith(r1), { min: null, max: null }, "ranges merged reverse");
+});
+
+test("IntRange:toString:undefined", (t) => {
+	t.is(new IntRange(1, 5).toString(), "[1..5]", "string returned");
+});
+
+test("IntRange:toString:singleton", (t) => {
+	t.is(new IntRange(1, 1).toString(), "[1..1]", "string returned");
+});
+
+test("IntRange:toString:unboundedMin", (t) => {
+	t.is(new IntRange(null, 1).toString(), "[..1]", "string returned");
+});
+
+test("IntRange:toString:unboundedMax", (t) => {
+	t.is(new IntRange(1, null).toString(), "[1..]", "string returned");
+});
+
+test("IntRange:toString:unbounded", (t) => {
+	t.is(new IntRange(null, null).toString(), "[..]", "string returned");
+});
+
 test("IntRange:description:undefined", (t) => {
 	t.is(
 		IntRange.description(new IntRange(1, 5), undefined),
 		"*",
 		"asterix returned when range is not defined"
+	);
+});
+
+test("IntRange:description:undefined:custom", (t) => {
+	t.is(
+		IntRange.description(new IntRange(1, 5), undefined, {
+			unboundedValue: "!",
+		}),
+		"!",
+		"custom unbounded value returned when range is not defined"
 	);
 });
 
@@ -264,11 +475,37 @@ test("IntRange:description:full", (t) => {
 	);
 });
 
+test("IntRange:description:full:custom", (t) => {
+	t.is(
+		IntRange.description(new IntRange(1, 5), new IntRange(1, 5), {
+			unboundedValue: "!",
+		}),
+		"!",
+		"custom unbounded value returned when range is equal to full range"
+	);
+});
+
 test("IntRange:description:notFull", (t) => {
 	t.is(
 		IntRange.description(new IntRange(1, 5), new IntRange(1, 2)),
 		"[1..2]",
 		"range string returned when range is not equal to full range"
+	);
+});
+
+test("IntRange:description:unboudned:unboundedMin", (t) => {
+	t.is(
+		IntRange.description(new IntRange(null, null), new IntRange(null, 2)),
+		"[..2]",
+		"range string returned"
+	);
+});
+
+test("IntRange:description:unboudned:unboundedMax", (t) => {
+	t.is(
+		IntRange.description(new IntRange(null, null), new IntRange(1, null)),
+		"[1..]",
+		"range string returned"
 	);
 });
 
@@ -345,6 +582,54 @@ test("IntRange:parseRange:stringRange:reverse", (t) => {
 		IntRange.parseRange("234-123"),
 		{ min: 123, max: 234 },
 		"string range reverse parsed"
+	);
+});
+
+test("IntRange:parseRange:stringRange:unboundedMin", (t) => {
+	t.like(
+		IntRange.parseRange("*-234"),
+		{ min: null, max: 234 },
+		"string range parsed"
+	);
+});
+
+test("IntRange:parseRange:stringRange:unboundedMin:custom", (t) => {
+	t.like(
+		IntRange.parseRange("!-234", undefined, { unboundedValue: "!" }),
+		{ min: null, max: 234 },
+		"string range parsed with custom unbounded value"
+	);
+});
+
+test("IntRange:parseRange:stringRange:unboundedMax", (t) => {
+	t.like(
+		IntRange.parseRange("123-*"),
+		{ min: 123, max: null },
+		"string range parsed"
+	);
+});
+
+test("IntRange:parseRange:stringRange:unboundedMax:custom", (t) => {
+	t.like(
+		IntRange.parseRange("123-!", undefined, { unboundedValue: "!" }),
+		{ min: 123, max: null },
+		"string range parsed with custom unbounded value"
+	);
+});
+
+test("IntRange:parseRange:stringRange:unbounded", (t) => {
+	t.like(
+		IntRange.parseRange("*-*"),
+		{ min: null, max: null },
+		"string range parsed"
+	);
+});
+
+test("IntRange:parseRange:stringRange:unbounded:short:custom", (t) => {
+	t.like(
+		IntRange.parseRange("!", undefined, { unboundedValue: "!" }),
+		{ min: null, max: null },
+		"string range parsed with custom unbounded value"
 	);
 });
 

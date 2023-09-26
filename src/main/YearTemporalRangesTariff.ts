@@ -90,6 +90,28 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	}
 
 	/**
+	 * Compares this object with the specified object for order.
+	 *
+	 * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+	 *
+	 * @param o - the tariff to compare to
+	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+	 * @override
+	 */
+	compareTo(o: YearTemporalRangesTariff): number {
+		if (this === o) {
+			return 0;
+		} else if (!o) {
+			return 1;
+		}
+		const cmp = IntRange.compare(this.#yearRange, o.#yearRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		return super.compareTo(o);
+	}
+
+	/**
 	 * Get a string representation of the components of this description.
 	 * @returns string representation of the components of this tariff
 	 * @override

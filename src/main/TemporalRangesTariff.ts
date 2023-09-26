@@ -298,6 +298,35 @@ export default class TemporalRangesTariff {
 	}
 
 	/**
+	 * Compares this object with the specified object for order.
+	 *
+	 * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+	 *
+	 * @param o - the tariff to compare to
+	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+	 */
+	compareTo(o: TemporalRangesTariff): number {
+		if (this === o) {
+			return 0;
+		} else if (!o) {
+			return 1;
+		}
+		let cmp = IntRange.compare(this.#monthRange, o.#monthRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		cmp = IntRange.compare(this.#dayOfMonthRange, o.#dayOfMonthRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		cmp = IntRange.compare(this.#dayOfWeekRange, o.#dayOfWeekRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		return IntRange.compare(this.#minuteOfDayRange, o.#minuteOfDayRange);
+	}
+
+	/**
 	 * Get a string representation of the components of this description.
 	 *
 	 * @remarks

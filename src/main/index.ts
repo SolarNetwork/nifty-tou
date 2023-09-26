@@ -25,8 +25,12 @@ export {
 	TemporalRangesTariffFormatOptions,
 	ALL_VALUES,
 } from "./TemporalRangesTariff.js";
-export { default as TemporalRangesTariffSchedule } from "./TemporalRangesTariffSchedule.js";
+export {
+	default as TemporalRangesTariffSchedule,
+	TemporalRangesTariffScheduleOptions,
+} from "./TemporalRangesTariffSchedule.js";
 export { default as YearTemporalRangesTariff } from "./YearTemporalRangesTariff.js";
+export { default as YearTemporalRangesTariffSchedule } from "./YearTemporalRangesTariffSchedule.js";
 
 // note TypeScript allows just `export * as Utils from X" but API Extractor
 // does not support that yet

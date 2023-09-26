@@ -43,6 +43,7 @@ test("TemporalRangesSchedule:construct:undefined", (t) => {
 		[],
 		"undefined rules from constructor arg resolved as empty array"
 	);
+	t.is(s.options, undefined, "no options defined");
 	t.false(
 		s.multipleMatch,
 		"undefined multipleMatch from constructor arg resolved as false"
@@ -53,6 +54,7 @@ test("TemporalRangesSchedule:construct:single", (t) => {
 	const rules = ruleset01();
 	const s = new TemporalRangesTariffSchedule(rules);
 	t.is(s.rules, rules, "rules from constructor arg");
+	t.is(s.options, undefined, "no options defined");
 	t.false(s.multipleMatch, "multipleMatch from constructor arg");
 });
 
@@ -66,6 +68,7 @@ test("TemporalRangesSchedule:construct:multi", (t) => {
 	const rules = ruleset01();
 	const s = new TemporalRangesTariffSchedule(rules, true);
 	t.is(s.rules, rules, "rules from constructor arg");
+	t.like(s.options, { multipleMatch: true }, "options defined");
 	t.true(s.multipleMatch, "multipleMatch from constructor arg");
 });
 
@@ -119,6 +122,26 @@ test("TemporalRangesSchedule:matches:single:multipleMatches", (t) => {
 	t.is(m[0], rules[1], "Saturday @ noon matches Weekend first, ignoring PM");
 });
 
+test("TemporalRangesSchedule:matches:single:multipleMatches:explicitOption", (t) => {
+	const rules = ruleset01();
+	const s = new TemporalRangesTariffSchedule(rules, false);
+
+	// 1 Jan 2024 is a Monday
+	const m = s.matches(new Date("2024-01-06T12:00"));
+	t.is(m.length, 1, "first match returned");
+	t.is(m[0], rules[1], "Saturday @ noon matches Weekend first, ignoring PM");
+});
+
+test("TemporalRangesSchedule:matches:single:multipleMatches:explicitOptions", (t) => {
+	const rules = ruleset01();
+	const s = new TemporalRangesTariffSchedule(rules, { multipleMatch: false });
+
+	// 1 Jan 2024 is a Monday
+	const m = s.matches(new Date("2024-01-06T12:00"));
+	t.is(m.length, 1, "first match returned");
+	t.is(m[0], rules[1], "Saturday @ noon matches Weekend first, ignoring PM");
+});
+
 test("TemporalRangesSchedule:matches:multi:oneMatches", (t) => {
 	const rules = ruleset01();
 	const s = new TemporalRangesTariffSchedule(rules, true);
@@ -132,6 +155,17 @@ test("TemporalRangesSchedule:matches:multi:oneMatches", (t) => {
 test("TemporalRangesSchedule:matches:multi:multipleMatches", (t) => {
 	const rules = ruleset01();
 	const s = new TemporalRangesTariffSchedule(rules, true);
+
+	// 1 Jan 2024 is a Monday
+	const m = s.matches(new Date("2024-01-06T12:00"));
+	t.is(m.length, 2, "all matches returned");
+	t.is(m[0], rules[1], "Saturday @ noon matches Weekend first");
+	t.is(m[1], rules[2], "Saturday @ noon matches PM second");
+});
+
+test("TemporalRangesSchedule:matches:multi:multipleMatches:explicitOptions", (t) => {
+	const rules = ruleset01();
+	const s = new TemporalRangesTariffSchedule(rules, { multipleMatch: true });
 
 	// 1 Jan 2024 is a Monday
 	const m = s.matches(new Date("2024-01-06T12:00"));

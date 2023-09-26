@@ -192,3 +192,132 @@ test("YearTemporalRangesTariff:parse:en-US:unbounded", (t) => {
 	t.is(tt.dayOfWeekRange, ALL_DAYS_OF_WEEK);
 	t.is(tt.minuteOfDayRange, ALL_MINUTES_OF_DAY);
 });
+
+test("YearTemporalRangesTariff:compare:same", (t) => {
+	const tt = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt.compareTo(tt), 0);
+});
+
+test("YearTemporalRangesTariff:compare:undefined", (t) => {
+	const tt = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt.compareTo(undefined), 1);
+});
+
+test("YearTemporalRangesTariff:compare:year", (t) => {
+	const tt1 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new YearTemporalRangesTariff(
+		IntRange.of(2023),
+		new IntRange(4, 6),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by year");
+	t.is(tt2.compareTo(tt1), 1, "ordered by year");
+});
+
+test("YearTemporalRangesTariff:compare:month", (t) => {
+	const tt1 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(4, 6),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by month");
+	t.is(tt2.compareTo(tt1), 1, "ordered by month");
+});
+
+test("YearTemporalRangesTariff:compare:day", (t) => {
+	const tt1 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(7, 10),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by day");
+	t.is(tt2.compareTo(tt1), 1, "ordered by day");
+});
+
+test("YearTemporalRangesTariff:compare:weekday", (t) => {
+	const tt1 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(6, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by weekday");
+	t.is(tt2.compareTo(tt1), 1, "ordered by weekday");
+});
+
+test("YearTemporalRangesTariff:compare:time", (t) => {
+	const tt1 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(0, 845),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new YearTemporalRangesTariff(
+		IntRange.of(2022),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by time");
+	t.is(tt2.compareTo(tt1), 1, "ordered by time");
+});

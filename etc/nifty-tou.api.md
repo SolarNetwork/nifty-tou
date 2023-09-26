@@ -48,6 +48,7 @@ export class IntRange {
     constructor(min: number | null, max: number | null);
     adjacentTo(o: IntRange): boolean;
     canMergeWith(o: IntRange): boolean;
+    static compare(l: IntRange, r: IntRange): number;
     compareTo(o: IntRange): number;
     contains(value: number): boolean;
     containsAll(min: number, max: number): boolean;

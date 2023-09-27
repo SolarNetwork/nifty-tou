@@ -6,6 +6,7 @@ import {
 	ChronoField,
 	ChronoFieldFormatter,
 } from "./ChronoFieldFormatter.js";
+import Comparable from "./Comparable.js";
 import {
 	default as IntRange,
 	IntRangeFormatOptions,
@@ -13,7 +14,7 @@ import {
 	UNBOUNDED_VALUE,
 } from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
-import { cconcat, optional, prefix, required } from "./utils.js";
+import { cconcat, compare, optional, prefix, required } from "./utils.js";
 
 /**
  * The default "all values" representation.
@@ -107,7 +108,9 @@ function clamped(bounds: IntRange, r?: IntRange): IntRange | undefined {
  *
  * @public
  */
-export default class TemporalRangesTariff {
+export default class TemporalRangesTariff
+	implements Comparable<TemporalRangesTariff>
+{
 	#monthRange: IntRange;
 	#dayOfMonthRange: IntRange;
 	#dayOfWeekRange: IntRange;
@@ -295,6 +298,36 @@ export default class TemporalRangesTariff {
 	 */
 	#dateDow(value: number): number {
 		return value === 0 ? 7 : value;
+	}
+
+	/**
+	 * Compares this object with the specified object for order.
+	 *
+	 * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+	 *
+	 * @param o - the tariff to compare to
+	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+	 * @override
+	 */
+	compareTo(o: TemporalRangesTariff): number {
+		if (this === o) {
+			return 0;
+		} else if (!o) {
+			return 1;
+		}
+		let cmp = compare(this.#monthRange, o.#monthRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		cmp = compare(this.#dayOfMonthRange, o.#dayOfMonthRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		cmp = compare(this.#dayOfWeekRange, o.#dayOfWeekRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		return compare(this.#minuteOfDayRange, o.#minuteOfDayRange);
 	}
 
 	/**

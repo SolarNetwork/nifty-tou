@@ -843,3 +843,101 @@ test("TemporalRangesTariff:format:ja-JP", (t) => {
 		"minutes formatted"
 	);
 });
+
+test("TemporalRangesTariff:compare:same", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt.compareTo(tt), 0);
+});
+
+test("TemporalRangesTariff:compare:undefined", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt.compareTo(undefined), 1);
+});
+
+test("TemporalRangesTariff:compare:month", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(4, 6),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by month");
+	t.is(tt2.compareTo(tt1), 1, "ordered by month");
+});
+
+test("TemporalRangesTariff:compare:day", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(7, 10),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by day");
+	t.is(tt2.compareTo(tt1), 1, "ordered by day");
+});
+
+test("TemporalRangesTariff:compare:weekday", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(6, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by weekday");
+	t.is(tt2.compareTo(tt1), 1, "ordered by weekday");
+});
+
+test("TemporalRangesTariff:compare:time", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(0, 845),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by time");
+	t.is(tt2.compareTo(tt1), 1, "ordered by time");
+});

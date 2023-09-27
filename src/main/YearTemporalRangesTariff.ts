@@ -10,7 +10,7 @@ import {
 	default as TemporalRangesTariff,
 	TemporalRangesTariffFormatOptions,
 } from "./TemporalRangesTariff.js";
-import { cconcat, prefix } from "./utils.js";
+import { cconcat, compare, prefix } from "./utils.js";
 
 /**
  * An extension of {@link TemporalRangesTariff} with support for an additional year range constraint.
@@ -79,6 +79,44 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	}
 
 	/**
+	 * Test if this tariff applies on a given date.
+	 *
+	 * All range constraints are treated as inclusive bounds, except for
+	 * the `minuteOfDayRange` that is treated as an inclusive minimum and
+	 * exclusive maximum.
+	 *
+	 * @param date - the date to test if this rate applies at
+	 * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+	 * @returns `true` if this tariff applies on the given date
+	 * @override
+	 */
+	appliesAtYearExtended(date: Date, utc?: boolean): boolean {
+		const y = this.#yearRange.min;
+		let yearDate = date;
+		if (
+			y !== null &&
+			date &&
+			(utc ? date.getUTCFullYear() : date.getFullYear()) > y
+		) {
+			yearDate = new Date(date);
+			if (utc) {
+				yearDate.setUTCFullYear(y);
+			} else {
+				yearDate.setFullYear(y);
+			}
+		}
+		return (
+			yearDate &&
+			(y === null ||
+				this.#yearRangeAppliesYearExtended(
+					utc ? yearDate.getUTCFullYear() : yearDate.getFullYear(),
+					this.#yearRange
+				)) &&
+			super.appliesAt(yearDate, utc)
+		);
+	}
+
+	/**
 	 * Test if an optional year range contains a value.
 	 *
 	 * @param value - the number to test if the range contains
@@ -87,6 +125,43 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	 */
 	#yearRangeApplies(value: number, range?: IntRange): boolean {
 		return !range || range.contains(value);
+	}
+
+	/**
+	 * Test if an optional year range contains a value, with the range maximum treated as unbounded.
+	 *
+	 * @param value - the number to test if the range contains
+	 * @param range - the range to test
+	 * @returns `true` if the given range is not defined, or it contains the given value
+	 */
+	#yearRangeAppliesYearExtended(value: number, range?: IntRange): boolean {
+		return (
+			!range ||
+			range.contains(value) ||
+			(range.min !== null && value >= range.min)
+		);
+	}
+
+	/**
+	 * Compares this object with the specified object for order.
+	 *
+	 * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+	 *
+	 * @param o - the tariff to compare to
+	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+	 * @override
+	 */
+	compareTo(o: YearTemporalRangesTariff): number {
+		if (this === o) {
+			return 0;
+		} else if (!o) {
+			return 1;
+		}
+		const cmp = compare(this.#yearRange, o.#yearRange);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		return super.compareTo(o);
 	}
 
 	/**

@@ -6,11 +6,12 @@
 
 Compares this object with the specified object for order.
 
-This implementation only compares the `min` values of each range.
+Unbounded (`null`<!-- -->) values are ordered before bounded (non-`null`<!-- -->) values.
 
 **Signature:**
 
 ```typescript
+/** @override */
 compareTo(o: IntRange): number;
 ```
 

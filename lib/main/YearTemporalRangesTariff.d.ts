@@ -37,6 +37,29 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
      */
     appliesAt(date: Date, utc?: boolean): boolean;
     /**
+     * Test if this tariff applies on a given date.
+     *
+     * All range constraints are treated as inclusive bounds, except for
+     * the `minuteOfDayRange` that is treated as an inclusive minimum and
+     * exclusive maximum.
+     *
+     * @param date - the date to test if this rate applies at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns `true` if this tariff applies on the given date
+     * @override
+     */
+    appliesAtYearExtended(date: Date, utc?: boolean): boolean;
+    /**
+     * Compares this object with the specified object for order.
+     *
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+     *
+     * @param o - the tariff to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
+     */
+    compareTo(o: YearTemporalRangesTariff): number;
+    /**
      * Get a string representation of the components of this description.
      * @returns string representation of the components of this tariff
      * @override

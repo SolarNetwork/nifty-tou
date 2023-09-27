@@ -9,13 +9,13 @@ Constructor.
 **Signature:**
 
 ```typescript
-constructor(rules: TemporalRangesTariff[], multipleMatch?: boolean);
+constructor(rules: T[], options?: O | boolean);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  rules | [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md)<!-- -->\[\] | the list of rules to include in the schedule |
-|  multipleMatch | boolean | _(Optional)_ if <code>true</code> then support resolving multiple rules for a given date, otherwise resolve the first matching rule only |
+|  rules | T\[\] | the list of rules to include in the schedule |
+|  options | O \| boolean | _(Optional)_ the options, or a boolean shortcut to set the <code>multipleMatch</code> option |
 

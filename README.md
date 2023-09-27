@@ -98,6 +98,100 @@ const rates = schedule.resolve(new Date("2024-01-05T08:00"));
 }
 ```
 
+# Year-based tariff schedules
+
+If you would like to model a tariff schedule with rules that change over the time, the
+The [YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
+class extends the `TemporalRangesTariffSchedule` with support for year-based rules.
+For example, imagine a tariff schedule like this:
+
+| Year | Months | Days | Weekdays | Hours | Name | Rate |
+| :--- | :----- | :--- | :------- | :---- | :--- | :--- |
+| 2023 | \*     | \*   | \*       | 0-12  | AM   | 1.23 |
+| 2023 | \*     | \*   | \*       | 12-24 | PM   | 2.34 |
+| 2022 | \*     | \*   | \*       | 0-12  | AM   | 1.12 |
+| 2022 | \*     | \*   | \*       | 12-24 | PM   | 2.23 |
+| 2000 | \*     | \*   | \*       | 0-12  | AM   | 0.12 |
+| 2000 | \*     | \*   | \*       | 12-24 | PM   | 0.23 |
+
+You can model this schedule like this:
+
+```ts
+// define the schedule rules with year constraints
+const rules = [
+	YearTemporalRangesTariff.parseYears(
+		"en-US",
+		"2023",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"0-12",
+		[new TariffRate("AM", 1.23)]
+	),
+	YearTemporalRangesTariff.parseYears(
+		"en-US",
+		"2023",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"12-24",
+		[new TariffRate("AM", 2.34)]
+	),
+	YearTemporalRangesTariff.parseYears(
+		"en-US",
+		"2022",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"0-12",
+		[new TariffRate("AM", 1.12)]
+	),
+	YearTemporalRangesTariff.parseYears(
+		"en-US",
+		"2022",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"12-24",
+		[new TariffRate("AM", 2.23)]
+	),
+	YearTemporalRangesTariff.parseYears(
+		"en-US",
+		"2000",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"0-12",
+		[new TariffRate("AM", 0.12)]
+	),
+	YearTemporalRangesTariff.parseYears(
+		"en-US",
+		"2000",
+		"Jan-Dec",
+		"1-31",
+		"Mon-Sun",
+		"12-24",
+		[new TariffRate("AM", 0.23)]
+	),
+];
+
+// define the schedule, with the `yearExtend` option set
+const s = new YearTemporalRangesTariffSchedule(rules, {
+	yearExtend: true, // allow "gap fill" year matching
+});
+
+// exact match rules
+schedule.resolve(new Date("2023-01-01T08:00")) === { AM: 1.23 };
+schedule.resolve(new Date("2022-01-01T08:00")) === { AM: 1.12 };
+schedule.resolve(new Date("2000-01-01T08:00")) === { AM: 0.12 };
+
+// gap-fill match a future date, based on previously avaialble year rule
+schedule.resolve(new Date("2050-01-01T08:00")) === { AM: 1.23 }; // 2023 rule
+
+// gap-fill match inbetween year rules, based on previously avaialble year
+schedule.resolve(new Date("2010-01-01T08:00")) === { AM: 1.12 }; // 2000 rule
+```
+
 # Integer amounts
 
 The [TariffRate](./docs/md/nifty-tou.tariffrate.md) class can be constructed with an `exponent`

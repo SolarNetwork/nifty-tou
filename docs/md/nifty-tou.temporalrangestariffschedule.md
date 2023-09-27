@@ -9,21 +9,22 @@ A schedule, or collection, of [TemporalRangesTariff](./nifty-tou.temporalrangest
 **Signature:**
 
 ```typescript
-export default class TemporalRangesTariffSchedule 
+export default class TemporalRangesTariffSchedule<T extends TemporalRangesTariff, O extends TemporalRangesTariffScheduleOptions> 
 ```
 
 ## Constructors
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(rules, multipleMatch)](./nifty-tou.temporalrangestariffschedule._constructor_.md) |  | Constructor. |
+|  [(constructor)(rules, options)](./nifty-tou.temporalrangestariffschedule._constructor_.md) |  | Constructor. |
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [multipleMatch](./nifty-tou.temporalrangestariffschedule.multiplematch.md) | <code>readonly</code> | boolean | Get the multiple-match mode. |
-|  [rules](./nifty-tou.temporalrangestariffschedule.rules.md) | <code>readonly</code> | readonly [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md)<!-- -->\[\] | Get the rules. |
+|  [options](./nifty-tou.temporalrangestariffschedule.options.md) | <code>readonly</code> | O \| undefined | Get the options. |
+|  [rules](./nifty-tou.temporalrangestariffschedule.rules.md) | <code>readonly</code> | readonly T\[\] | Get the rules. |
 
 ## Methods
 

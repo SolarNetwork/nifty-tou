@@ -1,3 +1,4 @@
+import Comparable from "./Comparable.js";
 /**
  * The default unbounded display value.
  * @public
@@ -22,7 +23,7 @@ export interface IntRangeFormatOptions {
  *
  * @public
  */
-export default class IntRange {
+export default class IntRange implements Comparable<IntRange> {
     #private;
     /**
      * Constructor.
@@ -139,10 +140,11 @@ export default class IntRange {
     /**
      * Compares this object with the specified object for order.
      *
-     * This implementation only compares the `min` values of each range.
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
      *
      * @param o - the range to compare to
      * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
      */
     compareTo(o: IntRange): number;
     /**

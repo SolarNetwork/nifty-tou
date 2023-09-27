@@ -1,3 +1,5 @@
+import Comparable from "./Comparable.js";
+
 /**
  * Concatenate two strings with a comma.
  *
@@ -118,4 +120,23 @@ export function splitRange(range: string): string[] {
 		}
 	}
 	return a.length ? a : undefined;
+}
+
+/**
+ * Compare two ranges.
+ *
+ * This function is useful for sorting arrays of {@link Comparable} objects.
+ *
+ * @param l - the left value
+ * @param r - the right value
+ * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+ * @public
+ */
+export function compare<T extends Comparable<T>>(l: T, r: T) {
+	if (l === r) {
+		return 0;
+	} else if (!l) {
+		return -1;
+	}
+	return l.compareTo(r);
 }

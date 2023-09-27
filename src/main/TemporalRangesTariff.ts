@@ -6,6 +6,7 @@ import {
 	ChronoField,
 	ChronoFieldFormatter,
 } from "./ChronoFieldFormatter.js";
+import Comparable from "./Comparable.js";
 import {
 	default as IntRange,
 	IntRangeFormatOptions,
@@ -13,7 +14,7 @@ import {
 	UNBOUNDED_VALUE,
 } from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
-import { cconcat, optional, prefix, required } from "./utils.js";
+import { cconcat, compare, optional, prefix, required } from "./utils.js";
 
 /**
  * The default "all values" representation.
@@ -107,7 +108,9 @@ function clamped(bounds: IntRange, r?: IntRange): IntRange | undefined {
  *
  * @public
  */
-export default class TemporalRangesTariff {
+export default class TemporalRangesTariff
+	implements Comparable<TemporalRangesTariff>
+{
 	#monthRange: IntRange;
 	#dayOfMonthRange: IntRange;
 	#dayOfWeekRange: IntRange;
@@ -304,6 +307,7 @@ export default class TemporalRangesTariff {
 	 *
 	 * @param o - the tariff to compare to
 	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+	 * @override
 	 */
 	compareTo(o: TemporalRangesTariff): number {
 		if (this === o) {
@@ -311,19 +315,19 @@ export default class TemporalRangesTariff {
 		} else if (!o) {
 			return 1;
 		}
-		let cmp = IntRange.compare(this.#monthRange, o.#monthRange);
+		let cmp = compare(this.#monthRange, o.#monthRange);
 		if (cmp !== 0) {
 			return cmp;
 		}
-		cmp = IntRange.compare(this.#dayOfMonthRange, o.#dayOfMonthRange);
+		cmp = compare(this.#dayOfMonthRange, o.#dayOfMonthRange);
 		if (cmp !== 0) {
 			return cmp;
 		}
-		cmp = IntRange.compare(this.#dayOfWeekRange, o.#dayOfWeekRange);
+		cmp = compare(this.#dayOfWeekRange, o.#dayOfWeekRange);
 		if (cmp !== 0) {
 			return cmp;
 		}
-		return IntRange.compare(this.#minuteOfDayRange, o.#minuteOfDayRange);
+		return compare(this.#minuteOfDayRange, o.#minuteOfDayRange);
 	}
 
 	/**

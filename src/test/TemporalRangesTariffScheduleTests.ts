@@ -102,6 +102,15 @@ test("TemporalRangesSchedule:firstMatch:single:noMatch", (t) => {
 	t.deepEqual(m, undefined, "no match returns empty array");
 });
 
+test("YearTemporalRangesTariffSchedule:firstMatch:single:match", (t) => {
+	const rules = ruleset01();
+	const s = new TemporalRangesTariffSchedule(rules);
+
+	// 1 Jan 2024 is a Monday
+	const m = s.firstMatch(new Date("2024-01-01T00:00"));
+	t.is(m, rules[0], "Monday @ midnight matches Weekday AM");
+});
+
 test("TemporalRangesSchedule:matches:single:oneMatchOnly", (t) => {
 	const rules = ruleset01();
 	const s = new TemporalRangesTariffSchedule(rules);

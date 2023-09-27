@@ -321,3 +321,46 @@ test("YearTemporalRangesTariff:compare:time", (t) => {
 	t.is(tt1.compareTo(tt2), -1, "ordered by time");
 	t.is(tt2.compareTo(tt1), 1, "ordered by time");
 });
+
+test("YearTemporalRangesTariff:applies:yearExtended", (t) => {
+	const tt = new YearTemporalRangesTariff(
+		IntRange.of(2024),
+		ALL_MONTHS,
+		ALL_DAYS_OF_MONTH,
+		ALL_DAYS_OF_WEEK,
+		ALL_MINUTES_OF_DAY,
+		[new TariffRate("a", 1.23)]
+	);
+
+	const d = new Date("2024-01-01T00:00");
+	t.true(tt.appliesAtYearExtended(d), "same year matches");
+
+	const d2 = new Date("2025-01-01T00:00");
+	t.true(tt.appliesAtYearExtended(d2), "future year year matches");
+
+	const d3 = new Date("2023-01-01T00:00");
+	t.false(tt.appliesAtYearExtended(d3), "past year year does not match");
+});
+
+test("YearTemporalRangesTariff:applies:yearExtended:unbounded", (t) => {
+	const tt = new YearTemporalRangesTariff(
+		new IntRange(null, 2024),
+		ALL_MONTHS,
+		ALL_DAYS_OF_MONTH,
+		ALL_DAYS_OF_WEEK,
+		ALL_MINUTES_OF_DAY,
+		[new TariffRate("a", 1.23)]
+	);
+
+	const d = new Date("2024-01-01T00:00");
+	t.true(tt.appliesAtYearExtended(d), "max year matches unbounded min");
+
+	const d2 = new Date("2025-01-01T00:00");
+	t.true(
+		tt.appliesAtYearExtended(d2),
+		"future year year matches unbounded min"
+	);
+
+	const d3 = new Date("2023-01-01T00:00");
+	t.true(tt.appliesAtYearExtended(d3), "past year matches unbounded min");
+});

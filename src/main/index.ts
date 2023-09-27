@@ -9,6 +9,7 @@ export {
 	ChronoFieldValue,
 	ChronoFieldFormatter,
 } from "./ChronoFieldFormatter.js";
+export { default as Comparable } from "./Comparable.js";
 export {
 	default as IntRange,
 	IntRangeFormatOptions,
@@ -30,7 +31,10 @@ export {
 	TemporalRangesTariffScheduleOptions,
 } from "./TemporalRangesTariffSchedule.js";
 export { default as YearTemporalRangesTariff } from "./YearTemporalRangesTariff.js";
-export { default as YearTemporalRangesTariffSchedule } from "./YearTemporalRangesTariffSchedule.js";
+export {
+	default as YearTemporalRangesTariffSchedule,
+	YearTemporalRangesTariffScheduleOptions,
+} from "./YearTemporalRangesTariffSchedule.js";
 
 // note TypeScript allows just `export * as Utils from X" but API Extractor
 // does not support that yet

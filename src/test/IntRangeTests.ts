@@ -1,5 +1,6 @@
 import test from "ava";
 import IntRange from "../main/IntRange.js";
+import { compare } from "../main/utils.js";
 
 test("IntRange:Construct", (t) => {
 	const r = new IntRange(1, 2);
@@ -165,7 +166,7 @@ test("IntRange:compare", (t) => {
 		new IntRange(-10, null),
 		new IntRange(3, 8),
 	];
-	a.sort(IntRange.compare);
+	a.sort(compare);
 	t.like(a, [
 		{ min: null, max: null },
 		{ min: null, max: 10 },
@@ -184,8 +185,8 @@ test("IntRange:compare", (t) => {
 
 test("IntRange:compare:undefined", (t) => {
 	const r = new IntRange(1, 4);
-	t.is(IntRange.compare(r, undefined), 1);
-	t.is(IntRange.compare(undefined, r), -1);
+	t.is(compare(r, undefined), 1);
+	t.is(compare(undefined, r), -1);
 });
 
 test("IntRange:length", (t) => {

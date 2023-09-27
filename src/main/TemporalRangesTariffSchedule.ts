@@ -12,15 +12,15 @@ export interface TemporalRangesTariffScheduleOptions {
 	 * If `true` then support resolving multiple rules for a given date,
 	 * otherwise resolve the first matching rule only.
 	 */
-	multipleMatch: boolean;
+	multipleMatch?: boolean;
 }
 
 /**
  * A schedule, or collection, of {@link TemporalRangesTariff} rules that supports
  * resolving rates for dates.
  *
- * @param <T> the tariff type
- * @param <O> the options type
+ * @typeParam T - the tariff type
+ * @typeParam O - the options type
  * @public
  */
 export default class TemporalRangesTariffSchedule<

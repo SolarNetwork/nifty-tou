@@ -1,3 +1,4 @@
+import Comparable from "./Comparable.js";
 /**
  * The default unbounded display value.
  * @public
@@ -22,7 +23,7 @@ export interface IntRangeFormatOptions {
  *
  * @public
  */
-export default class IntRange {
+export default class IntRange implements Comparable<IntRange> {
     #private;
     /**
      * Constructor.
@@ -143,26 +144,9 @@ export default class IntRange {
      *
      * @param o - the range to compare to
      * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
      */
     compareTo(o: IntRange): number;
-    /**
-     * Compare two ranges.
-     *
-     * This function is useful for sorting arrays, for example:
-     *
-     * ```ts
-     * const data = [new IntRange(2, 3), new IntRange(0, 2)];
-     * data.sort(IntRange.compare);
-     *
-     * // now data like [ [0..2], [2..3] ]
-     * ```
-     *
-     * @param l - the left value
-     * @param r - the right value
-     * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
-     * @see {@link IntRange.compareTo | compareTo()}
-     */
-    static compare(l: IntRange, r: IntRange): number;
     /**
      * Test for equality.
      *

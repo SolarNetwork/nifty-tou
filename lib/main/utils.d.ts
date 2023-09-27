@@ -1,3 +1,4 @@
+import Comparable from "./Comparable.js";
 /**
  * Concatenate two strings with a comma.
  *
@@ -54,4 +55,15 @@ export declare function required<T>(arg: T, name: string, type?: new (...args: a
  * @public
  */
 export declare function splitRange(range: string): string[];
+/**
+ * Compare two ranges.
+ *
+ * This function is useful for sorting arrays of {@link Comparable} objects.
+ *
+ * @param l - the left value
+ * @param r - the right value
+ * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+ * @public
+ */
+export declare function compare<T extends Comparable<T>>(l: T, r: T): number;
 //# sourceMappingURL=utils.d.ts.map

@@ -1,4 +1,5 @@
 import { ChronoField } from "./ChronoFieldFormatter.js";
+import Comparable from "./Comparable.js";
 import { default as IntRange, IntRangeFormatOptions } from "./IntRange.js";
 import TariffRate from "./TariffRate.js";
 /**
@@ -71,7 +72,7 @@ export interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions
  *
  * @public
  */
-export default class TemporalRangesTariff {
+export default class TemporalRangesTariff implements Comparable<TemporalRangesTariff> {
     #private;
     /**
      * Range for all months of a year: 1 - 12 (inclusive).
@@ -131,6 +132,16 @@ export default class TemporalRangesTariff {
      * @returns `true` if this tariff applies on the given date
      */
     appliesAt(date: Date, utc?: boolean): boolean;
+    /**
+     * Compares this object with the specified object for order.
+     *
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+     *
+     * @param o - the tariff to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
+     */
+    compareTo(o: TemporalRangesTariff): number;
     /**
      * Get a string representation of the components of this description.
      *

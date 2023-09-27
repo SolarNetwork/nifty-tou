@@ -158,6 +158,32 @@ export declare class ChronoFieldValue {
 }
 
 /**
+ * API for a comparison between similar objects.
+ * @public
+ */
+export declare interface Comparable<T> {
+    /**
+     * Compare this instance to another.
+     *
+     * @param o - the object to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     */
+    compareTo(o: T): number;
+}
+
+/**
+ * Compare two ranges.
+ *
+ * This function is useful for sorting arrays of {@link Comparable} objects.
+ *
+ * @param l - the left value
+ * @param r - the right value
+ * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+ * @public
+ */
+declare function compare<T extends Comparable<T>>(l: T, r: T): number;
+
+/**
  * Default number format options to use.
  * @public
  */
@@ -171,7 +197,7 @@ export declare const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
  *
  * @public
  */
-export declare class IntRange {
+export declare class IntRange implements Comparable<IntRange> {
     #private;
     /**
      * Constructor.
@@ -292,26 +318,9 @@ export declare class IntRange {
      *
      * @param o - the range to compare to
      * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
      */
     compareTo(o: IntRange): number;
-    /**
-     * Compare two ranges.
-     *
-     * This function is useful for sorting arrays, for example:
-     *
-     * ```ts
-     * const data = [new IntRange(2, 3), new IntRange(0, 2)];
-     * data.sort(IntRange.compare);
-     *
-     * // now data like [ [0..2], [2..3] ]
-     * ```
-     *
-     * @param l - the left value
-     * @param r - the right value
-     * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
-     * @see {@link IntRange.compareTo | compareTo()}
-     */
-    static compare(l: IntRange, r: IntRange): number;
     /**
      * Test for equality.
      *
@@ -584,7 +593,7 @@ export declare class TariffRate {
  *
  * @public
  */
-export declare class TemporalRangesTariff {
+export declare class TemporalRangesTariff implements Comparable<TemporalRangesTariff> {
     #private;
     /**
      * Range for all months of a year: 1 - 12 (inclusive).
@@ -644,6 +653,16 @@ export declare class TemporalRangesTariff {
      * @returns `true` if this tariff applies on the given date
      */
     appliesAt(date: Date, utc?: boolean): boolean;
+    /**
+     * Compares this object with the specified object for order.
+     *
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+     *
+     * @param o - the tariff to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
+     */
+    compareTo(o: TemporalRangesTariff): number;
     /**
      * Get a string representation of the components of this description.
      *
@@ -729,26 +748,31 @@ export declare interface TemporalRangesTariffFormatOptions extends IntRangeForma
  * A schedule, or collection, of {@link TemporalRangesTariff} rules that supports
  * resolving rates for dates.
  *
+ * @typeParam T - the tariff type
+ * @typeParam O - the options type
  * @public
  */
-export declare class TemporalRangesTariffSchedule {
+export declare class TemporalRangesTariffSchedule<T extends TemporalRangesTariff, O extends TemporalRangesTariffScheduleOptions> {
     #private;
     /**
      * Constructor.
      *
      * @param rules - the list of rules to include in the schedule
-     * @param multipleMatch - if `true` then support resolving multiple rules for a given date,
-     *     otherwise resolve the first matching rule only
+     * @param options - the options, or a boolean shortcut to set the `multipleMatch` option
      */
-    constructor(rules: TemporalRangesTariff[], multipleMatch?: boolean);
+    constructor(rules: T[], options?: O | boolean);
+    /**
+     * Get the rules.
+     */
+    get rules(): readonly T[];
+    /**
+     * Get the options.
+     */
+    get options(): O | undefined;
     /**
      * Get the multiple-match mode.
      */
     get multipleMatch(): boolean;
-    /**
-     * Get the rules.
-     */
-    get rules(): readonly TemporalRangesTariff[];
     /**
      * Find the first rule that applies on a given date.
      *
@@ -756,7 +780,7 @@ export declare class TemporalRangesTariffSchedule {
      * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
      * @returns the first available matching rule, or `undefined` if no rules match
      */
-    firstMatch(date: Date, utc?: boolean): TemporalRangesTariff;
+    firstMatch(date: Date, utc?: boolean): T;
     /**
      * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
      *
@@ -764,7 +788,7 @@ export declare class TemporalRangesTariffSchedule {
      * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
      * @returns the list of matching rules; at most one if `multipleMatch` is `false`
      */
-    matches(date: Date, utc?: boolean): TemporalRangesTariff[];
+    matches(date: Date, utc?: boolean): T[];
     /**
      * Resolve the tariff rates that apply on a given date, respecting the `multipleMatch` property.
      *
@@ -777,6 +801,20 @@ export declare class TemporalRangesTariffSchedule {
      *     to associated rate instances
      */
     resolve(date: Date, utc?: boolean): Record<string, TariffRate>;
+}
+
+/**
+ * Schedule options.
+ * @public
+ */
+export declare interface TemporalRangesTariffScheduleOptions {
+    /**
+     * Match multiple rules.
+     *
+     * If `true` then support resolving multiple rules for a given date,
+     * otherwise resolve the first matching rule only.
+     */
+    multipleMatch?: boolean;
 }
 
 /**
@@ -797,7 +835,8 @@ declare namespace Utils {
         optional,
         prefix,
         required,
-        splitRange
+        splitRange,
+        compare
     }
 }
 export { Utils }
@@ -838,6 +877,29 @@ export declare class YearTemporalRangesTariff extends TemporalRangesTariff {
      */
     appliesAt(date: Date, utc?: boolean): boolean;
     /**
+     * Test if this tariff applies on a given date.
+     *
+     * All range constraints are treated as inclusive bounds, except for
+     * the `minuteOfDayRange` that is treated as an inclusive minimum and
+     * exclusive maximum.
+     *
+     * @param date - the date to test if this rate applies at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns `true` if this tariff applies on the given date
+     * @override
+     */
+    appliesAtYearExtended(date: Date, utc?: boolean): boolean;
+    /**
+     * Compares this object with the specified object for order.
+     *
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+     *
+     * @param o - the tariff to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
+     */
+    compareTo(o: YearTemporalRangesTariff): number;
+    /**
      * Get a string representation of the components of this description.
      * @returns string representation of the components of this tariff
      * @override
@@ -864,6 +926,63 @@ export declare class YearTemporalRangesTariff extends TemporalRangesTariff {
      * @returns the new instance
      */
     static parseYears(locale: string, yearRange?: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): YearTemporalRangesTariff;
+}
+
+/**
+ * A schedule, or collection, of {@link YearTemporalRangesTariff} rules that supports
+ * resolving rates for dates.
+ *
+ * @remarks
+ * By default this schedule works similarly to the {@link TemporalRangesTariffSchedule},
+ * except using {@link YearTemporalRangesTariff} instances that include a year criteria
+ * for matching dates. The {@link YearTemporalRangesTariffScheduleOptions.yearExtend | yearExtend}
+ * option changes the matching to treat the "most recent" year rules as having unbounded
+ * maximum values. The idea here is that the most recently defined rules remain applicable
+ * into future years, until another set of rules for some future year overrides them.
+ *
+ * @typeParam T - the tariff type
+ * @typeParam O - the options type
+ * @public */
+export declare class YearTemporalRangesTariffSchedule<T extends YearTemporalRangesTariff, O extends YearTemporalRangesTariffScheduleOptions> extends TemporalRangesTariffSchedule<T, O> {
+    #private;
+    /**
+     * Get the year-extend mode.
+     */
+    get yearExtend(): boolean;
+    /**
+     * Find the first rule that applies on a given date.
+     *
+     * @param date - the date to find the first matching rule at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns the first available matching rule, or `undefined` if no rules match
+     * @override
+     */
+    firstMatch(date: Date, utc?: boolean): T;
+    /**
+     * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
+     *
+     * @param date - the date to find the matching rules at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns the list of matching rules; at most one if `multipleMatch` is `false`
+     * @override
+     */
+    matches(date: Date, utc?: boolean): T[];
+}
+
+/**
+ * Year schedule options.
+ * @public
+ */
+export declare interface YearTemporalRangesTariffScheduleOptions extends TemporalRangesTariffScheduleOptions {
+    /**
+     * Extend year constraints into the furture.
+     *
+     * If `true` then extend the most recent year constraints into unbounded maximums.
+     * This is like defining a rule as "from year X onwards". <b>Note</b> this assumes
+     * that the rules being compared are already sorted in their natural order (see
+     * {@link YearTemporalRangesTariff.compareTo | compareTo()}).
+     */
+    yearExtend?: boolean;
 }
 
 export { }

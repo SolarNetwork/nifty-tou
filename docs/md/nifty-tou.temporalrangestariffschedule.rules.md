@@ -9,5 +9,5 @@ Get the rules.
 **Signature:**
 
 ```typescript
-get rules(): readonly TemporalRangesTariff[];
+get rules(): readonly T[];
 ```

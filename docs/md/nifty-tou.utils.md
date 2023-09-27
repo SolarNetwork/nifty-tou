@@ -9,6 +9,7 @@
 |  Function | Description |
 |  --- | --- |
 |  [cconcat(s1, s2)](./nifty-tou.utils.cconcat.md) | <p>Concatenate two strings with a comma.</p><p>If <code>s1</code> has no length then <code>s2</code> is returned as-is. If <code>s2</code> has no length then <code>s1</code> is returned as-is. Otherwise the strings are concatenated with a comma delimiter.</p> |
+|  [compare(l, r)](./nifty-tou.utils.compare.md) | <p>Compare two ranges.</p><p>This function is useful for sorting arrays of [Comparable](./nifty-tou.comparable.md) objects.</p> |
 |  [optional(arg, name, type)](./nifty-tou.utils.optional.md) | Verify that a variable is undefined or of a given type. |
 |  [prefix(prefix, s)](./nifty-tou.utils.prefix.md) | <p>Prefix an optional string.</p><p>If <code>prefix</code> or <code>s</code> have no length then <code>s</code> is returned as-is. Otherwise the strings are concatenated.</p> |
 |  [required(arg, name, type)](./nifty-tou.utils.required.md) | Verify that a variable is defined and optionally of a given type. |

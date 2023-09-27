@@ -18,6 +18,7 @@ A delightful little library for working with time-of-use tariffs.
 |  [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) | <p>A tariff with time-based range rules.</p><p>The rules associated with this tariff are represented by a set of date ranges that serve as the constraints that must be satisfied by a given date for the rule to apply.</p> |
 |  [TemporalRangesTariffSchedule](./nifty-tou.temporalrangestariffschedule.md) | A schedule, or collection, of [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) rules that supports resolving rates for dates. |
 |  [YearTemporalRangesTariff](./nifty-tou.yeartemporalrangestariff.md) | An extension of [TemporalRangesTariff](./nifty-tou.temporalrangestariff.md) with support for an additional year range constraint. |
+|  [YearTemporalRangesTariffSchedule](./nifty-tou.yeartemporalrangestariffschedule.md) | A schedule, or collection, of [YearTemporalRangesTariff](./nifty-tou.yeartemporalrangestariff.md) rules that supports resolving rates for dates. |
 
 ## Enumerations
 
@@ -29,8 +30,11 @@ A delightful little library for working with time-of-use tariffs.
 
 |  Interface | Description |
 |  --- | --- |
+|  [Comparable](./nifty-tou.comparable.md) | API for a comparison between similar objects. |
 |  [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | Options to use when formatting in the [formatRange()](./nifty-tou.chronofieldformatter.formatrange.md) method. |
 |  [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | Options to use when formatting in the [formatRange()](./nifty-tou.temporalrangestariff.formatrange.md) method. |
+|  [TemporalRangesTariffScheduleOptions](./nifty-tou.temporalrangestariffscheduleoptions.md) | Schedule options. |
+|  [YearTemporalRangesTariffScheduleOptions](./nifty-tou.yeartemporalrangestariffscheduleoptions.md) | Year schedule options. |
 
 ## Namespaces
 

@@ -9,8 +9,9 @@ An immutable number range with min/max values.
 **Signature:**
 
 ```typescript
-export default class IntRange 
+export default class IntRange implements Comparable<IntRange> 
 ```
+**Implements:** [Comparable](./nifty-tou.comparable.md)<!-- -->&lt;[IntRange](./nifty-tou.intrange.md)<!-- -->&gt;
 
 ## Remarks
 
@@ -37,14 +38,6 @@ The minimum and maximum values can use `null` to represent "none".
 |  --- | --- | --- |
 |  [adjacentTo(o)](./nifty-tou.intrange.adjacentto.md) |  | Test if this range is adjacent to (but not intersecting) a given range. |
 |  [canMergeWith(o)](./nifty-tou.intrange.canmergewith.md) |  | <p>Test if this range could be merged with another range.</p><p>Two ranges can be merged if they are either adjacent to or intersect with each other.</p> |
-|  [compare(l, r)](./nifty-tou.intrange.compare.md) | <code>static</code> | <p>Compare two ranges.</p><p>This function is useful for sorting arrays, for example:</p>
-```ts
-const data = [new IntRange(2, 3), new IntRange(0, 2)];
-data.sort(IntRange.compare);
-
-// now data like [ [0..2], [2..3] ]
-```
- |
 |  [compareTo(o)](./nifty-tou.intrange.compareto.md) |  | <p>Compares this object with the specified object for order.</p><p>Unbounded (<code>null</code>) values are ordered before bounded (non-<code>null</code>) values.</p> |
 |  [contains(value)](./nifty-tou.intrange.contains.md) |  | Test if a value is within this range, inclusive. |
 |  [containsAll(min, max)](./nifty-tou.intrange.containsall.md) |  | Test if another range is completely within this range, inclusive. |

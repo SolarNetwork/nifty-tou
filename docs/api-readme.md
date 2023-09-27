@@ -101,7 +101,7 @@ const rates = schedule.resolve(new Date("2024-01-05T08:00"));
 # Year-based tariff schedules
 
 If you would like to model a tariff schedule with rules that change over the time, the
-The [YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
+[YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
 class extends the `TemporalRangesTariffSchedule` with support for year-based rules.
 For example, imagine a tariff schedule like this:
 

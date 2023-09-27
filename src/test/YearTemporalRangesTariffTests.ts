@@ -5,6 +5,7 @@ import {
 	ALL_DAYS_OF_MONTH,
 	ALL_DAYS_OF_WEEK,
 	ALL_MINUTES_OF_DAY,
+	ChronoField,
 } from "../main/ChronoFieldFormatter.js";
 import { default as IntRange, UNBOUNDED_RANGE } from "../main/IntRange.js";
 import YearTemporalRangesTariff from "../main/YearTemporalRangesTariff.js";
@@ -363,4 +364,114 @@ test("YearTemporalRangesTariff:applies:yearExtended:unbounded", (t) => {
 
 	const d3 = new Date("2023-01-01T00:00");
 	t.true(tt.appliesAtYearExtended(d3), "past year matches unbounded min");
+});
+
+test("YearTemporalRangesTariff:format:en-US", (t) => {
+	const tt = new YearTemporalRangesTariff(
+		new IntRange(2022, 2023),
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+
+	t.is(tt.format(locale, ChronoField.YEAR), "2022 - 2023", "years formatted");
+	t.is(
+		tt.format(locale, ChronoField.MONTH_OF_YEAR),
+		"Jan - Mar",
+		"months formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MONTH_OF_YEAR,
+			new IntRange(1, 11)
+		),
+		"Jan - Nov",
+		"months formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_MONTH),
+		"4 - 6",
+		"days formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.DAY_OF_MONTH,
+			new IntRange(1, 12)
+		),
+		"1 - 12",
+		"days formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_WEEK),
+		"Fri - Sun",
+		"weedays formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.DAY_OF_WEEK,
+			new IntRange(1, 6)
+		),
+		"Mon - Sat",
+		"weekdays formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY),
+		"14:05 - 19:05",
+		"minutes formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(0, 720)
+		),
+		"00:00 - 12:00",
+		"minutes formatted statically"
+	);
+});
+
+test("YearTemporalRangesTariff:formatRange:en-US:year", (t) => {
+	const locale = "en-US";
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(2000, 3000)
+		),
+		"2000 - 3000",
+		"year range formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(2000, null)
+		),
+		"2000 - *",
+		"unbounded max year range formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(null, 2000)
+		),
+		"* - 2000",
+		"unbounded min year range formatted"
+	);
+	t.is(
+		YearTemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(null, null)
+		),
+		"*",
+		"unbounded year range formatted"
+	);
 });

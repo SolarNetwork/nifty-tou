@@ -583,6 +583,7 @@ test("TemporalRangesTariff:format:en-US:all", (t) => {
 	);
 	const locale = "en-US";
 
+	t.is(tt.format(locale, ChronoField.YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
@@ -599,6 +600,7 @@ test("TemporalRangesTariff:format:en-US:all:undefined", (t) => {
 	);
 	const locale = "en-US";
 
+	t.is(tt.format(locale, ChronoField.YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
@@ -615,6 +617,7 @@ test("TemporalRangesTariff:format:en-US:all:custom", (t) => {
 	);
 	const locale = "en-US";
 	const opts: TemporalRangesTariffFormatOptions = { allValue: "ALL" };
+	t.is(tt.format(locale, ChronoField.YEAR, opts), "ALL", "bounds formatted");
 	t.is(
 		tt.format(locale, ChronoField.MONTH_OF_YEAR, opts),
 		"ALL",

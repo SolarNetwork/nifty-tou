@@ -165,6 +165,31 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	}
 
 	/**
+	 * Format a field range into a locale-specific string.
+	 *
+	 * @param locale - the desired locale
+	 * @param field - the field to format
+	 * @param options - the formatting options
+	 * @returns the formatted field range value
+	 * @throws `TypeError` if `field` is not supported
+	 */
+	format(
+		locale: string,
+		field: ChronoField,
+		options?: TemporalRangesTariffFormatOptions
+	): string {
+		if (field === ChronoField.YEAR) {
+			return TemporalRangesTariff.formatRange(
+				locale,
+				field,
+				this.#yearRange,
+				options
+			);
+		}
+		return super.format(locale, field, options);
+	}
+
+	/**
 	 * Get a string representation of the components of this description.
 	 * @returns string representation of the components of this tariff
 	 * @override

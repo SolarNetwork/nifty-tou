@@ -900,6 +900,16 @@ export declare class YearTemporalRangesTariff extends TemporalRangesTariff {
      */
     compareTo(o: YearTemporalRangesTariff): number;
     /**
+     * Format a field range into a locale-specific string.
+     *
+     * @param locale - the desired locale
+     * @param field - the field to format
+     * @param options - the formatting options
+     * @returns the formatted field range value
+     * @throws `TypeError` if `field` is not supported
+     */
+    format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
+    /**
      * Get a string representation of the components of this description.
      * @returns string representation of the components of this tariff
      * @override

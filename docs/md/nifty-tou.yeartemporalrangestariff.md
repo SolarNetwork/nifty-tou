@@ -33,5 +33,6 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff
 |  [appliesAtYearExtended(date, utc)](./nifty-tou.yeartemporalrangestariff.appliesatyearextended.md) |  | <p>Test if this tariff applies on a given date.</p><p>All range constraints are treated as inclusive bounds, except for the <code>minuteOfDayRange</code> that is treated as an inclusive minimum and exclusive maximum.</p> |
 |  [compareTo(o)](./nifty-tou.yeartemporalrangestariff.compareto.md) |  | <p>Compares this object with the specified object for order.</p><p>Unbounded (<code>null</code>) values are ordered before bounded (non-<code>null</code>) values.</p> |
 |  [componentsDescription()](./nifty-tou.yeartemporalrangestariff.componentsdescription.md) | <code>protected</code> | Get a string representation of the components of this description. |
+|  [format(locale, field, options)](./nifty-tou.yeartemporalrangestariff.format.md) |  | Format a field range into a locale-specific string. |
 |  [parseYears(locale, yearRange, monthRange, dayOfMonthRange, dayOfWeekRange, minuteOfDayRange, rates, options)](./nifty-tou.yeartemporalrangestariff.parseyears.md) | <code>static</code> | Parse time range criteria into a <code>YearTemporalRangesTariff</code> instance. |
 

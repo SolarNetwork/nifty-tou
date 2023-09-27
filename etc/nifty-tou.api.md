@@ -187,6 +187,7 @@ export class YearTemporalRangesTariff extends TemporalRangesTariff {
     compareTo(o: YearTemporalRangesTariff): number;
     // @override
     protected componentsDescription(): string;
+    format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
     static parseYears(locale: string, yearRange?: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): YearTemporalRangesTariff;
     get yearRange(): IntRange;
 }

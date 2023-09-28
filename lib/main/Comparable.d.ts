@@ -9,6 +9,6 @@ export default interface Comparable<T> {
      * @param o - the object to compare to
      * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
      */
-    compareTo(o: T): number;
+    compareTo(o: T | undefined): number;
 }
 //# sourceMappingURL=Comparable.d.ts.map

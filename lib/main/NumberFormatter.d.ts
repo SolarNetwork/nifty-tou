@@ -49,9 +49,10 @@ export default class NumberFormatter {
      * Normalize a locale-specific number string.
      *
      * @param s - the number string to parse in this instance's locale
-     * @returns the number string normalized into a JavaScript number string
+     * @returns the number string normalized into a JavaScript number string, or `undefined`
+     *     if the normalized value is empty
      */
-    norm(s: string): string;
+    norm(s: string): string | undefined;
     /**
      * Parse a locale-specific number string.
      *

@@ -23,7 +23,7 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
     /**
      * Get the month of year range.
      */
-    get yearRange(): IntRange;
+    get yearRange(): IntRange | undefined;
     /**
      * Test if this tariff applies on a given date.
      *

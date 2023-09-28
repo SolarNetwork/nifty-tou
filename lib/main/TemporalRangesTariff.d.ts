@@ -103,19 +103,19 @@ export default class TemporalRangesTariff implements Comparable<TemporalRangesTa
     /**
      * Get the month of year range.
      */
-    get monthRange(): IntRange;
+    get monthRange(): IntRange | undefined;
     /**
      * Get the day of month range.
      */
-    get dayOfMonthRange(): IntRange;
+    get dayOfMonthRange(): IntRange | undefined;
     /**
      * Get the day of week range.
      */
-    get dayOfWeekRange(): IntRange;
+    get dayOfWeekRange(): IntRange | undefined;
     /**
      * Get the minute of day range.
      */
-    get minuteOfDayRange(): IntRange;
+    get minuteOfDayRange(): IntRange | undefined;
     /**
      * Get the rates, as an object of rate ID to `TariffRate` objects.
      */

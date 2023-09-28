@@ -63,10 +63,10 @@ const tt = TemporalRangesTariff.parse(
 |  [ALL\_DAYS\_OF\_WEEK](./nifty-tou.temporalrangestariff.all_days_of_week.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all days of a week: 1 - 7 (inclusive). |
 |  [ALL\_MINUTES\_OF\_DAY](./nifty-tou.temporalrangestariff.all_minutes_of_day.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all minutes of a day: 0 - 1440 (inclusive min, exclusive max). |
 |  [ALL\_MONTHS](./nifty-tou.temporalrangestariff.all_months.md) | <p><code>static</code></p><p><code>readonly</code></p> | [IntRange](./nifty-tou.intrange.md) | Range for all months of a year: 1 - 12 (inclusive). |
-|  [dayOfMonthRange](./nifty-tou.temporalrangestariff.dayofmonthrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the day of month range. |
-|  [dayOfWeekRange](./nifty-tou.temporalrangestariff.dayofweekrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the day of week range. |
-|  [minuteOfDayRange](./nifty-tou.temporalrangestariff.minuteofdayrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the minute of day range. |
-|  [monthRange](./nifty-tou.temporalrangestariff.monthrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the month of year range. |
+|  [dayOfMonthRange](./nifty-tou.temporalrangestariff.dayofmonthrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) \| undefined | Get the day of month range. |
+|  [dayOfWeekRange](./nifty-tou.temporalrangestariff.dayofweekrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) \| undefined | Get the day of week range. |
+|  [minuteOfDayRange](./nifty-tou.temporalrangestariff.minuteofdayrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) \| undefined | Get the minute of day range. |
+|  [monthRange](./nifty-tou.temporalrangestariff.monthrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) \| undefined | Get the month of year range. |
 |  [rates](./nifty-tou.temporalrangestariff.rates.md) | <code>readonly</code> | Record&lt;string, [TariffRate](./nifty-tou.tariffrate.md)<!-- -->&gt; | Get the rates, as an object of rate ID to <code>TariffRate</code> objects. |
 
 ## Methods

@@ -9,20 +9,20 @@ Parse a range array of number strings into an `IntRange`<!-- -->.
 **Signature:**
 
 ```typescript
-static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
+static parseRange(value: string | string[] | undefined, bounds?: IntRange, options?: IntRangeFormatOptions): IntRange | undefined;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | string \| string\[\] | the range to parse; can be a string adhering to [splitRange()](./nifty-tou.utils.splitrange.md) or an array with 1 or 2 number value elements, or <code>*</code> to represent "none" |
+|  value | string \| string\[\] \| undefined | the range to parse; can be a string adhering to [splitRange()](./nifty-tou.utils.splitrange.md) or an array with 1 or 2 number value elements, or <code>*</code> to represent "none" |
 |  bounds | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the optional bounds (inclusive) to enforce; if the parsed range |
 |  options | [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | _(Optional)_ options to control the formatting |
 
 **Returns:**
 
-[IntRange](./nifty-tou.intrange.md)
+[IntRange](./nifty-tou.intrange.md) \| undefined
 
 the parsed range, or `undefined` if a range could not be parsed or extends beyond the given `bounds` then `undefined` will be returned
 

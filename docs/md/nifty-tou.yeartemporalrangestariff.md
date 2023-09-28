@@ -23,7 +23,7 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [yearRange](./nifty-tou.yeartemporalrangestariff.yearrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) | Get the month of year range. |
+|  [yearRange](./nifty-tou.yeartemporalrangestariff.yearrange.md) | <code>readonly</code> | [IntRange](./nifty-tou.intrange.md) \| undefined | Get the month of year range. |
 
 ## Methods
 

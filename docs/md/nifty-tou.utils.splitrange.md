@@ -11,18 +11,18 @@ A range delimited string has the pattern `VALUE - VALUE`<!-- -->, where whitespa
 **Signature:**
 
 ```typescript
-export declare function splitRange(range: string): string[];
+export declare function splitRange(range: string | undefined): string[] | undefined;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  range | string | the range string to split into components, whitespace trimmed |
+|  range | string \| undefined | the range string to split into components, whitespace trimmed |
 
 **Returns:**
 
-string\[\]
+string\[\] \| undefined
 
 the split range, of length 1 or 2, or `undefined` if `range` is undefined
 

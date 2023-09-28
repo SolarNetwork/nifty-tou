@@ -9,7 +9,7 @@ Find the first rule that applies on a given date.
 **Signature:**
 
 ```typescript
-firstMatch(date: Date, utc?: boolean): T;
+firstMatch(date: Date, utc?: boolean): T | undefined;
 ```
 
 ## Parameters
@@ -21,7 +21,7 @@ firstMatch(date: Date, utc?: boolean): T;
 
 **Returns:**
 
-T
+T \| undefined
 
 the first available matching rule, or `undefined` if no rules match
 

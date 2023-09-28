@@ -9,7 +9,7 @@ Parse a field value.
 **Signature:**
 
 ```typescript
-parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
+parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue | undefined;
 ```
 
 ## Parameters
@@ -22,7 +22,7 @@ parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): Chron
 
 **Returns:**
 
-[ChronoFieldValue](./nifty-tou.chronofieldvalue.md)
+[ChronoFieldValue](./nifty-tou.chronofieldvalue.md) \| undefined
 
 the associated field value, or undefined if not found
 

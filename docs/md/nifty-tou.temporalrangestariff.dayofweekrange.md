@@ -9,5 +9,5 @@ Get the day of week range.
 **Signature:**
 
 ```typescript
-get dayOfWeekRange(): IntRange;
+get dayOfWeekRange(): IntRange | undefined;
 ```

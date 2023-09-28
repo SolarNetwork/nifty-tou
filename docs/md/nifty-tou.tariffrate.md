@@ -27,7 +27,7 @@ The `exponent` property can be used to maintain precision in `amount`<!-- -->. F
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [amount](./nifty-tou.tariffrate.amount.md) | <code>readonly</code> | number | Get the amount. |
-|  [description](./nifty-tou.tariffrate.description.md) | <code>readonly</code> | string | Get the description. |
+|  [description](./nifty-tou.tariffrate.description.md) | <code>readonly</code> | string \| undefined | Get the description. |
 |  [exponent](./nifty-tou.tariffrate.exponent.md) | <code>readonly</code> | number | Get the exponent. |
 |  [id](./nifty-tou.tariffrate.id.md) | <code>readonly</code> | string | Get the identifier. |
 

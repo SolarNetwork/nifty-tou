@@ -9,5 +9,5 @@ Get the day of month range.
 **Signature:**
 
 ```typescript
-get dayOfMonthRange(): IntRange;
+get dayOfMonthRange(): IntRange | undefined;
 ```

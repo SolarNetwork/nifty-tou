@@ -9,15 +9,15 @@ Test if another range is completely within this range, inclusive.
 **Signature:**
 
 ```typescript
-containsAll(min: number, max: number): boolean;
+containsAll(min: number | null, max: number | null): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  min | number | the minimum of the range to test |
-|  max | number | the maximum of the range to test |
+|  min | number \| null | the minimum of the range to test |
+|  max | number \| null | the maximum of the range to test |
 
 **Returns:**
 

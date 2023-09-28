@@ -9,5 +9,5 @@ Get the month of year range.
 **Signature:**
 
 ```typescript
-get monthRange(): IntRange;
+get monthRange(): IntRange | undefined;
 ```

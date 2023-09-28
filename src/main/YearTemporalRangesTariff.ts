@@ -18,7 +18,7 @@ import { cconcat, compare, prefix } from "./utils.js";
  * @public
  */
 export default class YearTemporalRangesTariff extends TemporalRangesTariff {
-	#yearRange: IntRange;
+	#yearRange?: IntRange;
 
 	/**
 	 * Constructor.
@@ -51,7 +51,7 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	/**
 	 * Get the month of year range.
 	 */
-	get yearRange(): IntRange {
+	get yearRange(): IntRange | undefined {
 		return this.#yearRange;
 	}
 
@@ -91,9 +91,10 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	 * @override
 	 */
 	appliesAtYearExtended(date: Date, utc?: boolean): boolean {
-		const y = this.#yearRange.min;
+		const y = this.#yearRange?.min;
 		let yearDate = date;
 		if (
+			y !== undefined &&
 			y !== null &&
 			date &&
 			(utc ? date.getUTCFullYear() : date.getFullYear()) > y
@@ -196,7 +197,10 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	 */
 	protected componentsDescription(): string {
 		return cconcat(
-			prefix("y=", this.#yearRange.toString()),
+			prefix(
+				"y=",
+				IntRange.description(UNBOUNDED_RANGE, this.#yearRange)
+			),
 			super.componentsDescription()
 		);
 	}

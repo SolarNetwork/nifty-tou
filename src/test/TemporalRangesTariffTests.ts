@@ -573,6 +573,192 @@ test("TemporalRangesTariff:formatRange:year:delimiter", (t) => {
 	);
 });
 
+test("TemporalRangesTariff:formatRange:en-US:mod", (t) => {
+	const locale = "en-US";
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, 2)
+		),
+		"00:01 - 00:02",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, null)
+		),
+		"00:01 - *",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 2)
+		),
+		"* - 00:02",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null)
+		),
+		"*",
+		"unbounded mod range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod:custom", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		allValue: "!",
+		unboundedValue: "~",
+	};
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, 2),
+			opts
+		),
+		"00:01 - 00:02",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, null),
+			opts
+		),
+		"00:01 - ~",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 2),
+			opts
+		),
+		"~ - 00:02",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null),
+			opts
+		),
+		"!",
+		"unbounded mod range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod:wholeHours", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		wholeHours: true,
+	};
+
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, 120),
+			opts
+		),
+		"1 - 2",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, null),
+			opts
+		),
+		"1 - *",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 120),
+			opts
+		),
+		"* - 2",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null),
+			opts
+		),
+		"*",
+		"unbounded mod range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod:wholeHours:custom", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		allValue: "!",
+		unboundedValue: "~",
+		wholeHours: true,
+	};
+
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, 120),
+			opts
+		),
+		"1 - 2",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, null),
+			opts
+		),
+		"1 - ~",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 120),
+			opts
+		),
+		"~ - 2",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null),
+			opts
+		),
+		"!",
+		"unbounded mod range formatted"
+	);
+});
+
 test("TemporalRangesTariff:format:en-US:all", (t) => {
 	const tt = new TemporalRangesTariff(
 		TemporalRangesTariff.ALL_MONTHS,
@@ -866,6 +1052,8 @@ test("TemporalRangesTariff:compare:undefined", (t) => {
 		new IntRange(845, 1145),
 		[new TariffRate("a", 1.23)]
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(tt.compareTo(undefined), 1);
 });
 

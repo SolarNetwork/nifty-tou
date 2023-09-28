@@ -5,6 +5,8 @@ import TariffRate from "../main/TariffRate.js";
 import { ruleset01, ruleset02 } from "./yearData_01.js";
 
 test("YearTemporalRangesTariffSchedule:construct:undefined", (t) => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	const s = new YearTemporalRangesTariffSchedule(undefined, undefined);
 	t.deepEqual(
 		s.rules,

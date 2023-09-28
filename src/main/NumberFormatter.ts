@@ -74,13 +74,15 @@ export default class NumberFormatter {
 		);
 		this.#locale = locale;
 		this.#group = new RegExp(
-			`[${parts.find((d) => d.type === "group").value}]`,
+			`[${parts.find((d) => d.type === "group")?.value}]`,
 			"g"
 		);
 		this.#decimal = new RegExp(
-			`[${parts.find((d) => d.type === "decimal").value}]`
+			`[${parts.find((d) => d.type === "decimal")?.value}]`
 		);
 		this.#numeral = new RegExp(`[${numerals.join("")}]`, "g");
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		this.#index = (d) => index.get(d);
 		this.#format = new Intl.NumberFormat(locale, DEFAULT_FORMAT_OPTIONS);
 	}
@@ -94,9 +96,10 @@ export default class NumberFormatter {
 	 * Normalize a locale-specific number string.
 	 *
 	 * @param s - the number string to parse in this instance's locale
-	 * @returns the number string normalized into a JavaScript number string
+	 * @returns the number string normalized into a JavaScript number string, or `undefined`
+	 *     if the normalized value is empty
 	 */
-	norm(s: string): string {
+	norm(s: string): string | undefined {
 		if (s === undefined || s === null) {
 			return undefined;
 		}
@@ -116,8 +119,8 @@ export default class NumberFormatter {
 	 * @returns the parsed number, or `undefined` if `s` is `undefined`
 	 */
 	parse(s: string): number {
-		s = this.norm(s);
-		return s ? +s : NaN;
+		const n = this.norm(s);
+		return n ? +n : NaN;
 	}
 
 	/**

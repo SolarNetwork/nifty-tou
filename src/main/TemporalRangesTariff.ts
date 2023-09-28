@@ -50,8 +50,14 @@ function clamped(bounds: IntRange, r?: IntRange): IntRange | undefined {
 	if (bounds.containsRange(r)) {
 		return r;
 	}
-	const min = r.min === null || r.min < bounds.min ? bounds.min : r.min;
-	const max = r.max === null || r.max > bounds.max ? bounds.max : r.max;
+	const min =
+		r.min === null || (bounds.min !== null && r.min < bounds.min)
+			? bounds.min
+			: r.min;
+	const max =
+		r.max === null || (bounds.max !== null && r.max > bounds.max)
+			? bounds.max
+			: r.max;
 	if (min == bounds.min && max == bounds.max) {
 		return bounds;
 	}
@@ -111,10 +117,10 @@ function clamped(bounds: IntRange, r?: IntRange): IntRange | undefined {
 export default class TemporalRangesTariff
 	implements Comparable<TemporalRangesTariff>
 {
-	#monthRange: IntRange;
-	#dayOfMonthRange: IntRange;
-	#dayOfWeekRange: IntRange;
-	#minuteOfDayRange: IntRange;
+	#monthRange?: IntRange;
+	#dayOfMonthRange?: IntRange;
+	#dayOfWeekRange?: IntRange;
+	#minuteOfDayRange?: IntRange;
 	#rates: Record<string, TariffRate>;
 
 	/**
@@ -179,7 +185,7 @@ export default class TemporalRangesTariff
 		);
 
 		// turn array of rates into Object of id -> rate
-		const r = {};
+		const r: Record<string, TariffRate> = {};
 		if (Array.isArray(rates)) {
 			for (let i = 0; i < rates.length; i += 1) {
 				const rate = required(rates[i], `rate[${i}]`, TariffRate);
@@ -192,28 +198,28 @@ export default class TemporalRangesTariff
 	/**
 	 * Get the month of year range.
 	 */
-	get monthRange(): IntRange {
+	get monthRange(): IntRange | undefined {
 		return this.#monthRange;
 	}
 
 	/**
 	 * Get the day of month range.
 	 */
-	get dayOfMonthRange(): IntRange {
+	get dayOfMonthRange(): IntRange | undefined {
 		return this.#dayOfMonthRange;
 	}
 
 	/**
 	 * Get the day of week range.
 	 */
-	get dayOfWeekRange(): IntRange {
+	get dayOfWeekRange(): IntRange | undefined {
 		return this.#dayOfWeekRange;
 	}
 
 	/**
 	 * Get the minute of day range.
 	 */
-	get minuteOfDayRange(): IntRange {
+	get minuteOfDayRange(): IntRange | undefined {
 		return this.#minuteOfDayRange;
 	}
 
@@ -276,7 +282,9 @@ export default class TemporalRangesTariff
 		return (
 			!range ||
 			(range.contains(value) &&
-				(!exclusiveEnd ? true : value < range.max))
+				(!exclusiveEnd || range.max === null
+					? true
+					: value < range.max))
 		);
 	}
 
@@ -400,7 +408,7 @@ export default class TemporalRangesTariff
 		field: ChronoField,
 		options?: TemporalRangesTariffFormatOptions
 	): string {
-		let range: IntRange;
+		let range: IntRange | undefined;
 		if (field === ChronoField.MONTH_OF_YEAR) {
 			range = this.#monthRange;
 		} else if (field === ChronoField.DAY_OF_MONTH) {
@@ -429,7 +437,7 @@ export default class TemporalRangesTariff
 		value?: IntRange,
 		options?: TemporalRangesTariffFormatOptions
 	) {
-		let bounds: IntRange;
+		let bounds: IntRange | undefined;
 		if (field === ChronoField.YEAR) {
 			bounds = UNBOUNDED_RANGE;
 		} else if (field === ChronoField.MONTH_OF_YEAR) {
@@ -444,15 +452,29 @@ export default class TemporalRangesTariff
 		if (!bounds) {
 			throw new TypeError("Unsupported field value.");
 		}
-		if (!value || value.equals(bounds)) {
+		if (!value || value.equals(bounds) || UNBOUNDED_RANGE.equals(value)) {
 			return options?.allValue !== undefined
 				? options?.allValue
 				: ALL_VALUES;
 		}
-		if (field === ChronoField.MINUTE_OF_DAY && options?.wholeHours) {
-			const h = Math.trunc(value.min / 60);
-			const m = Math.trunc(value.max / 60);
-			return h + IntRange.delimiter(locale) + m;
+		if (
+			field === ChronoField.MINUTE_OF_DAY &&
+			options?.wholeHours &&
+			(value.min !== null || value.max !== null)
+		) {
+			const min =
+				value.min !== null
+					? Math.trunc(value.min / 60).toString()
+					: options?.unboundedValue !== undefined
+					? options?.unboundedValue
+					: UNBOUNDED_VALUE;
+			const max =
+				value.max !== null
+					? Math.trunc(value.max / 60)
+					: options?.unboundedValue !== undefined
+					? options?.unboundedValue
+					: UNBOUNDED_VALUE;
+			return min + IntRange.delimiter(locale) + max;
 		}
 
 		const fmt = ChronoFieldFormatter.forLocale(locale);

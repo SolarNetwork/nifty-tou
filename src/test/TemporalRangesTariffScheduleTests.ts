@@ -37,6 +37,8 @@ function ruleset01(): TemporalRangesTariff[] {
 }
 
 test("TemporalRangesSchedule:construct:undefined", (t) => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	const s = new TemporalRangesTariffSchedule(undefined, undefined);
 	t.deepEqual(
 		s.rules,

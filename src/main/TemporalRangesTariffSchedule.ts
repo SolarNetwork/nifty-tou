@@ -72,7 +72,7 @@ export default class TemporalRangesTariffSchedule<
 	 * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
 	 * @returns the first available matching rule, or `undefined` if no rules match
 	 */
-	firstMatch(date: Date, utc?: boolean): T {
+	firstMatch(date: Date, utc?: boolean): T | undefined {
 		const result = this.#matchesAt(date, true, utc);
 		return result.length ? result[0] : undefined;
 	}

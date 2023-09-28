@@ -215,6 +215,8 @@ test("YearTemporalRangesTariff:compare:undefined", (t) => {
 		new IntRange(845, 1145),
 		[new TariffRate("a", 1.23)]
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(tt.compareTo(undefined), 1);
 });
 

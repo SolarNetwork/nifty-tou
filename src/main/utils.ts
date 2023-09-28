@@ -14,7 +14,7 @@ import Comparable from "./Comparable.js";
  */
 export function cconcat(s1?: string, s2?: string): string {
 	if (!s1) {
-		return s2;
+		return s2 || "";
 	} else if (!s2) {
 		return s1;
 	}
@@ -35,7 +35,7 @@ export function optional<T>(
 	name: string,
 	type?: new (...args: any[]) => any
 ): T {
-	if (arg === undefined || arg === null) {
+	if (arg === undefined || arg === null || type === undefined) {
 		return arg;
 	}
 	if (
@@ -63,10 +63,10 @@ export function optional<T>(
  *
  * @param prefix - the prefix to prepend to `s`
  * @param s - the string to append to `prefix`
- * @returns the concatenated string
+ * @returns the prefixed string, or `undefined` if `s` is undefined
  * @public
  */
-export function prefix(prefix?: string, s?: string): string {
+export function prefix(prefix?: string, s?: string): string | undefined {
 	if (!(prefix && s)) {
 		return s;
 	}
@@ -108,7 +108,7 @@ const RANGE_DELIMITER: RegExp = /(?<!\s)\s*[-~\uFF5E]\s*/;
  * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
  * @public
  */
-export function splitRange(range: string): string[] {
+export function splitRange(range: string | undefined): string[] | undefined {
 	if (!range) {
 		return undefined;
 	}
@@ -132,7 +132,10 @@ export function splitRange(range: string): string[] {
  * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
  * @public
  */
-export function compare<T extends Comparable<T>>(l: T, r: T) {
+export function compare<T extends Comparable<T>>(
+	l: T | undefined,
+	r: T | undefined
+) {
 	if (l === r) {
 		return 0;
 	} else if (!l) {

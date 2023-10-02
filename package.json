@@ -1,84 +1,84 @@
 {
-	"name": "nifty-tou",
-	"version": "1.0.1-dev.0",
-	"description": "A delightful little data model and utilities for working with time-of-use tariff policies.",
-	"keywords": [
-		"solarnetwork",
-		"tariff"
-	],
-	"homepage": "https://solarnetwork.github.io/nifty-tou/",
-	"license": "Apache-2.0",
-	"author": {
-		"name": "SolarNetwork Foundation",
-		"email": "code@solarnetwork.net"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/SolarNetwork/nifty-tou.git"
-	},
-	"type": "module",
-	"main": "lib/main/index.js",
-	"module": "lib/main/index.js",
-	"engines": {
-		"node": ">=17"
-	},
-	"scripts": {
-		"build": "tsc",
-		"test": "c8 ava",
-		"coverage": "c8 --reporter=lcov ava",
-		"preapidoc": "npm run build && api-extractor run --local --verbose",
-		"apidoc": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
-		"release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
-	},
-	"sideEffects": false,
-	"ava": {
-		"files": [
-			"src/test/**/*Tests.ts"
-		],
-		"typescript": {
-			"rewritePaths": {
-				"src/": "lib/"
-			},
-			"compile": "tsc"
-		}
-	},
-	"c8": {
-		"exclude": [
-			"src/test/**"
-		],
-		"exclude-after-remap": true,
-		"reporter": [
-			"text",
-			"html"
-		]
-	},
-	"config": {
-		"generateRelease": {
-			"no_confirm": false,
-			"remote": "origin",
-			"post_commit_commands": [
-				"npm test"
-			],
-			"post_complete_commands": [
-				"npm publish",
-				"npmversion --increment prepatch --preid dev --nogit-tag"
-			]
-		}
-	},
-	"devDependencies": {
-		"@ava/typescript": "^4.1.0",
-		"@microsoft/api-documenter": "^7.23.1",
-		"@microsoft/api-extractor": "^7.37.0",
-		"@tsconfig/node17": "^17.1.1",
-		"@typescript-eslint/eslint-plugin": "^6.7.2",
-		"@typescript-eslint/parser": "^6.7.2",
-		"ava": "^5.3.1",
-		"c8": "^8.0.1",
-		"eslint": "^8.49.0",
-		"generate-release": "^1.1.1",
-		"npmversion": "^1.7.0",
-		"semver": "^7.5.4",
-		"typedoc": "^0.25.1",
-		"typescript": "^5.2.2"
-	}
+  "name": "nifty-tou",
+  "version": "1.1.0",
+  "description": "A delightful little data model and utilities for working with time-of-use tariff policies.",
+  "keywords": [
+    "solarnetwork",
+    "tariff"
+  ],
+  "homepage": "https://solarnetwork.github.io/nifty-tou/",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "SolarNetwork Foundation",
+    "email": "code@solarnetwork.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SolarNetwork/nifty-tou.git"
+  },
+  "type": "module",
+  "main": "lib/main/index.js",
+  "module": "lib/main/index.js",
+  "engines": {
+    "node": ">=17"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "c8 ava",
+    "coverage": "c8 --reporter=lcov ava",
+    "preapidoc": "npm run build && api-extractor run --local --verbose",
+    "apidoc": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
+    "release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
+  },
+  "sideEffects": false,
+  "ava": {
+    "files": [
+      "src/test/**/*Tests.ts"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      },
+      "compile": "tsc"
+    }
+  },
+  "c8": {
+    "exclude": [
+      "src/test/**"
+    ],
+    "exclude-after-remap": true,
+    "reporter": [
+      "text",
+      "html"
+    ]
+  },
+  "config": {
+    "generateRelease": {
+      "no_confirm": false,
+      "remote": "origin",
+      "post_commit_commands": [
+        "npm test"
+      ],
+      "post_complete_commands": [
+        "npm publish",
+        "npmversion --increment prepatch --preid dev --nogit-tag"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@ava/typescript": "^4.1.0",
+    "@microsoft/api-documenter": "^7.23.1",
+    "@microsoft/api-extractor": "^7.37.0",
+    "@tsconfig/node17": "^17.1.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "ava": "^5.3.1",
+    "c8": "^8.0.1",
+    "eslint": "^8.49.0",
+    "generate-release": "^1.1.1",
+    "npmversion": "^1.7.0",
+    "semver": "^7.5.4",
+    "typedoc": "^0.25.1",
+    "typescript": "^5.2.2"
+  }
 }

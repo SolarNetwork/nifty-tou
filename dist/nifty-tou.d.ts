@@ -5,6 +5,12 @@
  */
 
 /**
+ * The default "all values" representation.
+ * @public
+ */
+export declare const ALL_VALUES = "*";
+
+/**
  * Concatenate two strings with a comma.
  *
  * If `s1` has no length then `s2` is returned as-is. If `s2` has no length
@@ -23,14 +29,16 @@ declare function cconcat(s1?: string, s2?: string): string;
  * @public
  */
 export declare enum ChronoField {
+    /** Year. */
+    YEAR = 1,
     /** The month of year, from January (1) to December (12). */
-    MONTH_OF_YEAR = 1,
+    MONTH_OF_YEAR = 2,
     /** The day of month, from 1 - 31. */
-    DAY_OF_MONTH = 2,
+    DAY_OF_MONTH = 3,
     /** The day of the week, from Monday (1) to Sunday (7). */
-    DAY_OF_WEEK = 3,
+    DAY_OF_WEEK = 4,
     /** The minute of the day, from 0 to 1440 (assuming exclusive maximum). */
-    MINUTE_OF_DAY = 4
+    MINUTE_OF_DAY = 5
 }
 
 /**
@@ -67,7 +75,7 @@ export declare class ChronoFieldFormatter {
      * @param value - the field value to parse
      * @returns the associated field value, or undefined if not found
      */
-    parse(field: ChronoField, value: string): ChronoFieldValue;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue | undefined;
     /**
      * Parse a chronological field range string.
      *
@@ -78,7 +86,8 @@ export declare class ChronoFieldFormatter {
      *
      * @remarks
      * If `value` is `*` then a range of "all possible values" is returned,
-     * in other words the bounding range for that field.
+     * in other words the bounding range for that field. If a field has
+     * no implicit bounds (such as `YEAR`) then an unbounded range is returned.
      *
      * @example
      * Here are some basic examples:
@@ -94,26 +103,29 @@ export declare class ChronoFieldFormatter {
      *
      * @param field - the field to parse the range values as
      * @param value - the range string to parse
+     * @param options - the options
      * @returns the parsed range, or `undefined` if not parsable as a range
      * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
-    parseRange(field: ChronoField, value: string): IntRange;
+    parseRange(field: ChronoField, value: string | undefined, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Format a field value into a locale-specific string.
      *
      * @param field - the field to format
      * @param value - the field value to format
+     * @param options - the options
      * @returns the formatted field value
      */
-    format(field: ChronoField, value: number): string;
+    format(field: ChronoField, value: number | null, options?: IntRangeFormatOptions): string;
     /**
      * Format a field range into a locale-specific string.
      *
      * @param field - the field to format
      * @param value - the range to format
+     * @param options - options
      * @returns the formatted range
      */
-    formatRange(field: ChronoField, value: IntRange): string;
+    formatRange(field: ChronoField, value: IntRange, options?: IntRangeFormatOptions): string;
 }
 
 /**
@@ -138,7 +150,38 @@ export declare class ChronoFieldValue {
     get shortName(): string;
     /** Get the value. */
     get value(): number;
+    /**
+     * Get the value in range form.
+     * If `value` is `Infinity` this will return `null`.
+     */
+    get rangeValue(): number | null;
 }
+
+/**
+ * API for a comparison between similar objects.
+ * @public
+ */
+export declare interface Comparable<T> {
+    /**
+     * Compare this instance to another.
+     *
+     * @param o - the object to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     */
+    compareTo(o: T | undefined): number;
+}
+
+/**
+ * Compare two ranges.
+ *
+ * This function is useful for sorting arrays of {@link Comparable} objects.
+ *
+ * @param l - the left value
+ * @param r - the right value
+ * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+ * @public
+ */
+declare function compare<T extends Comparable<T>>(l: T | undefined, r: T | undefined): number;
 
 /**
  * Default number format options to use.
@@ -148,24 +191,28 @@ export declare const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
 
 /**
  * An immutable number range with min/max values.
+ *
+ * @remarks
+ * The minimum and maximum values can use `null` to represent "none".
+ *
  * @public
  */
-export declare class IntRange {
+export declare class IntRange implements Comparable<IntRange> {
     #private;
     /**
      * Constructor.
      *
-     * @param min - the mimnimum value
-     * @param max - the maximum value
+     * @param min - the mimnimum value or `null` for "no minimum"
+     * @param max - the maximum value or `null` for "no maximum"
      */
-    constructor(min: number, max: number);
+    constructor(min: number | null, max: number | null);
     /**
      * Create a singleton range, where the minimum and maximum values are equal.
      *
      * @param value - the minimum and maximum value
      * @returns the new singleton range instance
      */
-    static of(value: number): IntRange;
+    static of(value: number | null): IntRange;
     /**
      * Create a range.
      *
@@ -173,17 +220,18 @@ export declare class IntRange {
      * @param max - the maximum value
      * @returns the new range instance
      */
-    static rangeOf(min: number, max: number): IntRange;
+    static rangeOf(min: number | null, max: number | null): IntRange;
     /**
      * Parse a range array of number strings into an `IntRange`.
      *
      * @param value - the range to parse; can be a string adhering to {@link Utils.splitRange | splitRange()}
-     *     or an array with 1 or 2 number value elements
+     *     or an array with 1 or 2 number value elements, or `*` to represent "none"
      * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
+     * @param options - options to control the formatting
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(value: string | string[], bounds?: IntRange): IntRange;
+    static parseRange(value: string | string[] | undefined, bounds?: IntRange, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Get a locale-specific range delimiter to use.
      * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
@@ -193,13 +241,16 @@ export declare class IntRange {
     /**
      * Get the minimum value.
      */
-    get min(): number;
+    get min(): number | null;
     /**
      * Get the minimum value.
      */
-    get max(): number;
+    get max(): number | null;
     /**
      * Get the number of values between `min` and `max`, inclusive.
+     *
+     * @remarks
+     * This will return `+Inf` if either `min` or `max` is `null`.
      */
     get length(): number;
     /**
@@ -210,10 +261,10 @@ export declare class IntRange {
     /**
      * Test if a value is within this range, inclusive.
      *
-     * @param value - the value to test
+     * @param value - the value to test (`null` represents infinity)
      * @returns `true` if `min <= value <= max`
      */
-    contains(value: number): boolean;
+    contains(value: number | null): boolean;
     /**
      * Test if another range is completely within this range, inclusive.
      *
@@ -221,7 +272,7 @@ export declare class IntRange {
      * @param max - the maximum of the range to test
      * @returns `true` if `this.min <= min <= max <= this.max`
      */
-    containsAll(min: number, max: number): boolean;
+    containsAll(min: number | null, max: number | null): boolean;
     /**
      * Test if another range is completely within this range, inclusive.
      *
@@ -263,10 +314,11 @@ export declare class IntRange {
     /**
      * Compares this object with the specified object for order.
      *
-     * This implementation only compares the `min` values of each range.
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
      *
      * @param o - the range to compare to
-     * @returns `-1`, `0`, or `1` if `o` is less than, equal to, or greater than this range
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
      */
     compareTo(o: IntRange): number;
     /**
@@ -282,7 +334,7 @@ export declare class IntRange {
     /**
      * Get a string representation.
      *
-     * The format returned by this method is `[min..max]`.
+     * The format returned by this method is `[min..max]`. Any `null` value will be represented as an empty string.
      *
      * @returns the string representation
      */
@@ -298,10 +350,23 @@ export declare class IntRange {
      *
      * @param bounds - the "full" range that defines the bounds of `r`
      * @param r - the range
+     * @param options - options to control formatting
      * @returns if `r` represents "all possible values" then the literal string `*`,
      *     otherwise the string representation of `r`
      */
-    static description(bounds: IntRange, r?: IntRange): string;
+    static description(bounds: IntRange, r?: IntRange, options?: IntRangeFormatOptions): string;
+}
+
+/**
+ * Options to use when formatting in the {@link ChronoFieldFormatter.formatRange | formatRange()} method.
+ * @public
+ */
+export declare interface IntRangeFormatOptions {
+    /**
+     * The value to use for an "unbounded" value.
+     * The default value is `"*"`.
+     */
+    unboundedValue?: string;
 }
 
 /**
@@ -350,9 +415,10 @@ export declare class NumberFormatter {
      * Normalize a locale-specific number string.
      *
      * @param s - the number string to parse in this instance's locale
-     * @returns the number string normalized into a JavaScript number string
+     * @returns the number string normalized into a JavaScript number string, or `undefined`
+     *     if the normalized value is empty
      */
-    norm(s: string): string;
+    norm(s: string): string | undefined;
     /**
      * Parse a locale-specific number string.
      *
@@ -392,10 +458,10 @@ declare function optional<T>(arg: T, name: string, type?: new (...args: any[]) =
  *
  * @param prefix - the prefix to prepend to `s`
  * @param s - the string to append to `prefix`
- * @returns the concatenated string
+ * @returns the prefixed string, or `undefined` if `s` is undefined
  * @public
  */
-declare function prefix(prefix?: string, s?: string): string;
+declare function prefix(prefix?: string, s?: string): string | undefined;
 
 /**
  * Verify that a variable is defined and optionally of a given type.
@@ -419,7 +485,7 @@ declare function required<T>(arg: T, name: string, type?: new (...args: any[]) =
  * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
  * @public
  */
-declare function splitRange(range: string): string[];
+declare function splitRange(range: string | undefined): string[] | undefined;
 
 /**
  * An identifiable tariff rate.
@@ -446,13 +512,13 @@ export declare class TariffRate {
      */
     get id(): string;
     /**
-     * Get the description.
-     */
-    get description(): string;
-    /**
      * Get the amount.
      */
     get amount(): number;
+    /**
+     * Get the description.
+     */
+    get description(): string | undefined;
     /**
      * Get the exponent.
      */
@@ -528,7 +594,7 @@ export declare class TariffRate {
  *
  * @public
  */
-export declare class TemporalRangesTariff {
+export declare class TemporalRangesTariff implements Comparable<TemporalRangesTariff> {
     #private;
     /**
      * Range for all months of a year: 1 - 12 (inclusive).
@@ -559,19 +625,19 @@ export declare class TemporalRangesTariff {
     /**
      * Get the month of year range.
      */
-    get monthRange(): IntRange;
+    get monthRange(): IntRange | undefined;
     /**
      * Get the day of month range.
      */
-    get dayOfMonthRange(): IntRange;
+    get dayOfMonthRange(): IntRange | undefined;
     /**
      * Get the day of week range.
      */
-    get dayOfWeekRange(): IntRange;
+    get dayOfWeekRange(): IntRange | undefined;
     /**
      * Get the minute of day range.
      */
-    get minuteOfDayRange(): IntRange;
+    get minuteOfDayRange(): IntRange | undefined;
     /**
      * Get the rates, as an object of rate ID to `TariffRate` objects.
      */
@@ -589,7 +655,33 @@ export declare class TemporalRangesTariff {
      */
     appliesAt(date: Date, utc?: boolean): boolean;
     /**
+     * Compares this object with the specified object for order.
+     *
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+     *
+     * @param o - the tariff to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
+     */
+    compareTo(o: TemporalRangesTariff): number;
+    /**
+     * Get a string representation of the components of this description.
+     *
+     * @remarks
+     * The {@link TemporalRangesTariff.toString | toString()} method will call this
+     * to generate a string representation of this tariff. Extending classes can
+     * override this method (possibly invoking this implementation to pick up the
+     * components rendered by this class).
+     *
+     * @returns string representation of the components of this tariff
+     */
+    protected componentsDescription(): string;
+    /**
      * Get a string representation.
+     *
+     * @remarks
+     * This method will call the {@link TemporalRangesTariff.componentsDescription | componentsDescription()}
+     * method to generate a string representation of this tariff.
      *
      * @returns the string representation
      */
@@ -599,7 +691,7 @@ export declare class TemporalRangesTariff {
      *
      * @param locale - the desired locale
      * @param field - the field to format
-     * @param options - the options
+     * @param options - the formatting options
      * @returns the formatted field range value
      * @throws `TypeError` if `field` is not supported
      */
@@ -631,16 +723,17 @@ export declare class TemporalRangesTariff {
      * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
      * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
      * @param rates - the tariff rates to associate with the time range criteria
+     * @param options - the formatting options to use
      * @returns the new instance
      */
-    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
+    static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): TemporalRangesTariff;
 }
 
 /**
  * Options to use when formatting in the {@link TemporalRangesTariff.formatRange | formatRange()} method.
  * @public
  */
-export declare interface TemporalRangesTariffFormatOptions {
+export declare interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions {
     /**
      * The value to use for a range equal to a field's bounding range, that is "all possible values".
      * The default value is `"*"`.
@@ -656,26 +749,31 @@ export declare interface TemporalRangesTariffFormatOptions {
  * A schedule, or collection, of {@link TemporalRangesTariff} rules that supports
  * resolving rates for dates.
  *
+ * @typeParam T - the tariff type
+ * @typeParam O - the options type
  * @public
  */
-export declare class TemporalRangesTariffSchedule {
+export declare class TemporalRangesTariffSchedule<T extends TemporalRangesTariff, O extends TemporalRangesTariffScheduleOptions> {
     #private;
     /**
      * Constructor.
      *
      * @param rules - the list of rules to include in the schedule
-     * @param multipleMatch - if `true` then support resolving multiple rules for a given date,
-     *     otherwise resolve the first matching rule only
+     * @param options - the options, or a boolean shortcut to set the `multipleMatch` option
      */
-    constructor(rules: TemporalRangesTariff[], multipleMatch?: boolean);
+    constructor(rules: T[], options?: O | boolean);
+    /**
+     * Get the rules.
+     */
+    get rules(): readonly T[];
+    /**
+     * Get the options.
+     */
+    get options(): O | undefined;
     /**
      * Get the multiple-match mode.
      */
     get multipleMatch(): boolean;
-    /**
-     * Get the rules.
-     */
-    get rules(): readonly TemporalRangesTariff[];
     /**
      * Find the first rule that applies on a given date.
      *
@@ -683,7 +781,7 @@ export declare class TemporalRangesTariffSchedule {
      * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
      * @returns the first available matching rule, or `undefined` if no rules match
      */
-    firstMatch(date: Date, utc?: boolean): TemporalRangesTariff;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     /**
      * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
      *
@@ -691,7 +789,7 @@ export declare class TemporalRangesTariffSchedule {
      * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
      * @returns the list of matching rules; at most one if `multipleMatch` is `false`
      */
-    matches(date: Date, utc?: boolean): TemporalRangesTariff[];
+    matches(date: Date, utc?: boolean): T[];
     /**
      * Resolve the tariff rates that apply on a given date, respecting the `multipleMatch` property.
      *
@@ -706,15 +804,196 @@ export declare class TemporalRangesTariffSchedule {
     resolve(date: Date, utc?: boolean): Record<string, TariffRate>;
 }
 
+/**
+ * Schedule options.
+ * @public
+ */
+export declare interface TemporalRangesTariffScheduleOptions {
+    /**
+     * Match multiple rules.
+     *
+     * If `true` then support resolving multiple rules for a given date,
+     * otherwise resolve the first matching rule only.
+     */
+    multipleMatch?: boolean;
+}
+
+/**
+ * An unbounded range constant.
+ * @public
+ */
+export declare const UNBOUNDED_RANGE: IntRange;
+
+/**
+ * The default unbounded display value.
+ * @public
+ */
+export declare const UNBOUNDED_VALUE = "*";
+
 declare namespace Utils {
     export {
         cconcat,
         optional,
         prefix,
         required,
-        splitRange
+        splitRange,
+        compare
     }
 }
 export { Utils }
+
+/**
+ * An extension of {@link TemporalRangesTariff} with support for an additional year range constraint.
+ *
+ * @public
+ */
+export declare class YearTemporalRangesTariff extends TemporalRangesTariff {
+    #private;
+    /**
+     * Constructor.
+     *
+     * @param yearRange - the year range
+     * @param monthRange - the month range (1-12, inclusive)
+     * @param dayOfMonthRange - the day of month range (1-31, inclusive)
+     * @param dayOfWeekRange - the day of week range (1-7, with 1 = Monday, 7 = Sunday, inclusive)
+     * @param minuteOfDayRange - the minute of day range (0-1440, inclusive minimum, exclusive maximum)
+     * @param rates - the rates, as an array of `TariffRate` objects
+     */
+    constructor(yearRange?: IntRange, monthRange?: IntRange, dayOfMonthRange?: IntRange, dayOfWeekRange?: IntRange, minuteOfDayRange?: IntRange, rates?: TariffRate[]);
+    /**
+     * Get the month of year range.
+     */
+    get yearRange(): IntRange | undefined;
+    /**
+     * Test if this tariff applies on a given date.
+     *
+     * All range constraints are treated as inclusive bounds, except for
+     * the `minuteOfDayRange` that is treated as an inclusive minimum and
+     * exclusive maximum.
+     *
+     * @param date - the date to test if this rate applies at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns `true` if this tariff applies on the given date
+     * @override
+     */
+    appliesAt(date: Date, utc?: boolean): boolean;
+    /**
+     * Test if this tariff applies on a given date.
+     *
+     * All range constraints are treated as inclusive bounds, except for
+     * the `minuteOfDayRange` that is treated as an inclusive minimum and
+     * exclusive maximum.
+     *
+     * @param date - the date to test if this rate applies at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns `true` if this tariff applies on the given date
+     * @override
+     */
+    appliesAtYearExtended(date: Date, utc?: boolean): boolean;
+    /**
+     * Compares this object with the specified object for order.
+     *
+     * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
+     *
+     * @param o - the tariff to compare to
+     * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+     * @override
+     */
+    compareTo(o: YearTemporalRangesTariff): number;
+    /**
+     * Format a field range into a locale-specific string.
+     *
+     * @param locale - the desired locale
+     * @param field - the field to format
+     * @param options - the formatting options
+     * @returns the formatted field range value
+     * @throws `TypeError` if `field` is not supported
+     */
+    format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
+    /**
+     * Get a string representation of the components of this description.
+     * @returns string representation of the components of this tariff
+     * @override
+     */
+    protected componentsDescription(): string;
+    /**
+     * Parse time range criteria into a `YearTemporalRangesTariff` instance.
+     *
+     * @remarks
+     * Note that the `minuteOfDayRange` can be specified as a range of `HH:MM` 24-hour hour and minute
+     * values, <b>or</b> whole hours. For example `01:00-08:00` and `1-8` are equivalent.
+     *
+     * Additionally, all range values may be specified as `*` to mean "all possible values", in which
+     * that range will be resolved to `undefined`.
+     *
+     * @param locale - the locale to parse the ranges as
+     * @param yearRange - the year range to parse, for example `2000-2023`
+     * @param monthRange - the month range to parse, for example `January-December`, `Jan-Dec`, or `1-12`
+     * @param dayOfMonthRange - the day of month range to parse, for example `1-31`
+     * @param dayOfWeekRange - the day of week range to parse, for example `Monday-Sunday`, `Mon-Sun`, or `1-7`
+     * @param minuteOfDayRange - the minute of day range to parse, for example `00:00-24:00` or `0-24`
+     * @param rates - the tariff rates to associate with the time range criteria
+     * @param options - the formatting options
+     * @returns the new instance
+     */
+    static parseYears(locale: string, yearRange?: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): YearTemporalRangesTariff;
+}
+
+/**
+ * A schedule, or collection, of {@link YearTemporalRangesTariff} rules that supports
+ * resolving rates for dates.
+ *
+ * @remarks
+ * By default this schedule works similarly to the {@link TemporalRangesTariffSchedule},
+ * except using {@link YearTemporalRangesTariff} instances that include a year criteria
+ * for matching dates. The {@link YearTemporalRangesTariffScheduleOptions.yearExtend | yearExtend}
+ * option changes the matching to treat the "most recent" year rules as having unbounded
+ * maximum values. The idea here is that the most recently defined rules remain applicable
+ * into future years, until another set of rules for some future year overrides them.
+ *
+ * @typeParam T - the tariff type
+ * @typeParam O - the options type
+ * @public */
+export declare class YearTemporalRangesTariffSchedule<T extends YearTemporalRangesTariff, O extends YearTemporalRangesTariffScheduleOptions> extends TemporalRangesTariffSchedule<T, O> {
+    #private;
+    /**
+     * Get the year-extend mode.
+     */
+    get yearExtend(): boolean;
+    /**
+     * Find the first rule that applies on a given date.
+     *
+     * @param date - the date to find the first matching rule at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns the first available matching rule, or `undefined` if no rules match
+     * @override
+     */
+    firstMatch(date: Date, utc?: boolean): T | undefined;
+    /**
+     * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
+     *
+     * @param date - the date to find the matching rules at
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns the list of matching rules; at most one if `multipleMatch` is `false`
+     * @override
+     */
+    matches(date: Date, utc?: boolean): T[];
+}
+
+/**
+ * Year schedule options.
+ * @public
+ */
+export declare interface YearTemporalRangesTariffScheduleOptions extends TemporalRangesTariffScheduleOptions {
+    /**
+     * Extend year constraints into the furture.
+     *
+     * If `true` then extend the most recent year constraints into unbounded maximums.
+     * This is like defining a rule as "from year X onwards". <b>Note</b> this assumes
+     * that the rules being compared are already sorted in their natural order (see
+     * {@link YearTemporalRangesTariff.compareTo | compareTo()}).
+     */
+    yearExtend?: boolean;
+}
 
 export { }

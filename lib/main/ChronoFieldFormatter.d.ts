@@ -1,17 +1,19 @@
-import IntRange from "./IntRange.js";
+import { default as IntRange, IntRangeFormatOptions } from "./IntRange.js";
 /**
  * An enumeration of supported chronological fields of the Gregorian calendar.
  * @public
  */
 export declare enum ChronoField {
+    /** Year. */
+    YEAR = 1,
     /** The month of year, from January (1) to December (12). */
-    MONTH_OF_YEAR = 1,
+    MONTH_OF_YEAR = 2,
     /** The day of month, from 1 - 31. */
-    DAY_OF_MONTH = 2,
+    DAY_OF_MONTH = 3,
     /** The day of the week, from Monday (1) to Sunday (7). */
-    DAY_OF_WEEK = 3,
+    DAY_OF_WEEK = 4,
     /** The minute of the day, from 0 to 1440 (assuming exclusive maximum). */
-    MINUTE_OF_DAY = 4
+    MINUTE_OF_DAY = 5
 }
 /**
  * A chronological field value.
@@ -35,6 +37,11 @@ export declare class ChronoFieldValue {
     get shortName(): string;
     /** Get the value. */
     get value(): number;
+    /**
+     * Get the value in range form.
+     * If `value` is `Infinity` this will return `null`.
+     */
+    get rangeValue(): number | null;
 }
 /**
  * Range for all months of a year: 1 - 12 (inclusive).
@@ -90,7 +97,7 @@ export declare class ChronoFieldFormatter {
      * @param value - the field value to parse
      * @returns the associated field value, or undefined if not found
      */
-    parse(field: ChronoField, value: string): ChronoFieldValue;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue | undefined;
     /**
      * Parse a chronological field range string.
      *
@@ -101,7 +108,8 @@ export declare class ChronoFieldFormatter {
      *
      * @remarks
      * If `value` is `*` then a range of "all possible values" is returned,
-     * in other words the bounding range for that field.
+     * in other words the bounding range for that field. If a field has
+     * no implicit bounds (such as `YEAR`) then an unbounded range is returned.
      *
      * @example
      * Here are some basic examples:
@@ -117,25 +125,28 @@ export declare class ChronoFieldFormatter {
      *
      * @param field - the field to parse the range values as
      * @param value - the range string to parse
+     * @param options - the options
      * @returns the parsed range, or `undefined` if not parsable as a range
      * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
-    parseRange(field: ChronoField, value: string): IntRange;
+    parseRange(field: ChronoField, value: string | undefined, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Format a field value into a locale-specific string.
      *
      * @param field - the field to format
      * @param value - the field value to format
+     * @param options - the options
      * @returns the formatted field value
      */
-    format(field: ChronoField, value: number): string;
+    format(field: ChronoField, value: number | null, options?: IntRangeFormatOptions): string;
     /**
      * Format a field range into a locale-specific string.
      *
      * @param field - the field to format
      * @param value - the range to format
+     * @param options - options
      * @returns the formatted range
      */
-    formatRange(field: ChronoField, value: IntRange): string;
+    formatRange(field: ChronoField, value: IntRange, options?: IntRangeFormatOptions): string;
 }
 //# sourceMappingURL=ChronoFieldFormatter.d.ts.map

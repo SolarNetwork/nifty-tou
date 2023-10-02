@@ -9,7 +9,7 @@ Find the rules that apply on a given date, repsecting the `multipleMatch` proper
 **Signature:**
 
 ```typescript
-matches(date: Date, utc?: boolean): TemporalRangesTariff[];
+matches(date: Date, utc?: boolean): T[];
 ```
 
 ## Parameters
@@ -21,7 +21,7 @@ matches(date: Date, utc?: boolean): TemporalRangesTariff[];
 
 **Returns:**
 
-[TemporalRangesTariff](./nifty-tou.temporalrangestariff.md)<!-- -->\[\]
+T\[\]
 
 the list of matching rules; at most one if `multipleMatch` is `false`
 

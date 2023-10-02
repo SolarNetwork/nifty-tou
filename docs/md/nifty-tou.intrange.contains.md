@@ -9,14 +9,14 @@ Test if a value is within this range, inclusive.
 **Signature:**
 
 ```typescript
-contains(value: number): boolean;
+contains(value: number | null): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | number | the value to test |
+|  value | number \| null | the value to test (<code>null</code> represents infinity) |
 
 **Returns:**
 

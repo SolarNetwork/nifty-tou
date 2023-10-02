@@ -9,5 +9,5 @@ Get the minute of day range.
 **Signature:**
 
 ```typescript
-get minuteOfDayRange(): IntRange;
+get minuteOfDayRange(): IntRange | undefined;
 ```

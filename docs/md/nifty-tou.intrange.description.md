@@ -9,7 +9,7 @@ Generate a description of a range.
 **Signature:**
 
 ```typescript
-static description(bounds: IntRange, r?: IntRange): string;
+static description(bounds: IntRange, r?: IntRange, options?: IntRangeFormatOptions): string;
 ```
 
 ## Parameters
@@ -18,6 +18,7 @@ static description(bounds: IntRange, r?: IntRange): string;
 |  --- | --- | --- |
 |  bounds | [IntRange](./nifty-tou.intrange.md) | the "full" range that defines the bounds of <code>r</code> |
 |  r | [IntRange](./nifty-tou.intrange.md) | _(Optional)_ the range |
+|  options | [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | _(Optional)_ options to control formatting |
 
 **Returns:**
 

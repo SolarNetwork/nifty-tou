@@ -9,14 +9,14 @@ Create a singleton range, where the minimum and maximum values are equal.
 **Signature:**
 
 ```typescript
-static of(value: number): IntRange;
+static of(value: number | null): IntRange;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | number | the minimum and maximum value |
+|  value | number \| null | the minimum and maximum value |
 
 **Returns:**
 

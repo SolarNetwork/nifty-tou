@@ -29,8 +29,8 @@ export declare class ChronoFieldFormatter
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [forLocale(locale)](./nifty-tou.chronofieldformatter.forlocale.md) | <code>static</code> | <p>Get a parser for a given locale.</p><p>This method will instantiate and cache parsers, returning cached instances if already avaialble.</p> |
-|  [format(field, value)](./nifty-tou.chronofieldformatter.format.md) |  | Format a field value into a locale-specific string. |
-|  [formatRange(field, value)](./nifty-tou.chronofieldformatter.formatrange.md) |  | Format a field range into a locale-specific string. |
-|  [parse(field, value)](./nifty-tou.chronofieldformatter.parse.md) |  | Parse a field value. |
-|  [parseRange(field, value)](./nifty-tou.chronofieldformatter.parserange.md) |  | <p>Parse a chronological field range string.</p><p>A "range string" is a string formatted like <code>VALUE - VALUE</code>. Whitespace is ignored, and the <code>- VALUE</code> portion can be omitted for a singleton range. For example, in the <code>en-US</code> locale, <code>Jan-Dec</code> would be parsed as <code>[1..12]</code>.</p> |
+|  [format(field, value, options)](./nifty-tou.chronofieldformatter.format.md) |  | Format a field value into a locale-specific string. |
+|  [formatRange(field, value, options)](./nifty-tou.chronofieldformatter.formatrange.md) |  | Format a field range into a locale-specific string. |
+|  [parse(field, value, options)](./nifty-tou.chronofieldformatter.parse.md) |  | Parse a field value. |
+|  [parseRange(field, value, options)](./nifty-tou.chronofieldformatter.parserange.md) |  | <p>Parse a chronological field range string.</p><p>A "range string" is a string formatted like <code>VALUE - VALUE</code>. Whitespace is ignored, and the <code>- VALUE</code> portion can be omitted for a singleton range. For example, in the <code>en-US</code> locale, <code>Jan-Dec</code> would be parsed as <code>[1..12]</code>.</p> |
 

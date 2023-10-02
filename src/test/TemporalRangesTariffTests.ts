@@ -1,5 +1,11 @@
 import test from "ava";
-import { ChronoField } from "../main/ChronoFieldFormatter.js";
+import {
+	ChronoField,
+	ALL_MONTHS,
+	ALL_DAYS_OF_MONTH,
+	ALL_DAYS_OF_WEEK,
+	ALL_MINUTES_OF_DAY,
+} from "../main/ChronoFieldFormatter.js";
 import IntRange from "../main/IntRange.js";
 import {
 	default as TemporalRangesTariff,
@@ -35,6 +41,68 @@ test("TemporalRangesTariff:construct", (t) => {
 		tt.minuteOfDayRange,
 		minuteOfDayRange,
 		"minuteOfDayRange from constructor arg"
+	);
+});
+
+test("TemporalRangesTariff:construct:clamped:min", (t) => {
+	const monthRange = new IntRange(-99, 2);
+	const dayOfMonthRange = new IntRange(-99, 2);
+	const dayOfWeekRange = new IntRange(-99, 2);
+	const minuteOfDayRange = new IntRange(-99, 2);
+
+	const tt = new TemporalRangesTariff(
+		monthRange,
+		dayOfMonthRange,
+		dayOfWeekRange,
+		minuteOfDayRange,
+		[new TariffRate("a", 1.23)]
+	);
+	t.like(tt.monthRange, { min: 1, max: 2 }, "monthRange clamped to bounds");
+	t.like(
+		tt.dayOfMonthRange,
+		{ min: 1, max: 2 },
+		"dayOfMonthRange clamped to bounds"
+	);
+	t.like(
+		tt.dayOfWeekRange,
+		{ min: 1, max: 2 },
+		"dayOfWeekRange clamped to bounds"
+	);
+	t.like(
+		tt.minuteOfDayRange,
+		{ min: 0, max: 2 },
+		"minuteOfDayRange clamped to bounds"
+	);
+});
+
+test("TemporalRangesTariff:construct:clamped:bounds", (t) => {
+	const monthRange = new IntRange(-99, 99);
+	const dayOfMonthRange = new IntRange(-99, 99);
+	const dayOfWeekRange = new IntRange(-99, 99);
+	const minuteOfDayRange = new IntRange(-99, 9999);
+
+	const tt = new TemporalRangesTariff(
+		monthRange,
+		dayOfMonthRange,
+		dayOfWeekRange,
+		minuteOfDayRange,
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt.monthRange, ALL_MONTHS, "monthRange clamped to bounds");
+	t.is(
+		tt.dayOfMonthRange,
+		ALL_DAYS_OF_MONTH,
+		"dayOfMonthRange clamped to bounds"
+	);
+	t.is(
+		tt.dayOfWeekRange,
+		ALL_DAYS_OF_WEEK,
+		"dayOfWeekRange clamped to bounds"
+	);
+	t.is(
+		tt.minuteOfDayRange,
+		ALL_MINUTES_OF_DAY,
+		"minuteOfDayRange clamped to bounds"
 	);
 });
 
@@ -417,6 +485,280 @@ test("TemporalRangesTariff:parse:en-US:sparse", (t) => {
 	);
 });
 
+test("TemporalRangesTariff:formatRange:en-US:year", (t) => {
+	const locale = "en-US";
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(2000, 3000)
+		),
+		"2000 - 3000",
+		"year range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(2000, null)
+		),
+		"2000 - *",
+		"unbounded max year range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(null, 2000)
+		),
+		"* - 2000",
+		"unbounded min year range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(null, null)
+		),
+		"*",
+		"unbounded year range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:year:delimiter", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		allValue: "!",
+		unboundedValue: "~",
+	};
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(2000, 3000),
+			opts
+		),
+		"2000 - 3000",
+		"year range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(2000, null),
+			opts
+		),
+		"2000 - ~",
+		"unbounded max year range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(null, 2000),
+			opts
+		),
+		"~ - 2000",
+		"unbounded min year range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.YEAR,
+			new IntRange(null, null),
+			opts
+		),
+		"!",
+		"unbounded year range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod", (t) => {
+	const locale = "en-US";
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, 2)
+		),
+		"00:01 - 00:02",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, null)
+		),
+		"00:01 - *",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 2)
+		),
+		"* - 00:02",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null)
+		),
+		"*",
+		"unbounded mod range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod:custom", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		allValue: "!",
+		unboundedValue: "~",
+	};
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, 2),
+			opts
+		),
+		"00:01 - 00:02",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(1, null),
+			opts
+		),
+		"00:01 - ~",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 2),
+			opts
+		),
+		"~ - 00:02",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null),
+			opts
+		),
+		"!",
+		"unbounded mod range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod:wholeHours", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		wholeHours: true,
+	};
+
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, 120),
+			opts
+		),
+		"1 - 2",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, null),
+			opts
+		),
+		"1 - *",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 120),
+			opts
+		),
+		"* - 2",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null),
+			opts
+		),
+		"*",
+		"unbounded mod range formatted"
+	);
+});
+
+test("TemporalRangesTariff:formatRange:en-US:mod:wholeHours:custom", (t) => {
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		allValue: "!",
+		unboundedValue: "~",
+		wholeHours: true,
+	};
+
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, 120),
+			opts
+		),
+		"1 - 2",
+		"mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(60, null),
+			opts
+		),
+		"1 - ~",
+		"unbounded max mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, 120),
+			opts
+		),
+		"~ - 2",
+		"unbounded min mod range formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(null, null),
+			opts
+		),
+		"!",
+		"unbounded mod range formatted"
+	);
+});
+
 test("TemporalRangesTariff:format:en-US:all", (t) => {
 	const tt = new TemporalRangesTariff(
 		TemporalRangesTariff.ALL_MONTHS,
@@ -427,6 +769,7 @@ test("TemporalRangesTariff:format:en-US:all", (t) => {
 	);
 	const locale = "en-US";
 
+	t.is(tt.format(locale, ChronoField.YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
@@ -443,6 +786,7 @@ test("TemporalRangesTariff:format:en-US:all:undefined", (t) => {
 	);
 	const locale = "en-US";
 
+	t.is(tt.format(locale, ChronoField.YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.MONTH_OF_YEAR), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_MONTH), "*", "bounds formatted");
 	t.is(tt.format(locale, ChronoField.DAY_OF_WEEK), "*", "bounds formatted");
@@ -459,6 +803,7 @@ test("TemporalRangesTariff:format:en-US:all:custom", (t) => {
 	);
 	const locale = "en-US";
 	const opts: TemporalRangesTariffFormatOptions = { allValue: "ALL" };
+	t.is(tt.format(locale, ChronoField.YEAR, opts), "ALL", "bounds formatted");
 	t.is(
 		tt.format(locale, ChronoField.MONTH_OF_YEAR, opts),
 		"ALL",
@@ -549,6 +894,81 @@ test("TemporalRangesTariff:format:en-US", (t) => {
 	);
 });
 
+test("TemporalRangesTariff:format:en-US:custom", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(null, null),
+		new IntRange(null, 6),
+		new IntRange(5, null),
+		new IntRange(845, null),
+		[new TariffRate("a", 1.23)]
+	);
+	const locale = "en-US";
+	const opts: TemporalRangesTariffFormatOptions = {
+		allValue: "!",
+		unboundedValue: "~",
+	};
+
+	t.is(
+		tt.format(locale, ChronoField.MONTH_OF_YEAR, opts),
+		"!",
+		"months formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MONTH_OF_YEAR,
+			new IntRange(1, 11)
+		),
+		"Jan - Nov",
+		"months formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_MONTH, opts),
+		"1 - 6",
+		"days formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.DAY_OF_MONTH,
+			new IntRange(1, 12),
+			opts
+		),
+		"1 - 12",
+		"days formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.DAY_OF_WEEK, opts),
+		"Fri - Sun",
+		"weedays formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.DAY_OF_WEEK,
+			new IntRange(1, 6),
+			opts
+		),
+		"Mon - Sat",
+		"weekdays formatted statically"
+	);
+	t.is(
+		tt.format(locale, ChronoField.MINUTE_OF_DAY, opts),
+		"14:05 - 24:00",
+		"minutes formatted"
+	);
+	t.is(
+		TemporalRangesTariff.formatRange(
+			locale,
+			ChronoField.MINUTE_OF_DAY,
+			new IntRange(0, 720),
+			opts
+		),
+		"00:00 - 12:00",
+		"minutes formatted statically"
+	);
+});
+
 test("TemporalRangesTariff:format:en-US:wholeHours", (t) => {
 	const tt = new TemporalRangesTariff(
 		new IntRange(1, 3),
@@ -611,4 +1031,104 @@ test("TemporalRangesTariff:format:ja-JP", (t) => {
 		"14:05～19:05",
 		"minutes formatted"
 	);
+});
+
+test("TemporalRangesTariff:compare:same", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt.compareTo(tt), 0);
+});
+
+test("TemporalRangesTariff:compare:undefined", (t) => {
+	const tt = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(tt.compareTo(undefined), 1);
+});
+
+test("TemporalRangesTariff:compare:month", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(4, 6),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by month");
+	t.is(tt2.compareTo(tt1), 1, "ordered by month");
+});
+
+test("TemporalRangesTariff:compare:day", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(7, 10),
+		new IntRange(5, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by day");
+	t.is(tt2.compareTo(tt1), 1, "ordered by day");
+});
+
+test("TemporalRangesTariff:compare:weekday", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(6, 7),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by weekday");
+	t.is(tt2.compareTo(tt1), 1, "ordered by weekday");
+});
+
+test("TemporalRangesTariff:compare:time", (t) => {
+	const tt1 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(0, 845),
+		[new TariffRate("a", 1.23)]
+	);
+	const tt2 = new TemporalRangesTariff(
+		new IntRange(1, 3),
+		new IntRange(4, 6),
+		new IntRange(1, 5),
+		new IntRange(845, 1145),
+		[new TariffRate("a", 1.23)]
+	);
+	t.is(tt1.compareTo(tt2), -1, "ordered by time");
+	t.is(tt2.compareTo(tt1), 1, "ordered by time");
 });

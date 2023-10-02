@@ -1,18 +1,34 @@
 import test from "ava";
+
+import Comparable from "../main/Comparable.js";
 import * as Utils from "../main/utils.js";
 
 test("utils:cconcat:empty", (t) => {
 	t.is(
 		Utils.cconcat(undefined, undefined),
-		undefined,
-		"undefined returned when both undefined"
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		"",
+		"empty string returned when both undefined"
 	);
-	t.is(Utils.cconcat(null, null), null, "null returned when both null");
-	t.is(Utils.cconcat(undefined, null), null, "right returned when left null");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(Utils.cconcat(null, null), "", "empty string returned when both null");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		Utils.cconcat(undefined, null),
+		"",
+		"empty string returned with left undefined and right null"
+	);
+	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		Utils.cconcat(null, undefined),
-		undefined,
-		"right returned when left undefined"
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		"",
+		"empty string returned when left null and right undefined"
 	);
 });
 
@@ -22,12 +38,16 @@ test("utils:cconcat:leftEmpty", (t) => {
 		"a",
 		"right returned when left undefined"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(Utils.cconcat(null, "a"), "a", "right returned when left null");
 	t.is(Utils.cconcat("", "a"), "a", "right returned when left empty");
 });
 
 test("utils:cconcat:rightEmpty", (t) => {
 	t.is(Utils.cconcat("a"), "a", "left returned when right undefined");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(Utils.cconcat("a", null), "a", "left returned when right null");
 	t.is(Utils.cconcat("a", ""), "a", "left returned when right empty");
 });
@@ -48,6 +68,8 @@ test("utils:prefix:empty", (t) => {
 		undefined,
 		"right undefined returns right"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(Utils.prefix("a", null), null, "right null returns right");
 	t.is(Utils.prefix("a", ""), "", "right empty returns right");
 });
@@ -110,7 +132,7 @@ test("utils:optional:defined:TestClass", (t) => {
 	);
 });
 
-function optTypeErrorMessage(name, type) {
+function optTypeErrorMessage(name: any, type: any) {
 	return `The ${name} value type must be ${type}.`;
 }
 
@@ -166,7 +188,7 @@ test("utils:optional:mistyped:TestClass", (t) => {
 	);
 });
 
-function reqTypeErrorMessage(name) {
+function reqTypeErrorMessage(name: any) {
 	return `The ${name} value must be provided.`;
 }
 
@@ -212,6 +234,8 @@ test("utils:splitRange:undefined", (t) => {
 		undefined,
 		"undefined returned for undefined"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(Utils.splitRange(null), undefined, "undefined returned for null");
 	t.is(Utils.splitRange(""), undefined, "undefined returned for empty");
 	t.is(Utils.splitRange("-"), undefined, "undefined returned for dash");
@@ -261,4 +285,27 @@ test("utils:splitRange:range", (t) => {
 		["a", "b"],
 		"range returned for range with whitespace"
 	);
+});
+
+class ComparableNumber extends Number implements Comparable<ComparableNumber> {
+	compareTo(o: ComparableNumber): number {
+		if (o === undefined) {
+			return 1;
+		}
+		return this.valueOf() < o.valueOf()
+			? -1
+			: this.valueOf() > o.valueOf()
+			? 1
+			: 0;
+	}
+}
+
+test("utils:compare", (t) => {
+	const n1 = new ComparableNumber(1);
+	const n2 = new ComparableNumber(1);
+	const n3 = new ComparableNumber(2);
+	t.is(n1.compareTo(n1), 0, "comparison to self");
+	t.is(n1.compareTo(n2), 0, "comparison to equal value");
+	t.is(n1.compareTo(n3), -1, "comparison to greater value");
+	t.is(n3.compareTo(n1), 1, "comparison to lesser value");
 });

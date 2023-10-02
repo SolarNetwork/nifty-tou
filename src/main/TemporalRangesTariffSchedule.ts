@@ -2,39 +2,67 @@ import TariffRate from "./TariffRate.js";
 import TemporalRangesTariff from "./TemporalRangesTariff.js";
 
 /**
+ * Schedule options.
+ * @public
+ */
+export interface TemporalRangesTariffScheduleOptions {
+	/**
+	 * Match multiple rules.
+	 *
+	 * If `true` then support resolving multiple rules for a given date,
+	 * otherwise resolve the first matching rule only.
+	 */
+	multipleMatch?: boolean;
+}
+
+/**
  * A schedule, or collection, of {@link TemporalRangesTariff} rules that supports
  * resolving rates for dates.
  *
+ * @typeParam T - the tariff type
+ * @typeParam O - the options type
  * @public
  */
-export default class TemporalRangesTariffSchedule {
-	#rules: readonly TemporalRangesTariff[];
-	#multipleMatch: boolean;
+export default class TemporalRangesTariffSchedule<
+	T extends TemporalRangesTariff,
+	O extends TemporalRangesTariffScheduleOptions
+> {
+	#rules: readonly T[];
+	#options: O | undefined;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param rules - the list of rules to include in the schedule
-	 * @param multipleMatch - if `true` then support resolving multiple rules for a given date,
-	 *     otherwise resolve the first matching rule only
+	 * @param options - the options, or a boolean shortcut to set the `multipleMatch` option
 	 */
-	constructor(rules: TemporalRangesTariff[], multipleMatch?: boolean) {
+	constructor(rules: T[], options?: O | boolean) {
 		this.#rules = Object.freeze(rules || []);
-		this.#multipleMatch = !!multipleMatch;
+		this.#options =
+			typeof options === "boolean"
+				? ({ multipleMatch: options } as O)
+				: options;
+	}
+
+	/**
+	 * Get the rules.
+	 */
+	get rules(): readonly T[] {
+		return this.#rules;
+	}
+
+	/**
+	 * Get the options.
+	 */
+	get options(): O | undefined {
+		return this.#options;
 	}
 
 	/**
 	 * Get the multiple-match mode.
 	 */
 	get multipleMatch(): boolean {
-		return this.#multipleMatch;
-	}
-
-	/**
-	 * Get the rules.
-	 */
-	get rules(): readonly TemporalRangesTariff[] {
-		return this.#rules;
+		return !!this.#options?.multipleMatch;
 	}
 
 	/**
@@ -44,7 +72,7 @@ export default class TemporalRangesTariffSchedule {
 	 * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
 	 * @returns the first available matching rule, or `undefined` if no rules match
 	 */
-	firstMatch(date: Date, utc?: boolean): TemporalRangesTariff {
+	firstMatch(date: Date, utc?: boolean): T | undefined {
 		const result = this.#matchesAt(date, true, utc);
 		return result.length ? result[0] : undefined;
 	}
@@ -56,8 +84,8 @@ export default class TemporalRangesTariffSchedule {
 	 * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
 	 * @returns the list of matching rules; at most one if `multipleMatch` is `false`
 	 */
-	matches(date: Date, utc?: boolean): TemporalRangesTariff[] {
-		return this.#matchesAt(date, !this.#multipleMatch, utc);
+	matches(date: Date, utc?: boolean): T[] {
+		return this.#matchesAt(date, !this.multipleMatch, utc);
 	}
 
 	/**
@@ -68,12 +96,8 @@ export default class TemporalRangesTariffSchedule {
 	 * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
 	 * @returns the list of matching rules
 	 */
-	#matchesAt(
-		date: Date,
-		first: boolean,
-		utc?: boolean
-	): TemporalRangesTariff[] {
-		const result: TemporalRangesTariff[] = [];
+	#matchesAt(date: Date, first: boolean, utc?: boolean): T[] {
+		const result: T[] = [];
 		for (const r of this.#rules) {
 			if (r.appliesAt(date, utc)) {
 				result.splice(result.length, 0, r);

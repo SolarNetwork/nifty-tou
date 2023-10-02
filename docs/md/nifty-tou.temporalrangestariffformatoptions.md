@@ -9,8 +9,9 @@ Options to use when formatting in the [formatRange()](./nifty-tou.temporalranges
 **Signature:**
 
 ```typescript
-export interface TemporalRangesTariffFormatOptions 
+export interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions 
 ```
+**Extends:** [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md)
 
 ## Properties
 

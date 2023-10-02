@@ -8,7 +8,10 @@ import {
 	ChronoFieldValue,
 	ChronoFieldFormatter,
 } from "../main/ChronoFieldFormatter.js";
-import IntRange from "../main/IntRange.js";
+import IntRange, {
+	IntRangeFormatOptions,
+	UNBOUNDED_RANGE,
+} from "../main/IntRange.js";
 
 test("ChronoFieldValue:construct", (t) => {
 	const f = ChronoField.MONTH_OF_YEAR;
@@ -26,6 +29,8 @@ test("ChronoFieldValue:construct:emptyNames", (t) => {
 	const v = 1;
 	t.throws(
 		() => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			new ChronoFieldValue(f, undefined, v);
 		},
 		{ instanceOf: TypeError },
@@ -95,26 +100,92 @@ test("ChronoFieldFormatter:parse:unknown", (t) => {
 
 test("ChronoFieldFormatter:parseRange:bounds", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
+	t.is(p.parseRange(ChronoField.YEAR, "*"), UNBOUNDED_RANGE);
 	t.is(p.parseRange(ChronoField.MONTH_OF_YEAR, "*"), ALL_MONTHS);
 	t.is(p.parseRange(ChronoField.DAY_OF_MONTH, "*"), ALL_DAYS_OF_MONTH);
 	t.is(p.parseRange(ChronoField.DAY_OF_WEEK, "*"), ALL_DAYS_OF_WEEK);
 	t.is(p.parseRange(ChronoField.MINUTE_OF_DAY, "*"), ALL_MINUTES_OF_DAY);
 });
 
-test("ChronoFieldFormatter:parse:month:undefined", (t) => {
+test("ChronoFieldFormatter:parseRange:bounds:custom", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	const opts: IntRangeFormatOptions = { unboundedValue: "!" };
+	t.is(p.parseRange(ChronoField.YEAR, "!", opts), UNBOUNDED_RANGE);
+	t.is(p.parseRange(ChronoField.MONTH_OF_YEAR, "!", opts), ALL_MONTHS);
+	t.is(p.parseRange(ChronoField.DAY_OF_MONTH, "!", opts), ALL_DAYS_OF_MONTH);
+	t.is(p.parseRange(ChronoField.DAY_OF_WEEK, "!", opts), ALL_DAYS_OF_WEEK);
+	t.is(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "!", opts),
+		ALL_MINUTES_OF_DAY
+	);
+});
+
+test("ChronoFieldFormatter:parse:custom", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	const opts: IntRangeFormatOptions = { unboundedValue: "!" };
+	t.like(p.parse(ChronoField.YEAR, "!", opts), { value: Infinity });
+	t.like(p.parse(ChronoField.MONTH_OF_YEAR, "!", opts), { value: Infinity });
+	t.like(p.parse(ChronoField.DAY_OF_MONTH, "!", opts), { value: Infinity });
+	t.like(p.parse(ChronoField.DAY_OF_WEEK, "!", opts), { value: Infinity });
+	t.like(p.parse(ChronoField.MINUTE_OF_DAY, "!", opts), { value: Infinity });
+});
+
+test("ChronoFieldFormatter:parse:year:undefined", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(undefined, undefined),
 		undefined,
 		"undefined arguments parsed as undefined"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.parse(null, null), undefined, "null arguments parsed as undefined");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		p.parse(ChronoField.YEAR, undefined),
+		undefined,
+		"undefined parsed as undefined"
+	);
+	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		p.parse(ChronoField.YEAR, null),
+		undefined,
+		"null parsed as undefined"
+	);
+	t.is(p.parse(ChronoField.YEAR, ""), undefined, "empty parsed as undefined");
+	t.is(
+		p.parse(ChronoField.YEAR, "Not A Year"),
+		undefined,
+		"unknown parsed as undefined"
+	);
+});
+
+test("ChronoFieldFormatter:parse:month:undefined", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		p.parse(undefined, undefined),
+		undefined,
+		"undefined arguments parsed as undefined"
+	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(p.parse(null, null), undefined, "null arguments parsed as undefined");
+	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.MONTH_OF_YEAR, undefined),
 		undefined,
 		"undefined parsed as undefined"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.MONTH_OF_YEAR, null),
 		undefined,
 		"null parsed as undefined"
@@ -292,6 +363,8 @@ test("ChronoFieldFormatter:parse:dom:en-US:undefined", (t) => {
 	const p = new ChronoFieldFormatter(locale);
 
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.DAY_OF_MONTH, undefined),
 		undefined,
 		"undefined returned undefined"
@@ -434,6 +507,32 @@ test("ChronoFieldFormatter:construct:fr-FR", (t) => {
 	t.is(p.locale, locale, "locale from constructor arg");
 });
 
+test("ChronoFieldFormatter:parse:year:fr-FR", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+	t.like(
+		p.parse(ChronoField.YEAR, "2023"),
+		{
+			field: ChronoField.YEAR,
+			value: 2023,
+		},
+		"year parsed"
+	);
+});
+
+test("ChronoFieldFormatter:parse:year:fr-FR:unbounded", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+	t.like(
+		p.parse(ChronoField.YEAR, "*"),
+		{
+			field: ChronoField.YEAR,
+			value: Infinity,
+		},
+		"unbounded year parsed"
+	);
+});
+
 test("ChronoFieldFormatter:parse:month:fr-FR", (t) => {
 	const locale = "fr-FR";
 	const p = new ChronoFieldFormatter(locale);
@@ -476,6 +575,19 @@ test("ChronoFieldFormatter:parse:month:fr-FR", (t) => {
 			value: 1,
 		},
 		"short name parsed in case insensitive manner"
+	);
+});
+
+test("ChronoFieldFormatter:parse:month:fr-FR:unbounded", (t) => {
+	const locale = "fr-FR";
+	const p = new ChronoFieldFormatter(locale);
+	t.like(
+		p.parse(ChronoField.MONTH_OF_YEAR, "*"),
+		{
+			field: ChronoField.MONTH_OF_YEAR,
+			value: Infinity,
+		},
+		"unbounded month parsed"
 	);
 });
 
@@ -582,6 +694,19 @@ test("ChronoFieldFormatter:parse:mod:en-US:cached", (t) => {
 	);
 });
 
+test("ChronoFieldFormatter:parse:mod:en-US:unbounded", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+	t.like(
+		p.parse(ChronoField.MINUTE_OF_DAY, "*"),
+		{
+			field: ChronoField.MINUTE_OF_DAY,
+			value: Infinity,
+		},
+		"unbounded minute parsed"
+	);
+});
+
 test("ChronoFieldFormatter:parse:mod:en-US:hours", (t) => {
 	const locale = "en-US";
 	const p = new ChronoFieldFormatter(locale);
@@ -662,6 +787,8 @@ test("ChronoFieldFormatter:parse:mod:en-US:undefined", (t) => {
 	const p = new ChronoFieldFormatter(locale);
 
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.MINUTE_OF_DAY, undefined),
 		undefined,
 		"undefined returned undefined"
@@ -676,11 +803,15 @@ test("ChronoFieldFormatter:parse:mod:en-US:undefined", (t) => {
 test("ChronoFieldFormatter:parseRange:en-US:undefined", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parseRange(undefined, undefined),
 		undefined,
 		"all undefined returns undefined"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parseRange(undefined, "Jan-Feb"),
 		undefined,
 		"undefined field returns undefined"
@@ -694,6 +825,62 @@ test("ChronoFieldFormatter:parseRange:en-US:undefined", (t) => {
 		p.parseRange(ChronoField.DAY_OF_WEEK, undefined),
 		undefined,
 		"undefined value for week returns undefined"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:year:en-US", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.YEAR, "2000 - 2023"),
+		{
+			min: 2000,
+			max: 2023,
+		},
+		"year range with whitespace parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.YEAR, "2000"),
+		{
+			min: 2000,
+			max: 2000,
+		},
+		"singleton range parsed"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:year:en-US:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.YEAR, "2000 - *"),
+		{
+			min: 2000,
+			max: null,
+		},
+		"year range with unbounded min parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.YEAR, "* - 2023"),
+		{
+			min: null,
+			max: 2023,
+		},
+		"year range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.YEAR, "* - *"),
+		{
+			min: null,
+			max: null,
+		},
+		"unbounded year range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.YEAR, "*"),
+		{
+			min: null,
+			max: null,
+		},
+		"unbounded year range parsed as shortcut"
 	);
 });
 
@@ -789,6 +976,94 @@ test("ChronoFieldFormatter:parseRange:month:nums:en-US", (t) => {
 		p.parseRange(ChronoField.MONTH_OF_YEAR, "1 - 99"),
 		undefined,
 		"number range trailing outside of bounds returns undefined"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:month:en-US:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "Jan - *"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"month range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "* - Dec"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"month range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "Feb - *"),
+		{
+			min: 2,
+			max: 12,
+		},
+		"month range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "* - Nov"),
+		{
+			min: 1,
+			max: 11,
+		},
+		"month range with unboudned min parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "* - *"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"unbounded month range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "*"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"unbounded month range parsed as shortcut"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:month:en-US:nums:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "1 - *"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"month range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "* - 12"),
+		{
+			min: 1,
+			max: 12,
+		},
+		"month range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "2 - *"),
+		{
+			min: 2,
+			max: 12,
+		},
+		"month range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MONTH_OF_YEAR, "* - 11"),
+		{
+			min: 1,
+			max: 11,
+		},
+		"month range with unboudned min parsed"
 	);
 });
 
@@ -917,7 +1192,59 @@ test("ChronoFieldFormatter:parseRange:dom:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldFormatter:parseRange:week:en-US", (t) => {
+test("ChronoFieldFormatter:parseRange:dom:en-US:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "1 - *"),
+		{
+			min: 1,
+			max: 31,
+		},
+		"day range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "* - 31"),
+		{
+			min: 1,
+			max: 31,
+		},
+		"day range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "2 - *"),
+		{
+			min: 2,
+			max: 31,
+		},
+		"day range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "* - 30"),
+		{
+			min: 1,
+			max: 30,
+		},
+		"day range with unboudned min parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "* - *"),
+		{
+			min: 1,
+			max: 31,
+		},
+		"unbounded day range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_MONTH, "*"),
+		{
+			min: 1,
+			max: 31,
+		},
+		"unbounded day range parsed as shortcut"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:weekday:en-US", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "Tuesday - Sunday"),
@@ -961,7 +1288,7 @@ test("ChronoFieldFormatter:parseRange:week:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldFormatter:parseRange:week:nums:en-US", (t) => {
+test("ChronoFieldFormatter:parseRange:weekday:nums:en-US", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "1-7"),
@@ -1012,7 +1339,111 @@ test("ChronoFieldFormatter:parseRange:week:nums:en-US", (t) => {
 	);
 });
 
-test("ChronoFieldFormatter:parseRange:week:fr-FR", (t) => {
+test("ChronoFieldFormatter:parseRange:weekday:en-US:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Mon - *"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"weekday range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "* - Sun"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"weekday range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "Tue - *"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"weekday range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "* - Sat"),
+		{
+			min: 1,
+			max: 6,
+		},
+		"weekday range with unboudned min parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "* - *"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"unbounded weekday range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "*"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"unbounded weekday range parsed as shortcut"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:weekday:en-US:unbounded:nums", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "1 - *"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"month range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "* - 7"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"weekday range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "2 - *"),
+		{
+			min: 2,
+			max: 7,
+		},
+		"weekday range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "* - 6"),
+		{
+			min: 1,
+			max: 6,
+		},
+		"weekday range with unboudned min parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "* - *"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"unbounded weekday range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.DAY_OF_WEEK, "*"),
+		{
+			min: 1,
+			max: 7,
+		},
+		"unbounded weekday range parsed as shortcut"
+	);
+});
+
+test("ChronoFieldFormatter:parseRange:weekday:fr-FR", (t) => {
 	const p = new ChronoFieldFormatter("fr-FR");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "mar - dim"),
@@ -1056,7 +1487,7 @@ test("ChronoFieldFormatter:parseRange:week:fr-FR", (t) => {
 	);
 });
 
-test("ChronoFieldFormatter:parseRange:week:nums:fr-FR", (t) => {
+test("ChronoFieldFormatter:parseRange:weekday:nums:fr-FR", (t) => {
 	const p = new ChronoFieldFormatter("fr-FR");
 	t.like(
 		p.parseRange(ChronoField.DAY_OF_WEEK, "1-7"),
@@ -1137,6 +1568,58 @@ test("ChronoFieldFormatter:parseRange:mod:en-US:hours", (t) => {
 	);
 });
 
+test("ChronoFieldFormatter:parseRange:hours:en-US:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "0 - *"),
+		{
+			min: 0,
+			max: 24 * 60,
+		},
+		"hours range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "* - 24"),
+		{
+			min: 0,
+			max: 24 * 60,
+		},
+		"hours range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "2 - *"),
+		{
+			min: 2 * 60,
+			max: 24 * 60,
+		},
+		"hours range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "* - 6"),
+		{
+			min: 0,
+			max: 6 * 60,
+		},
+		"hours range with unboudned min parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "* - *"),
+		{
+			min: 0,
+			max: 24 * 60,
+		},
+		"hours weekday range parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "*"),
+		{
+			min: 0,
+			max: 24 * 60,
+		},
+		"hours weekday range parsed as shortcut"
+	);
+});
+
 test("ChronoFieldFormatter:parseRange:mod:en-US:minutes", (t) => {
 	const locale = "en-US";
 	const p = new ChronoFieldFormatter(locale);
@@ -1167,26 +1650,73 @@ test("ChronoFieldFormatter:parseRange:mod:en-US:minutes", (t) => {
 	);
 });
 
+test("ChronoFieldFormatter:parseRange:mod:en-US:unbounded", (t) => {
+	const p = new ChronoFieldFormatter("en-US");
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "00:00 - *"),
+		{
+			min: 0,
+			max: 24 * 60,
+		},
+		"hours range with min bound and unbounded max is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "* - 24:00"),
+		{
+			min: 0,
+			max: 24 * 60,
+		},
+		"hours range with unbounded min and max bound is field bounds"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "02:00 - *"),
+		{
+			min: 2 * 60,
+			max: 24 * 60,
+		},
+		"hours range with unboudned max parsed"
+	);
+	t.like(
+		p.parseRange(ChronoField.MINUTE_OF_DAY, "* - 06:00"),
+		{
+			min: 0,
+			max: 6 * 60,
+		},
+		"hours range with unboudned min parsed"
+	);
+});
+
 test("ChronoFieldFormatter:format:undefined", (t) => {
 	const locale = "en-US";
 	const p = new ChronoFieldFormatter(locale);
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(p.format(undefined, undefined), "*", "undefined field returns *");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(p.format(null, undefined), "*", "null field returns *");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(
-		p.format(undefined, undefined),
-		"",
-		"undefined field returns empty string"
-	);
-	t.is(p.format(null, undefined), "", "null field returns empty string");
-	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.format(ChronoField.MONTH_OF_YEAR, undefined),
-		"",
+		"*",
 		"undefined value returns empty string"
 	);
 	t.is(
 		p.format(ChronoField.MONTH_OF_YEAR, null),
-		"",
-		"null value returns empty string"
+		"*",
+		"null value returns *"
 	);
+});
+
+test("ChronoFieldFormatter:format:infinity", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(p.format(ChronoField.YEAR, Infinity), "*", "Infinity value returns *");
 });
 
 test("ChronoFieldFormatter:format:month:en-US", (t) => {
@@ -1301,21 +1831,68 @@ test("ChronoFieldFormatter:formatRange:undefined", (t) => {
 	const locale = "en-US";
 	const p = new ChronoFieldFormatter(locale);
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(p.formatRange(undefined, undefined), "*", "undefined field returns *");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	t.is(p.formatRange(null, undefined), "*", "null field returns *");
 	t.is(
-		p.formatRange(undefined, undefined),
-		"",
-		"undefined field returns empty string"
-	);
-	t.is(p.formatRange(null, undefined), "", "null field returns empty string");
-	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.formatRange(ChronoField.MONTH_OF_YEAR, undefined),
-		"",
-		"undefined value returns empty string"
+		"*",
+		"undefined value returns *"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.formatRange(ChronoField.MONTH_OF_YEAR, null),
-		"",
-		"null value returns empty string"
+		"*",
+		"null value returns *"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:unbounded", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+
+	t.is(
+		p.formatRange(ChronoField.YEAR, UNBOUNDED_RANGE),
+		"*",
+		"unbounded range returns *"
+	);
+	t.is(
+		p.formatRange(ChronoField.YEAR, new IntRange(2000, null)),
+		"2000 - *",
+		"unbounded max range uses *"
+	);
+	t.is(
+		p.formatRange(ChronoField.YEAR, new IntRange(null, 2000)),
+		"* - 2000",
+		"unbounded max range uses *"
+	);
+});
+
+test("ChronoFieldFormatter:formatRange:unbounded:custom", (t) => {
+	const locale = "en-US";
+	const p = new ChronoFieldFormatter(locale);
+	const opts: IntRangeFormatOptions = { unboundedValue: "!" };
+
+	t.is(
+		p.formatRange(ChronoField.YEAR, UNBOUNDED_RANGE, opts),
+		"!",
+		"unbounded range returns *"
+	);
+	t.is(
+		p.formatRange(ChronoField.YEAR, new IntRange(2000, null), opts),
+		"2000 - !",
+		"unbounded max range uses *"
+	);
+	t.is(
+		p.formatRange(ChronoField.YEAR, new IntRange(null, 2000), opts),
+		"! - 2000",
+		"unbounded max range uses *"
 	);
 });
 

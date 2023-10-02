@@ -9,7 +9,7 @@ Normalize a locale-specific number string.
 **Signature:**
 
 ```typescript
-norm(s: string): string;
+norm(s: string): string | undefined;
 ```
 
 ## Parameters
@@ -20,7 +20,7 @@ norm(s: string): string;
 
 **Returns:**
 
-string
+string \| undefined
 
-the number string normalized into a JavaScript number string
+the number string normalized into a JavaScript number string, or `undefined` if the normalized value is empty
 

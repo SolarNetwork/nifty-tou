@@ -9,7 +9,7 @@ Parse time range criteria into a `TemporalRangesTariff` instance.
 **Signature:**
 
 ```typescript
-static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[]): TemporalRangesTariff;
+static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): TemporalRangesTariff;
 ```
 
 ## Parameters
@@ -22,6 +22,7 @@ static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayO
 |  dayOfWeekRange | string | _(Optional)_ the day of week range to parse, for example <code>Monday-Sunday</code>, <code>Mon-Sun</code>, or <code>1-7</code> |
 |  minuteOfDayRange | string | _(Optional)_ the minute of day range to parse, for example <code>00:00-24:00</code> or <code>0-24</code> |
 |  rates | [TariffRate](./nifty-tou.tariffrate.md)<!-- -->\[\] | _(Optional)_ the tariff rates to associate with the time range criteria |
+|  options | [TemporalRangesTariffFormatOptions](./nifty-tou.temporalrangestariffformatoptions.md) | _(Optional)_ the formatting options to use |
 
 **Returns:**
 

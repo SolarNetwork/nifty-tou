@@ -1,22 +1,45 @@
+import Comparable from "./Comparable.js";
 import { splitRange } from "./utils.js";
 
 /**
- * An immutable number range with min/max values.
+ * The default unbounded display value.
  * @public
  */
-export default class IntRange {
-	#min: number;
-	#max: number;
+export const UNBOUNDED_VALUE = "*";
+
+/**
+ * Options to use when formatting in the {@link ChronoFieldFormatter.formatRange | formatRange()} method.
+ * @public
+ */
+export interface IntRangeFormatOptions {
+	/**
+	 * The value to use for an "unbounded" value.
+	 * The default value is `"*"`.
+	 */
+	unboundedValue?: string;
+}
+
+/**
+ * An immutable number range with min/max values.
+ *
+ * @remarks
+ * The minimum and maximum values can use `null` to represent "none".
+ *
+ * @public
+ */
+export default class IntRange implements Comparable<IntRange> {
+	#min: number | null;
+	#max: number | null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param min - the mimnimum value
-	 * @param max - the maximum value
+	 * @param min - the mimnimum value or `null` for "no minimum"
+	 * @param max - the maximum value or `null` for "no maximum"
 	 */
-	constructor(min: number, max: number) {
-		this.#min = min < max ? min : max;
-		this.#max = max > min ? max : min;
+	constructor(min: number | null, max: number | null) {
+		this.#min = min === null || max === null || min < max ? min : max;
+		this.#max = min === null || max === null || max > min ? max : min;
 	}
 
 	/**
@@ -25,7 +48,7 @@ export default class IntRange {
 	 * @param value - the minimum and maximum value
 	 * @returns the new singleton range instance
 	 */
-	static of(value: number): IntRange {
+	static of(value: number | null): IntRange {
 		return new IntRange(value, value);
 	}
 
@@ -36,7 +59,7 @@ export default class IntRange {
 	 * @param max - the maximum value
 	 * @returns the new range instance
 	 */
-	static rangeOf(min: number, max: number): IntRange {
+	static rangeOf(min: number | null, max: number | null): IntRange {
 		return new IntRange(min, max);
 	}
 
@@ -44,23 +67,37 @@ export default class IntRange {
 	 * Parse a range array of number strings into an `IntRange`.
 	 *
 	 * @param value - the range to parse; can be a string adhering to {@link Utils.splitRange | splitRange()}
-	 *     or an array with 1 or 2 number value elements
+	 *     or an array with 1 or 2 number value elements, or `*` to represent "none"
 	 * @param bounds - the optional bounds (inclusive) to enforce; if the parsed range
+	 * @param options - options to control the formatting
 	 * @returns the parsed range, or `undefined` if a range could not be parsed or extends
 	 *          beyond the given `bounds` then `undefined` will be returned
 	 */
-	static parseRange(value: string | string[], bounds?: IntRange): IntRange {
+	static parseRange(
+		value: string | string[] | undefined,
+		bounds?: IntRange,
+		options?: IntRangeFormatOptions
+	): IntRange | undefined {
 		const array = Array.isArray(value) ? value : splitRange(value);
 		if (!(array && array.length)) {
 			return undefined;
 		}
-		const n1 = +array[0];
-		const n2 = array.length > 1 ? +array[1] : n1;
+		const ubv =
+			options?.unboundedValue !== undefined
+				? options?.unboundedValue
+				: UNBOUNDED_VALUE;
+		const n1 = array[0] === ubv ? null : +array[0];
+		const n2 =
+			array.length > 1 ? (array[1] === ubv ? null : +array[1]) : n1;
 		if (!Number.isNaN(n1) && !Number.isNaN(n2)) {
-			const r = new IntRange(n1, n2);
+			const min = n1 === null && bounds ? bounds.min : n1;
+			const max = n2 === null && bounds ? bounds.max : n2;
+			if (bounds && min === bounds.min && max === bounds.max) {
+				return bounds;
+			}
 			// validate range within given bounds
-			if (!bounds || (r.min >= bounds.min && r.max <= bounds.max)) {
-				return r;
+			if (!bounds || bounds.containsAll(min, max)) {
+				return new IntRange(min, max);
 			}
 		}
 		return undefined;
@@ -81,21 +118,27 @@ export default class IntRange {
 	/**
 	 * Get the minimum value.
 	 */
-	get min(): number {
+	get min(): number | null {
 		return this.#min;
 	}
 
 	/**
 	 * Get the minimum value.
 	 */
-	get max(): number {
+	get max(): number | null {
 		return this.#max;
 	}
 
 	/**
 	 * Get the number of values between `min` and `max`, inclusive.
+	 *
+	 * @remarks
+	 * This will return `+Inf` if either `min` or `max` is `null`.
 	 */
 	get length(): number {
+		if (this.#min === null || this.#max === null) {
+			return Number.POSITIVE_INFINITY;
+		}
 		return this.#max - this.#min + 1;
 	}
 
@@ -110,14 +153,17 @@ export default class IntRange {
 	/**
 	 * Test if a value is within this range, inclusive.
 	 *
-	 * @param value - the value to test
+	 * @param value - the value to test (`null` represents infinity)
 	 * @returns `true` if `min <= value <= max`
 	 */
-	contains(value: number): boolean {
-		if (value === undefined || value === null) {
+	contains(value: number | null): boolean {
+		if (value === undefined) {
 			return false;
 		}
-		return value >= this.#min && value <= this.#max;
+		return (
+			(this.#min === null || (value !== null && value >= this.#min)) &&
+			(this.#max === null || (value !== null && value <= this.#max))
+		);
 	}
 
 	/**
@@ -127,8 +173,8 @@ export default class IntRange {
 	 * @param max - the maximum of the range to test
 	 * @returns `true` if `this.min <= min <= max <= this.max`
 	 */
-	containsAll(min: number, max: number): boolean {
-		return min <= max && min >= this.#min && max <= this.#max;
+	containsAll(min: number | null, max: number | null): boolean {
+		return this.contains(min) && this.contains(max);
 	}
 
 	/**
@@ -138,7 +184,7 @@ export default class IntRange {
 	 * @returns `true` if `this.min <= o.min <= o.max <= this.max`
 	 */
 	containsRange(o: IntRange): boolean {
-		return this.containsAll(o.min, o.max);
+		return this.containsAll(o.#min, o.#max);
 	}
 
 	/**
@@ -149,8 +195,10 @@ export default class IntRange {
 	 */
 	intersects(o: IntRange): boolean {
 		return (
-			(this.#min >= o.min && this.#min <= o.max) ||
-			(o.min >= this.#min && o.min <= this.#max)
+			this.contains(o.#min) ||
+			this.contains(o.#max) ||
+			o.contains(this.#min) ||
+			o.contains(this.#max)
 		);
 	}
 
@@ -161,7 +209,12 @@ export default class IntRange {
 	 * @returns `true` if this range is adjacent to the given range
 	 */
 	adjacentTo(o: IntRange): boolean {
-		return this.#max + 1 === o.min || o.max + 1 === this.#min;
+		return (
+			(this.#max !== null &&
+				o.#min !== null &&
+				this.#max + 1 === o.#min) ||
+			(o.#max !== null && this.#min !== null && o.#max + 1 === this.#min)
+		);
 	}
 
 	/**
@@ -191,11 +244,21 @@ export default class IntRange {
 		if (!this.canMergeWith(o)) {
 			throw new Error(`IntRange ${this} cannot be merged with ${o}`);
 		}
-		const a = this.#min < o.min ? this.#min : o.min;
-		const b = this.#max > o.max ? this.#max : o.max;
+		const a =
+			this.#min === null || o.#min === null
+				? null
+				: this.#min < o.#min
+				? this.#min
+				: o.#min;
+		const b =
+			this.#max === null || o.#max === null
+				? null
+				: this.#max > o.#max
+				? this.#max
+				: o.#max;
 		return a === this.#min && b === this.#max
 			? this
-			: a === o.min && b === o.max
+			: a === o.#min && b === o.#max
 			? o
 			: new IntRange(a, b);
 	}
@@ -203,13 +266,34 @@ export default class IntRange {
 	/**
 	 * Compares this object with the specified object for order.
 	 *
-	 * This implementation only compares the `min` values of each range.
+	 * Unbounded (`null`) values are ordered before bounded (non-`null`) values.
 	 *
 	 * @param o - the range to compare to
-	 * @returns `-1`, `0`, or `1` if `o` is less than, equal to, or greater than this range
+	 * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
+	 * @override
 	 */
 	compareTo(o: IntRange): number {
-		return this.#min < o.min ? -1 : this.#min > o.min ? 1 : 0;
+		if (this === o) {
+			return 0;
+		} else if (!o) {
+			return 1;
+		}
+		const cmp = this.#compareRangeComponent(this.#min, o.#min);
+		if (cmp !== 0) {
+			return cmp;
+		}
+		return this.#compareRangeComponent(this.#max, o.#max);
+	}
+
+	/**
+	 * Compare two range values.
+	 *
+	 * @param l the left value
+	 * @param r  the right value
+	 * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
+	 */
+	#compareRangeComponent(l: number | null, r: number | null) {
+		return l === r ? 0 : l === null ? -1 : r === null ? 1 : l < r ? -1 : 1;
 	}
 
 	/**
@@ -228,18 +312,20 @@ export default class IntRange {
 		if (!(obj instanceof IntRange)) {
 			return false;
 		}
-		return this.#max === obj.max && this.#min === obj.min;
+		return this.#max === obj.#max && this.#min === obj.#min;
 	}
 
 	/**
 	 * Get a string representation.
 	 *
-	 * The format returned by this method is `[min..max]`.
+	 * The format returned by this method is `[min..max]`. Any `null` value will be represented as an empty string.
 	 *
 	 * @returns the string representation
 	 */
 	toString(): string {
-		return `[${this.#min}..${this.#max}]`;
+		return `[${this.#min === null ? "" : this.#min}..${
+			this.#max === null ? "" : this.#max
+		}]`;
 	}
 
 	/**
@@ -253,10 +339,25 @@ export default class IntRange {
 	 *
 	 * @param bounds - the "full" range that defines the bounds of `r`
 	 * @param r - the range
+	 * @param options - options to control formatting
 	 * @returns if `r` represents "all possible values" then the literal string `*`,
 	 *     otherwise the string representation of `r`
 	 */
-	static description(bounds: IntRange, r?: IntRange): string {
-		return !r || bounds.equals(r) ? "*" : r.toString();
+	static description(
+		bounds: IntRange,
+		r?: IntRange,
+		options?: IntRangeFormatOptions
+	): string {
+		return !r || bounds.equals(r)
+			? options?.unboundedValue !== undefined
+				? options?.unboundedValue
+				: UNBOUNDED_VALUE
+			: r.toString();
 	}
 }
+
+/**
+ * An unbounded range constant.
+ * @public
+ */
+export const UNBOUNDED_RANGE = new IntRange(null, null);

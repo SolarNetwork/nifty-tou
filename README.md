@@ -7,7 +7,7 @@ A central class in Nifty ToU is [TemporalRangesTariff](./docs/md/nifty-tou.tempo
 that defines a set of tariff values with a set of time-based constraints. The implication is that the
 tariff values apply only when all the time-based constraints are valid.
 
-The time-based constraints are encoded as [IntRange](docs/md/nifty-tou.intrange.md) objects,
+The time-based constraints are encoded as [IntRange](./docs/md/nifty-tou.intrange.md) objects,
 that are integer ranges with minimum and maximum values that define the bounds of the constraint.
 The supported time-based constraints are:
 
@@ -205,6 +205,26 @@ new TariffRate("Morning Variable", 0.1);
 // could be expressed in integer form:
 new TariffRate("Morning Fixed", 125, -2);
 new TariffRate("Morning Variable", 1, -1);
+```
+
+# Chronological tariffs
+
+The [ChronoTariff](./docs/md/nifty-tou.chronotariff.md) class can be used to model a time-based
+"fixed" tariff, such as a daily or monthly charge. For example:
+
+```ts
+// construct a chronological tariff @ 10/day
+const tariff = new ChronoTariff(ChronoTariffUnit.DAYS, 10);
+
+// calculate the tariff cost over a 7 day time range
+const cost =
+	tariff.rate *
+	tariff.quantity(
+		new Date("2024-01-01T00:00:00Z"),
+		new Date("2024-01-08T00:00:00Z"),
+		true
+	);
+cost === 70; // 7 days @ 10/day
 ```
 
 # Language support

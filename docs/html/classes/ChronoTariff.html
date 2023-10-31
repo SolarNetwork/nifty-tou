@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>TemporalRangesTariffSchedule | nifty-tou</title><meta name="description" content="Documentation for nifty-tou"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ChronoTariff | nifty-tou</title><meta name="description" content="Documentation for nifty-tou"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -13,34 +13,18 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">nifty-tou</a></li>
-<li><a href="TemporalRangesTariffSchedule.html">TemporalRangesTariffSchedule</a></li></ul>
-<h1>Class TemporalRangesTariffSchedule&lt;T, O&gt;</h1></div>
+<li><a href="ChronoTariff.html">ChronoTariff</a></li></ul>
+<h1>Class ChronoTariff</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>A schedule, or collection, of <a href="TemporalRangesTariff.html" class="tsd-kind-class">TemporalRangesTariff</a> rules that supports
-resolving rates for dates.</p>
+<div class="tsd-comment tsd-typography"><p>A chronologically-based tariff, such as a &quot;daily&quot; charge.</p>
 </div>
-<div class="tsd-comment tsd-typography"></div></section> 
-<section class="tsd-panel">
-<h4>Type Parameters</h4>
-<ul class="tsd-type-parameter-list">
-<li>
-<h4><span class="tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol"> extends </span><a href="TemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariff</a></h4>
-<div class="tsd-comment tsd-typography"><p>the tariff type</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h4><span class="tsd-kind-type-parameter">O</span><span class="tsd-signature-symbol"> extends </span><a href="../interfaces/TemporalRangesTariffScheduleOptions.html" class="tsd-signature-type tsd-kind-interface">TemporalRangesTariffScheduleOptions</a></h4>
-<div class="tsd-comment tsd-typography"><p>the options type</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></section> 
+<div class="tsd-comment tsd-typography"></div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><span class="target">TemporalRangesTariffSchedule</span>
-<ul class="tsd-hierarchy">
-<li><a href="YearTemporalRangesTariffSchedule.html" class="tsd-signature-type tsd-kind-class">YearTemporalRangesTariffSchedule</a></li></ul></li></ul></section><aside class="tsd-sources">
+<li><span class="target">ChronoTariff</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L26">TemporalRangesTariffSchedule.ts:26</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L20">ChronoTariff.ts:20</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -48,151 +32,214 @@ resolving rates for dates.</p>
 <div class="tsd-accordion-details">
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Constructors</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariffSchedule.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a>
+<div class="tsd-index-list"><a href="ChronoTariff.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariffSchedule.html#_options" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#options</span></a>
-<a href="TemporalRangesTariffSchedule.html#_rules" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rules</span></a>
+<div class="tsd-index-list"><a href="ChronoTariff.html#_name" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#name?</span></a>
+<a href="ChronoTariff.html#_rate" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rate</span></a>
+<a href="ChronoTariff.html#_unit" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#unit</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Accessors</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariffSchedule.html#multipleMatch" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>multiple<wbr/>Match</span></a>
-<a href="TemporalRangesTariffSchedule.html#options" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>options</span></a>
-<a href="TemporalRangesTariffSchedule.html#rules" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rules</span></a>
+<div class="tsd-index-list"><a href="ChronoTariff.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>name</span></a>
+<a href="ChronoTariff.html#rate" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rate</span></a>
+<a href="ChronoTariff.html#unit" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>unit</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
-<div class="tsd-index-list"><a href="TemporalRangesTariffSchedule.html#_matchesAt" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#matches<wbr/>At</span></a>
-<a href="TemporalRangesTariffSchedule.html#firstMatch" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>first<wbr/>Match</span></a>
-<a href="TemporalRangesTariffSchedule.html#matches" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>matches</span></a>
-<a href="TemporalRangesTariffSchedule.html#resolve" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>resolve</span></a>
+<div class="tsd-index-list"><a href="ChronoTariff.html#_dayQuantity" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#day<wbr/>Quantity</span></a>
+<a href="ChronoTariff.html#_monthQuantity" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#month<wbr/>Quantity</span></a>
+<a href="ChronoTariff.html#_timeFraction" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#time<wbr/>Fraction</span></a>
+<a href="ChronoTariff.html#_weekQuantity" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#week<wbr/>Quantity</span></a>
+<a href="ChronoTariff.html#quantity" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>quantity</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_TemporalRangesTariffSchedule"><span class="tsd-kind-constructor-signature">new <wbr/>Temporal<wbr/>Ranges<wbr/>Tariff<wbr/>Schedule</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">rules</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="TemporalRangesTariffSchedule.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariffSchedule</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_TemporalRangesTariffSchedule" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_ChronoTariff"><span class="tsd-kind-constructor-signature">new <wbr/>Chrono<wbr/>Tariff</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">chronoUnit</span>, <span class="tsd-kind-parameter">rate</span>, <span class="tsd-kind-parameter">name</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ChronoTariff.html" class="tsd-signature-type tsd-kind-class">ChronoTariff</a><a href="#constructor.new_ChronoTariff" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Constructor.</p>
 </div>
-<section class="tsd-panel">
-<h4>Type Parameters</h4>
-<ul class="tsd-type-parameter-list">
-<li>
-<h4><span class="tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol"> extends </span><a href="TemporalRangesTariff.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariff</a></h4></li>
-<li>
-<h4><span class="tsd-kind-type-parameter">O</span><span class="tsd-signature-symbol"> extends </span><a href="../interfaces/TemporalRangesTariffScheduleOptions.html" class="tsd-signature-type tsd-kind-interface">TemporalRangesTariffScheduleOptions</a></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">rules</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>the list of rules to include in the schedule</p>
+<h5><span class="tsd-kind-parameter">chronoUnit</span>: <a href="../enums/ChronoTariffUnit.html" class="tsd-signature-type tsd-kind-enum">ChronoTariffUnit</a></h5>
+<div class="tsd-comment tsd-typography"><p>the chrono unit</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span></h5>
-<div class="tsd-comment tsd-typography"><p>the options, or a boolean shortcut to set the <code>multipleMatch</code> option</p>
+<h5><span class="tsd-kind-parameter">rate</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>the rate per chrono unit</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">name</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>an optional description</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="TemporalRangesTariffSchedule.html" class="tsd-signature-type tsd-kind-class">TemporalRangesTariffSchedule</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<h4 class="tsd-returns-title">Returns <a href="ChronoTariff.html" class="tsd-signature-type tsd-kind-class">ChronoTariff</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L39">TemporalRangesTariffSchedule.ts:39</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L37">ChronoTariff.ts:37</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_options" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#options</span><a href="#_options" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">#options</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span></div><aside class="tsd-sources">
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_name" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagOptional">Optional</code> <span>#name</span><a href="#_name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">#name</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div>
+<div class="tsd-comment tsd-typography"><p>An optional name to associate with the tariff.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L31">TemporalRangesTariffSchedule.ts:31</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_rules" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#rules</span><a href="#_rules" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">#rules</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L28">ChronoTariff.ts:28</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_rate" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#rate</span><a href="#_rate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">#rate</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The rate applied per time unit.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L30">TemporalRangesTariffSchedule.ts:30</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L25">ChronoTariff.ts:25</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_unit" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#unit</span><a href="#_unit" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">#unit</span><span class="tsd-signature-symbol">:</span> <a href="../enums/ChronoTariffUnit.html" class="tsd-signature-type tsd-kind-enum">ChronoTariffUnit</a></div>
+<div class="tsd-comment tsd-typography"><p>The tariff time unit.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L22">ChronoTariff.ts:22</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
-<section class="tsd-panel tsd-member"><a id="multipleMatch" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>multiple<wbr/>Match</span><a href="#multipleMatch" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<section class="tsd-panel tsd-member"><a id="name" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="multipleMatch.multipleMatch-1"><span class="tsd-signature-symbol">get</span> multipleMatch<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+<li class="tsd-signature" id="name.name-1"><span class="tsd-signature-symbol">get</span> name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the multiple-match mode.</p>
+<div class="tsd-comment tsd-typography"><p>Get the optional name.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L64">TemporalRangesTariffSchedule.ts:64</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="options" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>options</span><a href="#options" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L54">ChronoTariff.ts:54</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="rate" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>rate</span><a href="#rate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="options.options-1"><span class="tsd-signature-symbol">get</span> options<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span></li>
+<li class="tsd-signature" id="rate.rate-1"><span class="tsd-signature-symbol">get</span> rate<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the options.</p>
+<div class="tsd-comment tsd-typography"><p>Get the rate.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">O</span></h4>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L57">TemporalRangesTariffSchedule.ts:57</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="rules" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>rules</span><a href="#rules" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L49">ChronoTariff.ts:49</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="unit" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>unit</span><a href="#unit" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="rules.rules-1"><span class="tsd-signature-symbol">get</span> rules<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></li>
+<li class="tsd-signature" id="unit.unit-1"><span class="tsd-signature-symbol">get</span> unit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/ChronoTariffUnit.html" class="tsd-signature-type tsd-kind-enum">ChronoTariffUnit</a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the rules.</p>
+<div class="tsd-comment tsd-typography"><p>Get the unit.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4>
+<h4 class="tsd-returns-title">Returns <a href="../enums/ChronoTariffUnit.html" class="tsd-signature-type tsd-kind-enum">ChronoTariffUnit</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L50">TemporalRangesTariffSchedule.ts:50</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L44">ChronoTariff.ts:44</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="_matchesAt" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#matches<wbr/>At</span><a href="#_matchesAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_dayQuantity" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#day<wbr/>Quantity</span><a href="#_dayQuantity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-private">
-<li class="tsd-signature tsd-anchor-link" id="_matchesAt._matchesAt-1"><span class="tsd-kind-call-signature">#matches<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">date</span>, <span class="tsd-kind-parameter">first</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#_matchesAt._matchesAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="_dayQuantity._dayQuantity-1"><span class="tsd-kind-call-signature">#day<wbr/>Quantity</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">from</span>, <span class="tsd-kind-parameter">to</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_dayQuantity._dayQuantity-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Find the rules that apply on a given date.</p>
-</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">date</span>: <span class="tsd-signature-type ">Date</span></h5>
-<div class="tsd-comment tsd-typography"><p>the date to find the matching rules at</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
+<h5><span class="tsd-kind-parameter">from</span>: <span class="tsd-signature-type ">Date</span></h5></li>
 <li>
-<h5><span class="tsd-kind-parameter">first</span>: <span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p><code>true</code> to return the first match, <code>false</code> to return all matches</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
+<h5><span class="tsd-kind-parameter">to</span>: <span class="tsd-signature-type ">Date</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">utc</span>: <span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>if <code>true</code> then use UTC date components, otherwise assume the local time zone</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>the list of matching rules</p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">utc</span>: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L99">TemporalRangesTariffSchedule.ts:99</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="firstMatch" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>first<wbr/>Match</span><a href="#firstMatch" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L112">ChronoTariff.ts:112</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_monthQuantity" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#month<wbr/>Quantity</span><a href="#_monthQuantity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-private">
+<li class="tsd-signature tsd-anchor-link" id="_monthQuantity._monthQuantity-1"><span class="tsd-kind-call-signature">#month<wbr/>Quantity</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">from</span>, <span class="tsd-kind-parameter">to</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_monthQuantity._monthQuantity-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">from</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><span class="tsd-kind-parameter">to</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">utc</span>: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L243">ChronoTariff.ts:243</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_timeFraction" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#time<wbr/>Fraction</span><a href="#_timeFraction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-private">
+<li class="tsd-signature tsd-anchor-link" id="_timeFraction._timeFraction-1"><span class="tsd-kind-call-signature">#time<wbr/>Fraction</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">from</span>, <span class="tsd-kind-parameter">to</span>, <span class="tsd-kind-parameter">refFrom</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">refTo</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_timeFraction._timeFraction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">from</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><span class="tsd-kind-parameter">to</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">refFrom</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">refTo</span>: <span class="tsd-signature-type ">Date</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L101">ChronoTariff.ts:101</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_weekQuantity" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>#week<wbr/>Quantity</span><a href="#_weekQuantity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-private">
+<li class="tsd-signature tsd-anchor-link" id="_weekQuantity._weekQuantity-1"><span class="tsd-kind-call-signature">#week<wbr/>Quantity</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">from</span>, <span class="tsd-kind-parameter">to</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_weekQuantity._weekQuantity-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">from</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><span class="tsd-kind-parameter">to</span>: <span class="tsd-signature-type ">Date</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">utc</span>: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L167">ChronoTariff.ts:167</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="quantity" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>quantity</span><a href="#quantity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="firstMatch.firstMatch-1"><span class="tsd-kind-call-signature">first<wbr/>Match</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">date</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#firstMatch.firstMatch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="quantity.quantity-1"><span class="tsd-kind-call-signature">quantity</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">from</span>, <span class="tsd-kind-parameter">to</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#quantity.quantity-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Find the first rule that applies on a given date.</p>
+<div class="tsd-comment tsd-typography"><p>Calcualte the count of units between two dates.</p>
+<p>The cost of this tariff can be calculated by multiplying the <code>rate</code> by the result
+of this method, for example:</p>
+<pre><code class="language-ts"><span class="hl-1">const</span><span class="hl-2"> </span><span class="hl-3">tariff</span><span class="hl-2"> = </span><span class="hl-1">new</span><span class="hl-2"> </span><span class="hl-4">ChronoTariff</span><span class="hl-2">(</span><span class="hl-5">ChronoTariffUnit</span><span class="hl-2">.</span><span class="hl-3">DAYS</span><span class="hl-2">, </span><span class="hl-6">10</span><span class="hl-2">);</span><br/><span class="hl-5">tariff</span><span class="hl-2">.</span><span class="hl-5">rate</span><span class="hl-2"> * </span><span class="hl-5">tariff</span><span class="hl-2">.</span><span class="hl-4">quantity</span><span class="hl-2">(</span><br/><span class="hl-2">    </span><span class="hl-1">new</span><span class="hl-2"> </span><span class="hl-4">Date</span><span class="hl-2">(</span><span class="hl-7">&#39;2024-01-01T00:00:00Z&#39;</span><span class="hl-2">),</span><br/><span class="hl-2">    </span><span class="hl-1">new</span><span class="hl-2"> </span><span class="hl-4">Date</span><span class="hl-2">(</span><span class="hl-7">&#39;2024-01-08T00:00:00Z&#39;</span><span class="hl-2">),</span><br/><span class="hl-2">    </span><span class="hl-1">true</span><span class="hl-2">) === </span><span class="hl-6">70</span><span class="hl-2">; </span><span class="hl-0">// 7 days @ 10/day</span>
+</code><button>Copy</button></pre>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">date</span>: <span class="tsd-signature-type ">Date</span></h5>
-<div class="tsd-comment tsd-typography"><p>the date to find the first matching rule at</p>
+<h5><span class="tsd-kind-parameter">from</span>: <span class="tsd-signature-type ">Date</span></h5>
+<div class="tsd-comment tsd-typography"><p>the starting date</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">to</span>: <span class="tsd-signature-type ">Date</span></h5>
+<div class="tsd-comment tsd-typography"><p>the ending date (exclusive)</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
@@ -200,64 +247,11 @@ resolving rates for dates.</p>
 <div class="tsd-comment tsd-typography"><p>if <code>true</code> then use UTC date components, otherwise assume the local time zone</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>the first available matching rule, or <code>undefined</code> if no rules match</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the count of units between <code>from</code> and <code>to</code>, including any fractional component</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L75">TemporalRangesTariffSchedule.ts:75</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="matches" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>matches</span><a href="#matches" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="matches.matches-1"><span class="tsd-kind-call-signature">matches</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">date</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#matches.matches-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Find the rules that apply on a given date, repsecting the <code>multipleMatch</code> property.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5><span class="tsd-kind-parameter">date</span>: <span class="tsd-signature-type ">Date</span></h5>
-<div class="tsd-comment tsd-typography"><p>the date to find the matching rules at</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">utc</span>: <span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>if <code>true</code> then use UTC date components, otherwise assume the local time zone</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>the list of matching rules; at most one if <code>multipleMatch</code> is <code>false</code></p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L87">TemporalRangesTariffSchedule.ts:87</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="resolve" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>resolve</span><a href="#resolve" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="resolve.resolve-1"><span class="tsd-kind-call-signature">resolve</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">date</span>, <span class="tsd-kind-parameter">utc</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><span class="tsd-signature-symbol">&gt;</span><a href="#resolve.resolve-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Resolve the tariff rates that apply on a given date, respecting the <code>multipleMatch</code> property.</p>
-<p>Duplicate rate <code>id</code> values will override existing rates, so that the last-seen rate for
-a given <code>id</code> is the one returned.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5><span class="tsd-kind-parameter">date</span>: <span class="tsd-signature-type ">Date</span></h5>
-<div class="tsd-comment tsd-typography"><p>the date to resolve</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">utc</span>: <span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>if <code>true</code> then use UTC date components, otherwise assume the local time zone</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="TariffRate.html" class="tsd-signature-type tsd-kind-class">TariffRate</a><span class="tsd-signature-symbol">&gt;</span></h4><p>all tariff rates tha apply on the given date, as a <code>Record</code> of rate <code>id</code> values
-    to associated rate instances</p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/TemporalRangesTariffSchedule.ts#L123">TemporalRangesTariffSchedule.ts:123</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/SolarNetwork/nifty-tou/blob/5b39285/src/main/ChronoTariff.ts#L77">ChronoTariff.ts:77</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -278,15 +272,17 @@ a given <code>id</code> is the one returned.</p>
 <div class="tsd-accordion-details">
 <ul>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
-<li><a href="#_options" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#options</span></a></li>
-<li><a href="#_rules" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rules</span></a></li>
-<li><a href="#multipleMatch" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>multiple<wbr/>Match</span></a></li>
-<li><a href="#options" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>options</span></a></li>
-<li><a href="#rules" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rules</span></a></li>
-<li><a href="#_matchesAt" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#matches<wbr/>At</span></a></li>
-<li><a href="#firstMatch" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>first<wbr/>Match</span></a></li>
-<li><a href="#matches" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>matches</span></a></li>
-<li><a href="#resolve" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>resolve</span></a></li></ul></div></details></div>
+<li><a href="#_name" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#name</span></a></li>
+<li><a href="#_rate" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#rate</span></a></li>
+<li><a href="#_unit" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>#unit</span></a></li>
+<li><a href="#name" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>name</span></a></li>
+<li><a href="#rate" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>rate</span></a></li>
+<li><a href="#unit" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>unit</span></a></li>
+<li><a href="#_dayQuantity" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#day<wbr/>Quantity</span></a></li>
+<li><a href="#_monthQuantity" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#month<wbr/>Quantity</span></a></li>
+<li><a href="#_timeFraction" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#time<wbr/>Fraction</span></a></li>
+<li><a href="#_weekQuantity" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>#week<wbr/>Quantity</span></a></li>
+<li><a href="#quantity" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>quantity</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>nifty-tou</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
@@ -295,12 +291,12 @@ a given <code>id</code> is the one returned.</p>
 <li><a href="../enums/ChronoTariffUnit.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-8"></use></svg>ChronoTariffUnit</a></li>
 <li><a href="ChronoFieldFormatter.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ChronoFieldFormatter</a></li>
 <li><a href="ChronoFieldValue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ChronoFieldValue</a></li>
-<li><a href="ChronoTariff.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ChronoTariff</a></li>
+<li><a href="ChronoTariff.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ChronoTariff</a></li>
 <li><a href="IntRange.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>IntRange</a></li>
 <li><a href="NumberFormatter.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>NumberFormatter</a></li>
 <li><a href="TariffRate.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TariffRate</a></li>
 <li><a href="TemporalRangesTariff.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TemporalRangesTariff</a></li>
-<li><a href="TemporalRangesTariffSchedule.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TemporalRangesTariffSchedule</a></li>
+<li><a href="TemporalRangesTariffSchedule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>TemporalRangesTariffSchedule</a></li>
 <li><a href="YearTemporalRangesTariff.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YearTemporalRangesTariff</a></li>
 <li><a href="YearTemporalRangesTariffSchedule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YearTemporalRangesTariffSchedule</a></li>
 <li><a href="../interfaces/Comparable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Comparable</a></li>

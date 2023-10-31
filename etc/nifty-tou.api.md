@@ -41,6 +41,22 @@ export class ChronoFieldValue {
 }
 
 // @public
+export class ChronoTariff {
+    constructor(chronoUnit: ChronoTariffUnit, rate: number, name?: string);
+    get name(): string | undefined;
+    quantity(from: Date, to: Date, utc?: boolean): number;
+    get rate(): number;
+    get unit(): ChronoTariffUnit;
+}
+
+// @public
+export enum ChronoTariffUnit {
+    DAYS = 0,
+    MONTHS = 2,
+    WEEKS = 1
+}
+
+// @public
 export interface Comparable<T> {
     compareTo(o: T | undefined): number;
 }

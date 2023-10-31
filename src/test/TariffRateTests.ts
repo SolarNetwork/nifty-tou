@@ -12,6 +12,8 @@ test("TariffRate:Construct", (t) => {
 test("TariffRate:Construct:invalid:id", (t) => {
 	t.throws(
 		() => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			new TariffRate(undefined, 1.23);
 		},
 		{ instanceOf: TypeError },
@@ -19,6 +21,8 @@ test("TariffRate:Construct:invalid:id", (t) => {
 	);
 	t.throws(
 		() => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			new TariffRate(null, 1.23);
 		},
 		{ instanceOf: TypeError },
@@ -38,6 +42,8 @@ test("TariffRate:Construct:invalid:id", (t) => {
 test("TariffRate:Construct:invalid:amount", (t) => {
 	t.throws(
 		() => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			new TariffRate("a", undefined);
 		},
 		{ instanceOf: TypeError },
@@ -45,6 +51,8 @@ test("TariffRate:Construct:invalid:amount", (t) => {
 	);
 	t.throws(
 		() => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			new TariffRate("a", null);
 		},
 		{ instanceOf: TypeError },
@@ -58,6 +66,8 @@ test("TariffRate:Construct:invalid:exponent", (t) => {
 		0,
 		"undefined resolved as 0"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(new TariffRate("a", 1.23, null).exponent, 0, "null resolved as 0");
 	t.throws(
 		() => {

@@ -9,14 +9,14 @@ Compare this instance to another.
 **Signature:**
 
 ```typescript
-compareTo(o: T): number;
+compareTo(o: T | undefined): number;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  o | T | the object to compare to |
+|  o | T \| undefined | the object to compare to |
 
 **Returns:**
 

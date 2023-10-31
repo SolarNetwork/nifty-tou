@@ -142,6 +142,8 @@ test("IntRange:compareTo:minEqual:unboundedMax", (t) => {
 
 test("IntRange:compareTo:undefined", (t) => {
 	const r1 = new IntRange(1, null);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(r1.compareTo(undefined), 1);
 });
 
@@ -225,6 +227,8 @@ test("IntRange:contains", (t) => {
 
 test("IntRange:contains:undefined", (t) => {
 	const r = new IntRange(1, 10);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.false(r.contains(undefined), `does not contain undefined`);
 	t.false(r.contains(null), `does not contain null`);
 });
@@ -614,6 +618,8 @@ test("IntRange:parseRange:undefined", (t) => {
 		undefined,
 		"undefined returns undefined"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(IntRange.parseRange(null), undefined, "null returns undefined");
 	t.is(IntRange.parseRange([]), undefined, "empty array returns undefined");
 });

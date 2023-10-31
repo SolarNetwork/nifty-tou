@@ -54,7 +54,7 @@ export default class YearTemporalRangesTariffSchedule<
 	 * @returns the first available matching rule, or `undefined` if no rules match
 	 * @override
 	 */
-	firstMatch(date: Date, utc?: boolean): T {
+	firstMatch(date: Date, utc?: boolean): T | undefined {
 		const result = this.#matchesAt(date, true, this.yearExtend, utc);
 		return result.length ? result[0] : undefined;
 	}
@@ -88,12 +88,12 @@ export default class YearTemporalRangesTariffSchedule<
 	): T[] {
 		const result: T[] = [];
 		const dateYear = utc ? date.getUTCFullYear() : date.getFullYear();
-		let matchingYear: number;
+		let matchingYear: number | undefined;
 		for (const r of this.rules) {
-			let applies: boolean; // starts undefined
+			let applies: boolean | undefined; // starts undefined
 			if (yearExtend) {
 				const currYear =
-					r.yearRange?.min !== undefined
+					r.yearRange?.min !== undefined && r.yearRange?.min !== null
 						? r.yearRange.min
 						: undefined;
 				if (currYear !== undefined && currYear <= dateYear) {

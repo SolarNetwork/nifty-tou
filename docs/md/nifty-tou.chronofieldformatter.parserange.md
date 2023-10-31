@@ -11,7 +11,7 @@ A "range string" is a string formatted like `VALUE - VALUE`<!-- -->. Whitespace 
 **Signature:**
 
 ```typescript
-parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
+parseRange(field: ChronoField, value: string | undefined, options?: IntRangeFormatOptions): IntRange | undefined;
 ```
 
 ## Parameters
@@ -19,12 +19,12 @@ parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  field | [ChronoField](./nifty-tou.chronofield.md) | the field to parse the range values as |
-|  value | string | the range string to parse |
+|  value | string \| undefined | the range string to parse |
 |  options | [IntRangeFormatOptions](./nifty-tou.intrangeformatoptions.md) | _(Optional)_ the options |
 
 **Returns:**
 
-[IntRange](./nifty-tou.intrange.md)
+[IntRange](./nifty-tou.intrange.md) \| undefined
 
 the parsed range, or `undefined` if not parsable as a range
 

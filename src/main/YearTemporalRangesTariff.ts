@@ -18,7 +18,7 @@ import { cconcat, compare, prefix } from "./utils.js";
  * @public
  */
 export default class YearTemporalRangesTariff extends TemporalRangesTariff {
-	#yearRange: IntRange;
+	#yearRange?: IntRange;
 
 	/**
 	 * Constructor.
@@ -51,7 +51,7 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	/**
 	 * Get the month of year range.
 	 */
-	get yearRange(): IntRange {
+	get yearRange(): IntRange | undefined {
 		return this.#yearRange;
 	}
 
@@ -91,9 +91,10 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	 * @override
 	 */
 	appliesAtYearExtended(date: Date, utc?: boolean): boolean {
-		const y = this.#yearRange.min;
+		const y = this.#yearRange?.min;
 		let yearDate = date;
 		if (
+			y !== undefined &&
 			y !== null &&
 			date &&
 			(utc ? date.getUTCFullYear() : date.getFullYear()) > y
@@ -165,13 +166,41 @@ export default class YearTemporalRangesTariff extends TemporalRangesTariff {
 	}
 
 	/**
+	 * Format a field range into a locale-specific string.
+	 *
+	 * @param locale - the desired locale
+	 * @param field - the field to format
+	 * @param options - the formatting options
+	 * @returns the formatted field range value
+	 * @throws `TypeError` if `field` is not supported
+	 */
+	format(
+		locale: string,
+		field: ChronoField,
+		options?: TemporalRangesTariffFormatOptions
+	): string {
+		if (field === ChronoField.YEAR) {
+			return TemporalRangesTariff.formatRange(
+				locale,
+				field,
+				this.#yearRange,
+				options
+			);
+		}
+		return super.format(locale, field, options);
+	}
+
+	/**
 	 * Get a string representation of the components of this description.
 	 * @returns string representation of the components of this tariff
 	 * @override
 	 */
 	protected componentsDescription(): string {
 		return cconcat(
-			prefix("y=", this.#yearRange.toString()),
+			prefix(
+				"y=",
+				IntRange.description(UNBOUNDED_RANGE, this.#yearRange)
+			),
 			super.componentsDescription()
 		);
 	}

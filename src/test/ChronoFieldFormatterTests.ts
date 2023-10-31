@@ -29,6 +29,8 @@ test("ChronoFieldValue:construct:emptyNames", (t) => {
 	const v = 1;
 	t.throws(
 		() => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			new ChronoFieldValue(f, undefined, v);
 		},
 		{ instanceOf: TypeError },
@@ -131,17 +133,25 @@ test("ChronoFieldFormatter:parse:custom", (t) => {
 test("ChronoFieldFormatter:parse:year:undefined", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(undefined, undefined),
 		undefined,
 		"undefined arguments parsed as undefined"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.parse(null, null), undefined, "null arguments parsed as undefined");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.YEAR, undefined),
 		undefined,
 		"undefined parsed as undefined"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.YEAR, null),
 		undefined,
 		"null parsed as undefined"
@@ -157,17 +167,25 @@ test("ChronoFieldFormatter:parse:year:undefined", (t) => {
 test("ChronoFieldFormatter:parse:month:undefined", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(undefined, undefined),
 		undefined,
 		"undefined arguments parsed as undefined"
 	);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.parse(null, null), undefined, "null arguments parsed as undefined");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.MONTH_OF_YEAR, undefined),
 		undefined,
 		"undefined parsed as undefined"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.MONTH_OF_YEAR, null),
 		undefined,
 		"null parsed as undefined"
@@ -345,6 +363,8 @@ test("ChronoFieldFormatter:parse:dom:en-US:undefined", (t) => {
 	const p = new ChronoFieldFormatter(locale);
 
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.DAY_OF_MONTH, undefined),
 		undefined,
 		"undefined returned undefined"
@@ -767,6 +787,8 @@ test("ChronoFieldFormatter:parse:mod:en-US:undefined", (t) => {
 	const p = new ChronoFieldFormatter(locale);
 
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parse(ChronoField.MINUTE_OF_DAY, undefined),
 		undefined,
 		"undefined returned undefined"
@@ -781,11 +803,15 @@ test("ChronoFieldFormatter:parse:mod:en-US:undefined", (t) => {
 test("ChronoFieldFormatter:parseRange:en-US:undefined", (t) => {
 	const p = new ChronoFieldFormatter("en-US");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parseRange(undefined, undefined),
 		undefined,
 		"all undefined returns undefined"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.parseRange(undefined, "Jan-Feb"),
 		undefined,
 		"undefined field returns undefined"
@@ -1664,9 +1690,17 @@ test("ChronoFieldFormatter:format:undefined", (t) => {
 	const locale = "en-US";
 	const p = new ChronoFieldFormatter(locale);
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.format(undefined, undefined), "*", "undefined field returns *");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.format(null, undefined), "*", "null field returns *");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.format(ChronoField.MONTH_OF_YEAR, undefined),
 		"*",
 		"undefined value returns empty string"
@@ -1797,14 +1831,22 @@ test("ChronoFieldFormatter:formatRange:undefined", (t) => {
 	const locale = "en-US";
 	const p = new ChronoFieldFormatter(locale);
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.formatRange(undefined, undefined), "*", "undefined field returns *");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.formatRange(null, undefined), "*", "null field returns *");
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.formatRange(ChronoField.MONTH_OF_YEAR, undefined),
 		"*",
 		"undefined value returns *"
 	);
 	t.is(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		p.formatRange(ChronoField.MONTH_OF_YEAR, null),
 		"*",
 		"null value returns *"

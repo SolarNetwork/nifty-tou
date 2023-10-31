@@ -11,15 +11,15 @@ This function is useful for sorting arrays of [Comparable](./nifty-tou.comparabl
 **Signature:**
 
 ```typescript
-export declare function compare<T extends Comparable<T>>(l: T, r: T): number;
+export declare function compare<T extends Comparable<T>>(l: T | undefined, r: T | undefined): number;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  l | T | the left value |
-|  r | T | the right value |
+|  l | T \| undefined | the left value |
+|  r | T \| undefined | the right value |
 
 **Returns:**
 

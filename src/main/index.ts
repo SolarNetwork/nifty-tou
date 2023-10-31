@@ -9,6 +9,7 @@ export {
 	ChronoFieldValue,
 	ChronoFieldFormatter,
 } from "./ChronoFieldFormatter.js";
+export { default as ChronoTariff, ChronoTariffUnit } from "./ChronoTariff.js";
 export { default as Comparable } from "./Comparable.js";
 export {
 	default as IntRange,

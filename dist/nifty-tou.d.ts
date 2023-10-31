@@ -75,7 +75,7 @@ export declare class ChronoFieldFormatter {
      * @param value - the field value to parse
      * @returns the associated field value, or undefined if not found
      */
-    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue | undefined;
     /**
      * Parse a chronological field range string.
      *
@@ -107,7 +107,7 @@ export declare class ChronoFieldFormatter {
      * @returns the parsed range, or `undefined` if not parsable as a range
      * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
-    parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
+    parseRange(field: ChronoField, value: string | undefined, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Format a field value into a locale-specific string.
      *
@@ -116,7 +116,7 @@ export declare class ChronoFieldFormatter {
      * @param options - the options
      * @returns the formatted field value
      */
-    format(field: ChronoField, value: number, options?: IntRangeFormatOptions): string;
+    format(field: ChronoField, value: number | null, options?: IntRangeFormatOptions): string;
     /**
      * Format a field range into a locale-specific string.
      *
@@ -158,6 +158,61 @@ export declare class ChronoFieldValue {
 }
 
 /**
+ * A chronologically-based tariff, such as a "daily" charge.
+ * @public
+ */
+export declare class ChronoTariff {
+    #private;
+    /**
+     * Constructor.
+     *
+     * @param chronoUnit - the chrono unit
+     * @param rate - the rate per chrono unit
+     * @param name - an optional description
+     */
+    constructor(chronoUnit: ChronoTariffUnit, rate: number, name?: string);
+    /** Get the unit. */
+    get unit(): ChronoTariffUnit;
+    /** Get the rate. */
+    get rate(): number;
+    /** Get the optional name. */
+    get name(): string | undefined;
+    /**
+     * Calcualte the count of units between two dates.
+     *
+     * The cost of this tariff can be calculated by multiplying the `rate` by the result
+     * of this method, for example:
+     *
+     * ```ts
+     * const tariff = new ChronoTariff(ChronoTariffUnit.DAYS, 10);
+     * tariff.rate * tariff.quantity(
+     *     new Date('2024-01-01T00:00:00Z'),
+     *     new Date('2024-01-08T00:00:00Z'),
+     *     true) === 70; // 7 days @ 10/day
+     * ```
+     *
+     * @param from - the starting date
+     * @param to - the ending date (exclusive)
+     * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
+     * @returns the count of units between `from` and `to`, including any fractional component
+     */
+    quantity(from: Date, to: Date, utc?: boolean): number;
+}
+
+/**
+ * An enumeration of supported chronological tariff units of the Gregorian calendar.
+ * @public
+ */
+export declare enum ChronoTariffUnit {
+    /** Days */
+    DAYS = 0,
+    /** Weeks */
+    WEEKS = 1,
+    /** Months */
+    MONTHS = 2
+}
+
+/**
  * API for a comparison between similar objects.
  * @public
  */
@@ -168,7 +223,7 @@ export declare interface Comparable<T> {
      * @param o - the object to compare to
      * @returns `-1`, `0`, or `1` if this is less than, equal to, or greater than `o`
      */
-    compareTo(o: T): number;
+    compareTo(o: T | undefined): number;
 }
 
 /**
@@ -181,7 +236,7 @@ export declare interface Comparable<T> {
  * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
  * @public
  */
-declare function compare<T extends Comparable<T>>(l: T, r: T): number;
+declare function compare<T extends Comparable<T>>(l: T | undefined, r: T | undefined): number;
 
 /**
  * Default number format options to use.
@@ -231,7 +286,7 @@ export declare class IntRange implements Comparable<IntRange> {
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
+    static parseRange(value: string | string[] | undefined, bounds?: IntRange, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Get a locale-specific range delimiter to use.
      * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
@@ -264,7 +319,7 @@ export declare class IntRange implements Comparable<IntRange> {
      * @param value - the value to test (`null` represents infinity)
      * @returns `true` if `min <= value <= max`
      */
-    contains(value: number): boolean;
+    contains(value: number | null): boolean;
     /**
      * Test if another range is completely within this range, inclusive.
      *
@@ -272,7 +327,7 @@ export declare class IntRange implements Comparable<IntRange> {
      * @param max - the maximum of the range to test
      * @returns `true` if `this.min <= min <= max <= this.max`
      */
-    containsAll(min: number, max: number): boolean;
+    containsAll(min: number | null, max: number | null): boolean;
     /**
      * Test if another range is completely within this range, inclusive.
      *
@@ -415,9 +470,10 @@ export declare class NumberFormatter {
      * Normalize a locale-specific number string.
      *
      * @param s - the number string to parse in this instance's locale
-     * @returns the number string normalized into a JavaScript number string
+     * @returns the number string normalized into a JavaScript number string, or `undefined`
+     *     if the normalized value is empty
      */
-    norm(s: string): string;
+    norm(s: string): string | undefined;
     /**
      * Parse a locale-specific number string.
      *
@@ -457,10 +513,10 @@ declare function optional<T>(arg: T, name: string, type?: new (...args: any[]) =
  *
  * @param prefix - the prefix to prepend to `s`
  * @param s - the string to append to `prefix`
- * @returns the concatenated string
+ * @returns the prefixed string, or `undefined` if `s` is undefined
  * @public
  */
-declare function prefix(prefix?: string, s?: string): string;
+declare function prefix(prefix?: string, s?: string): string | undefined;
 
 /**
  * Verify that a variable is defined and optionally of a given type.
@@ -484,7 +540,7 @@ declare function required<T>(arg: T, name: string, type?: new (...args: any[]) =
  * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
  * @public
  */
-declare function splitRange(range: string): string[];
+declare function splitRange(range: string | undefined): string[] | undefined;
 
 /**
  * An identifiable tariff rate.
@@ -511,13 +567,13 @@ export declare class TariffRate {
      */
     get id(): string;
     /**
-     * Get the description.
-     */
-    get description(): string;
-    /**
      * Get the amount.
      */
     get amount(): number;
+    /**
+     * Get the description.
+     */
+    get description(): string | undefined;
     /**
      * Get the exponent.
      */
@@ -624,19 +680,19 @@ export declare class TemporalRangesTariff implements Comparable<TemporalRangesTa
     /**
      * Get the month of year range.
      */
-    get monthRange(): IntRange;
+    get monthRange(): IntRange | undefined;
     /**
      * Get the day of month range.
      */
-    get dayOfMonthRange(): IntRange;
+    get dayOfMonthRange(): IntRange | undefined;
     /**
      * Get the day of week range.
      */
-    get dayOfWeekRange(): IntRange;
+    get dayOfWeekRange(): IntRange | undefined;
     /**
      * Get the minute of day range.
      */
-    get minuteOfDayRange(): IntRange;
+    get minuteOfDayRange(): IntRange | undefined;
     /**
      * Get the rates, as an object of rate ID to `TariffRate` objects.
      */
@@ -780,7 +836,7 @@ export declare class TemporalRangesTariffSchedule<T extends TemporalRangesTariff
      * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
      * @returns the first available matching rule, or `undefined` if no rules match
      */
-    firstMatch(date: Date, utc?: boolean): T;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     /**
      * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
      *
@@ -862,7 +918,7 @@ export declare class YearTemporalRangesTariff extends TemporalRangesTariff {
     /**
      * Get the month of year range.
      */
-    get yearRange(): IntRange;
+    get yearRange(): IntRange | undefined;
     /**
      * Test if this tariff applies on a given date.
      *
@@ -899,6 +955,16 @@ export declare class YearTemporalRangesTariff extends TemporalRangesTariff {
      * @override
      */
     compareTo(o: YearTemporalRangesTariff): number;
+    /**
+     * Format a field range into a locale-specific string.
+     *
+     * @param locale - the desired locale
+     * @param field - the field to format
+     * @param options - the formatting options
+     * @returns the formatted field range value
+     * @throws `TypeError` if `field` is not supported
+     */
+    format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
     /**
      * Get a string representation of the components of this description.
      * @returns string representation of the components of this tariff
@@ -957,7 +1023,7 @@ export declare class YearTemporalRangesTariffSchedule<T extends YearTemporalRang
      * @returns the first available matching rule, or `undefined` if no rules match
      * @override
      */
-    firstMatch(date: Date, utc?: boolean): T;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     /**
      * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
      *

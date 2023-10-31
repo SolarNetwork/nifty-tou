@@ -12,8 +12,8 @@ import { optional, required } from "./utils.js";
  */
 export default class TariffRate {
 	#id: string;
-	#description: string;
 	#amount: number;
+	#description: string | undefined;
 	#exponent: number;
 
 	/**
@@ -45,17 +45,17 @@ export default class TariffRate {
 	}
 
 	/**
-	 * Get the description.
-	 */
-	get description(): string {
-		return this.#description;
-	}
-
-	/**
 	 * Get the amount.
 	 */
 	get amount(): number {
 		return this.#amount;
+	}
+
+	/**
+	 * Get the description.
+	 */
+	get description(): string | undefined {
+		return this.#description;
 	}
 
 	/**

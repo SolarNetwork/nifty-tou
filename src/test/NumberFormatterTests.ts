@@ -36,7 +36,11 @@ test("NumberFormatter:factory:en-US", (t) => {
 test("NumberFormatter:parse:NaN", (t) => {
 	const locale = "en-US";
 	const p = new NumberFormatter(locale);
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.parse(undefined), NaN, "undefined returns NaN");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(p.parse(null), NaN, "null returns NaN");
 	t.is(p.parse("foo"), NaN, "unparsable returns NaN");
 	t.is(p.parse(""), NaN, "empty returns undefined");
@@ -122,6 +126,11 @@ test("NumberFormatter:parse:de:decimal", (t) => {
 	t.is(p.parse("-12,34"), -12.34, "signed negative decimal parsed");
 });
 
+test("NumberFormatter:norm:hex", (t) => {
+	const p = new NumberFormatter("en-US");
+	t.is(p.norm("0x123"), "0x123", "hex normalized");
+});
+
 test("NumberFormatter:norm:de:delimitedDecimal", (t) => {
 	const locale = "de";
 	const p = new NumberFormatter(locale);
@@ -156,7 +165,11 @@ test("NumberFormatter:parse:de:delimitedDecimal", (t) => {
 
 test("NumberFormatter:format:en-US:undefined", (t) => {
 	const f = new NumberFormatter("en-US");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(f.format(undefined), "", "undefined formatted as empty string");
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	t.is(f.format(null), "", "null formatted as empty string");
 	t.is(f.format(NaN), "NaN", "NaN formatted as NaN");
 });

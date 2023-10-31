@@ -101,7 +101,7 @@ const rates = schedule.resolve(new Date("2024-01-05T08:00"));
 # Year-based tariff schedules
 
 If you would like to model a tariff schedule with rules that change over the time, the
-The [YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
+[YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
 class extends the `TemporalRangesTariffSchedule` with support for year-based rules.
 For example, imagine a tariff schedule like this:
 
@@ -181,15 +181,15 @@ const s = new YearTemporalRangesTariffSchedule(rules, {
 });
 
 // exact match rules
-schedule.resolve(new Date("2023-01-01T08:00")) === { AM: 1.23 };
-schedule.resolve(new Date("2022-01-01T08:00")) === { AM: 1.12 };
-schedule.resolve(new Date("2000-01-01T08:00")) === { AM: 0.12 };
+s.resolve(new Date("2023-01-01T08:00")) === { AM: 1.23 };
+s.resolve(new Date("2022-01-01T08:00")) === { AM: 1.12 };
+s.resolve(new Date("2000-01-01T08:00")) === { AM: 0.12 };
 
 // gap-fill match a future date, based on previously avaialble year rule
-schedule.resolve(new Date("2050-01-01T08:00")) === { AM: 1.23 }; // 2023 rule
+s.resolve(new Date("2050-01-01T08:00")) === { AM: 1.23 }; // 2023 rule
 
 // gap-fill match inbetween year rules, based on previously avaialble year
-schedule.resolve(new Date("2010-01-01T08:00")) === { AM: 1.12 }; // 2000 rule
+s.resolve(new Date("2010-01-01T08:00")) === { AM: 1.12 }; // 2000 rule
 ```
 
 # Integer amounts

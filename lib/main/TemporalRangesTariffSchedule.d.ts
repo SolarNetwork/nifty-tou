@@ -49,7 +49,7 @@ export default class TemporalRangesTariffSchedule<T extends TemporalRangesTariff
      * @param utc - if `true` then use UTC date components, otherwise assume the local time zone
      * @returns the first available matching rule, or `undefined` if no rules match
      */
-    firstMatch(date: Date, utc?: boolean): T;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     /**
      * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
      *

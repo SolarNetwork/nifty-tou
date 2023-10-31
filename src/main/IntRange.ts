@@ -74,10 +74,10 @@ export default class IntRange implements Comparable<IntRange> {
 	 *          beyond the given `bounds` then `undefined` will be returned
 	 */
 	static parseRange(
-		value: string | string[],
+		value: string | string[] | undefined,
 		bounds?: IntRange,
 		options?: IntRangeFormatOptions
-	): IntRange {
+	): IntRange | undefined {
 		const array = Array.isArray(value) ? value : splitRange(value);
 		if (!(array && array.length)) {
 			return undefined;
@@ -156,7 +156,7 @@ export default class IntRange implements Comparable<IntRange> {
 	 * @param value - the value to test (`null` represents infinity)
 	 * @returns `true` if `min <= value <= max`
 	 */
-	contains(value: number): boolean {
+	contains(value: number | null): boolean {
 		if (value === undefined) {
 			return false;
 		}
@@ -173,7 +173,7 @@ export default class IntRange implements Comparable<IntRange> {
 	 * @param max - the maximum of the range to test
 	 * @returns `true` if `this.min <= min <= max <= this.max`
 	 */
-	containsAll(min: number, max: number): boolean {
+	containsAll(min: number | null, max: number | null): boolean {
 		return this.contains(min) && this.contains(max);
 	}
 
@@ -245,7 +245,7 @@ export default class IntRange implements Comparable<IntRange> {
 			throw new Error(`IntRange ${this} cannot be merged with ${o}`);
 		}
 		const a =
-			this.#min === null || o.min === null
+			this.#min === null || o.#min === null
 				? null
 				: this.#min < o.#min
 				? this.#min

@@ -29,10 +29,10 @@ export declare function optional<T>(arg: T, name: string, type?: new (...args: a
  *
  * @param prefix - the prefix to prepend to `s`
  * @param s - the string to append to `prefix`
- * @returns the concatenated string
+ * @returns the prefixed string, or `undefined` if `s` is undefined
  * @public
  */
-export declare function prefix(prefix?: string, s?: string): string;
+export declare function prefix(prefix?: string, s?: string): string | undefined;
 /**
  * Verify that a variable is defined and optionally of a given type.
  *
@@ -54,7 +54,7 @@ export declare function required<T>(arg: T, name: string, type?: new (...args: a
  * @returns the split range, of length 1 or 2, or `undefined` if `range` is undefined
  * @public
  */
-export declare function splitRange(range: string): string[];
+export declare function splitRange(range: string | undefined): string[] | undefined;
 /**
  * Compare two ranges.
  *
@@ -65,5 +65,5 @@ export declare function splitRange(range: string): string[];
  * @returns `-1`, `0`, or `1` if `l` is less than, equal to, or greater than `r`
  * @public
  */
-export declare function compare<T extends Comparable<T>>(l: T, r: T): number;
+export declare function compare<T extends Comparable<T>>(l: T | undefined, r: T | undefined): number;
 //# sourceMappingURL=utils.d.ts.map

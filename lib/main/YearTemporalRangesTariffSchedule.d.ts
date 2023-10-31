@@ -44,7 +44,7 @@ export default class YearTemporalRangesTariffSchedule<T extends YearTemporalRang
      * @returns the first available matching rule, or `undefined` if no rules match
      * @override
      */
-    firstMatch(date: Date, utc?: boolean): T;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     /**
      * Find the rules that apply on a given date, repsecting the `multipleMatch` property.
      *

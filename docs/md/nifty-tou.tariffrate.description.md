@@ -9,5 +9,5 @@ Get the description.
 **Signature:**
 
 ```typescript
-get description(): string;
+get description(): string | undefined;
 ```

@@ -11,7 +11,7 @@ If `prefix` or `s` have no length then `s` is returned as-is. Otherwise the stri
 **Signature:**
 
 ```typescript
-export declare function prefix(prefix?: string, s?: string): string;
+export declare function prefix(prefix?: string, s?: string): string | undefined;
 ```
 
 ## Parameters
@@ -23,7 +23,7 @@ export declare function prefix(prefix?: string, s?: string): string;
 
 **Returns:**
 
-string
+string \| undefined
 
-the concatenated string
+the prefixed string, or `undefined` if `s` is undefined
 

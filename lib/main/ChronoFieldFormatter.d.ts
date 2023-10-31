@@ -97,7 +97,7 @@ export declare class ChronoFieldFormatter {
      * @param value - the field value to parse
      * @returns the associated field value, or undefined if not found
      */
-    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue | undefined;
     /**
      * Parse a chronological field range string.
      *
@@ -129,7 +129,7 @@ export declare class ChronoFieldFormatter {
      * @returns the parsed range, or `undefined` if not parsable as a range
      * @see {@link Utils.splitRange | splitRange()} for more details on range delimiter handling
      */
-    parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
+    parseRange(field: ChronoField, value: string | undefined, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Format a field value into a locale-specific string.
      *
@@ -138,7 +138,7 @@ export declare class ChronoFieldFormatter {
      * @param options - the options
      * @returns the formatted field value
      */
-    format(field: ChronoField, value: number, options?: IntRangeFormatOptions): string;
+    format(field: ChronoField, value: number | null, options?: IntRangeFormatOptions): string;
     /**
      * Format a field range into a locale-specific string.
      *

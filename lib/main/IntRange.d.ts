@@ -57,7 +57,7 @@ export default class IntRange implements Comparable<IntRange> {
      * @returns the parsed range, or `undefined` if a range could not be parsed or extends
      *          beyond the given `bounds` then `undefined` will be returned
      */
-    static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
+    static parseRange(value: string | string[] | undefined, bounds?: IntRange, options?: IntRangeFormatOptions): IntRange | undefined;
     /**
      * Get a locale-specific range delimiter to use.
      * @param locale - the locale of the delimiter to get; defaults to the runtime locale if not provided
@@ -90,7 +90,7 @@ export default class IntRange implements Comparable<IntRange> {
      * @param value - the value to test (`null` represents infinity)
      * @returns `true` if `min <= value <= max`
      */
-    contains(value: number): boolean;
+    contains(value: number | null): boolean;
     /**
      * Test if another range is completely within this range, inclusive.
      *
@@ -98,7 +98,7 @@ export default class IntRange implements Comparable<IntRange> {
      * @param max - the maximum of the range to test
      * @returns `true` if `this.min <= min <= max <= this.max`
      */
-    containsAll(min: number, max: number): boolean;
+    containsAll(min: number | null, max: number | null): boolean;
     /**
      * Test if another range is completely within this range, inclusive.
      *

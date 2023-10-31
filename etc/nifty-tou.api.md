@@ -23,11 +23,11 @@ export enum ChronoField {
 export class ChronoFieldFormatter {
     constructor(locale: string);
     static forLocale(locale: string): ChronoFieldFormatter;
-    format(field: ChronoField, value: number, options?: IntRangeFormatOptions): string;
+    format(field: ChronoField, value: number | null, options?: IntRangeFormatOptions): string;
     formatRange(field: ChronoField, value: IntRange, options?: IntRangeFormatOptions): string;
     get locale(): string;
-    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue;
-    parseRange(field: ChronoField, value: string, options?: IntRangeFormatOptions): IntRange;
+    parse(field: ChronoField, value: string, options?: IntRangeFormatOptions): ChronoFieldValue | undefined;
+    parseRange(field: ChronoField, value: string | undefined, options?: IntRangeFormatOptions): IntRange | undefined;
 }
 
 // @public
@@ -41,12 +41,28 @@ export class ChronoFieldValue {
 }
 
 // @public
-export interface Comparable<T> {
-    compareTo(o: T): number;
+export class ChronoTariff {
+    constructor(chronoUnit: ChronoTariffUnit, rate: number, name?: string);
+    get name(): string | undefined;
+    quantity(from: Date, to: Date, utc?: boolean): number;
+    get rate(): number;
+    get unit(): ChronoTariffUnit;
 }
 
 // @public
-function compare<T extends Comparable<T>>(l: T, r: T): number;
+export enum ChronoTariffUnit {
+    DAYS = 0,
+    MONTHS = 2,
+    WEEKS = 1
+}
+
+// @public
+export interface Comparable<T> {
+    compareTo(o: T | undefined): number;
+}
+
+// @public
+function compare<T extends Comparable<T>>(l: T | undefined, r: T | undefined): number;
 
 // @public
 export const DEFAULT_FORMAT_OPTIONS: Intl.NumberFormatOptions;
@@ -58,8 +74,8 @@ export class IntRange implements Comparable<IntRange> {
     canMergeWith(o: IntRange): boolean;
     // @override
     compareTo(o: IntRange): number;
-    contains(value: number): boolean;
-    containsAll(min: number, max: number): boolean;
+    contains(value: number | null): boolean;
+    containsAll(min: number | null, max: number | null): boolean;
     containsRange(o: IntRange): boolean;
     static delimiter(locale?: string): string;
     static description(bounds: IntRange, r?: IntRange, options?: IntRangeFormatOptions): string;
@@ -71,7 +87,7 @@ export class IntRange implements Comparable<IntRange> {
     mergeWith(o: IntRange): IntRange;
     get min(): number | null;
     static of(value: number | null): IntRange;
-    static parseRange(value: string | string[], bounds?: IntRange, options?: IntRangeFormatOptions): IntRange;
+    static parseRange(value: string | string[] | undefined, bounds?: IntRange, options?: IntRangeFormatOptions): IntRange | undefined;
     static rangeOf(min: number | null, max: number | null): IntRange;
     toString(): string;
 }
@@ -87,7 +103,7 @@ export class NumberFormatter {
     static forLocale(locale: string): NumberFormatter;
     format(n: number, format?: Intl.NumberFormat): string;
     get locale(): string;
-    norm(s: string): string;
+    norm(s: string): string | undefined;
     parse(s: string): number;
 }
 
@@ -95,19 +111,19 @@ export class NumberFormatter {
 function optional<T>(arg: T, name: string, type?: new (...args: any[]) => any): T;
 
 // @public
-function prefix(prefix?: string, s?: string): string;
+function prefix(prefix?: string, s?: string): string | undefined;
 
 // @public
 function required<T>(arg: T, name: string, type?: new (...args: any[]) => any): T;
 
 // @public
-function splitRange(range: string): string[];
+function splitRange(range: string | undefined): string[] | undefined;
 
 // @public
 export class TariffRate {
     constructor(id: string, amount: number, exponent?: number, description?: string);
     get amount(): number;
-    get description(): string;
+    get description(): string | undefined;
     get exponent(): number;
     get id(): string;
     static parse(locale: string, id: string, amount: string, exponent?: string, description?: string): TariffRate;
@@ -125,12 +141,12 @@ export class TemporalRangesTariff implements Comparable<TemporalRangesTariff> {
     // @override
     compareTo(o: TemporalRangesTariff): number;
     protected componentsDescription(): string;
-    get dayOfMonthRange(): IntRange;
-    get dayOfWeekRange(): IntRange;
+    get dayOfMonthRange(): IntRange | undefined;
+    get dayOfWeekRange(): IntRange | undefined;
     format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
     static formatRange(locale: string, field: ChronoField, value?: IntRange, options?: TemporalRangesTariffFormatOptions): string;
-    get minuteOfDayRange(): IntRange;
-    get monthRange(): IntRange;
+    get minuteOfDayRange(): IntRange | undefined;
+    get monthRange(): IntRange | undefined;
     static parse(locale: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): TemporalRangesTariff;
     get rates(): Record<string, TariffRate>;
     toString(): string;
@@ -145,7 +161,7 @@ export interface TemporalRangesTariffFormatOptions extends IntRangeFormatOptions
 // @public
 export class TemporalRangesTariffSchedule<T extends TemporalRangesTariff, O extends TemporalRangesTariffScheduleOptions> {
     constructor(rules: T[], options?: O | boolean);
-    firstMatch(date: Date, utc?: boolean): T;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     matches(date: Date, utc?: boolean): T[];
     get multipleMatch(): boolean;
     get options(): O | undefined;
@@ -187,14 +203,15 @@ export class YearTemporalRangesTariff extends TemporalRangesTariff {
     compareTo(o: YearTemporalRangesTariff): number;
     // @override
     protected componentsDescription(): string;
+    format(locale: string, field: ChronoField, options?: TemporalRangesTariffFormatOptions): string;
     static parseYears(locale: string, yearRange?: string, monthRange?: string, dayOfMonthRange?: string, dayOfWeekRange?: string, minuteOfDayRange?: string, rates?: TariffRate[], options?: TemporalRangesTariffFormatOptions): YearTemporalRangesTariff;
-    get yearRange(): IntRange;
+    get yearRange(): IntRange | undefined;
 }
 
 // @public
 export class YearTemporalRangesTariffSchedule<T extends YearTemporalRangesTariff, O extends YearTemporalRangesTariffScheduleOptions> extends TemporalRangesTariffSchedule<T, O> {
     // @override
-    firstMatch(date: Date, utc?: boolean): T;
+    firstMatch(date: Date, utc?: boolean): T | undefined;
     // @override
     matches(date: Date, utc?: boolean): T[];
     get yearExtend(): boolean;

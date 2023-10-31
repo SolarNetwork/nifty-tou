@@ -23,13 +23,13 @@ export default class TariffRate {
      */
     get id(): string;
     /**
-     * Get the description.
-     */
-    get description(): string;
-    /**
      * Get the amount.
      */
     get amount(): number;
+    /**
+     * Get the description.
+     */
+    get description(): string | undefined;
     /**
      * Get the exponent.
      */

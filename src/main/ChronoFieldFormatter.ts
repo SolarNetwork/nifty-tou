@@ -284,7 +284,7 @@ export class ChronoFieldFormatter {
 		for (let i = 0; i < 12; i += 1) {
 			const date = new Date(Date.UTC(2024, i, 1));
 			const val = i + 1;
-			const names = [];
+			const names: string[] = [];
 			const keys = computeKeysAndNames(date, names, intlFull, intlShort);
 			const value = new ChronoFieldValue(
 				ChronoField.MONTH_OF_YEAR,
@@ -318,7 +318,7 @@ export class ChronoFieldFormatter {
 		const values = new Map<string, ChronoFieldValue>();
 		for (let i = 1; i <= 7; i += 1) {
 			const date = new Date(Date.UTC(2024, 0, i)); // 2024-01-01 is a Monday
-			const names = [];
+			const names: string[] = [];
 			const keys = computeKeysAndNames(date, names, intlFull, intlShort);
 			const value = new ChronoFieldValue(
 				ChronoField.DAY_OF_WEEK,
@@ -351,7 +351,7 @@ export class ChronoFieldFormatter {
 		field: ChronoField,
 		value: string,
 		options?: IntRangeFormatOptions
-	): ChronoFieldValue {
+	): ChronoFieldValue | undefined {
 		if (!value) {
 			return undefined;
 		}
@@ -384,7 +384,7 @@ export class ChronoFieldFormatter {
 	 * @param ubv - the unbounded value to use
 	 * @returns the field value, or `undefined` if not parsable
 	 */
-	#parseYear(value: string, ubv: string): ChronoFieldValue {
+	#parseYear(value: string, ubv: string): ChronoFieldValue | undefined {
 		if (value === ubv) {
 			return yearChronoFieldValue(Infinity);
 		}
@@ -402,7 +402,7 @@ export class ChronoFieldFormatter {
 	 * @param ubv - the unbounded value to use
 	 * @returns the field value, or `undefined` if not parsable
 	 */
-	#parseDayOfMonth(value: string, ubv: string): ChronoFieldValue {
+	#parseDayOfMonth(value: string, ubv: string): ChronoFieldValue | undefined {
 		if (value === ubv) {
 			return dayOfMonthChronoFieldValue(Infinity);
 		}
@@ -420,7 +420,10 @@ export class ChronoFieldFormatter {
 	 * @param ubv - the unbounded value to use
 	 * @returns the field value, or `undefined` if not parsable
 	 */
-	#parseMinuteOfDay(value: string, ubv: string): ChronoFieldValue {
+	#parseMinuteOfDay(
+		value: string,
+		ubv: string
+	): ChronoFieldValue | undefined {
 		if (value === ubv) {
 			return minuteOfDayChronoFieldValue(Infinity);
 		}
@@ -475,9 +478,9 @@ export class ChronoFieldFormatter {
 	 */
 	parseRange(
 		field: ChronoField,
-		value: string,
+		value: string | undefined,
 		options?: IntRangeFormatOptions
-	): IntRange {
+	): IntRange | undefined {
 		if (!field) {
 			return undefined;
 		}
@@ -494,11 +497,11 @@ export class ChronoFieldFormatter {
 		}
 		const l = this.parse(field, a[0], options);
 		const r = a.length > 1 ? this.parse(field, a[1], options) : l;
-		let result: IntRange;
+		let result: IntRange | undefined;
 		if (l && r) {
 			result = new IntRange(
-				l.rangeValue === null ? b.min : l.rangeValue,
-				r.rangeValue === null ? b.max : r.rangeValue
+				l.rangeValue === null && b ? b.min : l.rangeValue,
+				r.rangeValue === null && b ? b.max : r.rangeValue
 			);
 		} else {
 			// try as numbers, constrained by field bounds
@@ -521,7 +524,7 @@ export class ChronoFieldFormatter {
 	 */
 	format(
 		field: ChronoField,
-		value: number,
+		value: number | null,
 		options?: IntRangeFormatOptions
 	): string {
 		if (

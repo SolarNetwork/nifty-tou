@@ -7,7 +7,7 @@ A central class in Nifty ToU is [TemporalRangesTariff](./docs/md/nifty-tou.tempo
 that defines a set of tariff values with a set of time-based constraints. The implication is that the
 tariff values apply only when all the time-based constraints are valid.
 
-The time-based constraints are encoded as [IntRange](docs/md/nifty-tou.intrange.md) objects,
+The time-based constraints are encoded as [IntRange](./docs/md/nifty-tou.intrange.md) objects,
 that are integer ranges with minimum and maximum values that define the bounds of the constraint.
 The supported time-based constraints are:
 
@@ -101,7 +101,7 @@ const rates = schedule.resolve(new Date("2024-01-05T08:00"));
 # Year-based tariff schedules
 
 If you would like to model a tariff schedule with rules that change over the time, the
-The [YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
+[YearTemporalRangesTariffSchedule](./docs/md/nifty-tou.yeartemporalrangestariffschedule.md)
 class extends the `TemporalRangesTariffSchedule` with support for year-based rules.
 For example, imagine a tariff schedule like this:
 
@@ -181,15 +181,15 @@ const s = new YearTemporalRangesTariffSchedule(rules, {
 });
 
 // exact match rules
-schedule.resolve(new Date("2023-01-01T08:00")) === { AM: 1.23 };
-schedule.resolve(new Date("2022-01-01T08:00")) === { AM: 1.12 };
-schedule.resolve(new Date("2000-01-01T08:00")) === { AM: 0.12 };
+s.resolve(new Date("2023-01-01T08:00")) === { AM: 1.23 };
+s.resolve(new Date("2022-01-01T08:00")) === { AM: 1.12 };
+s.resolve(new Date("2000-01-01T08:00")) === { AM: 0.12 };
 
 // gap-fill match a future date, based on previously avaialble year rule
-schedule.resolve(new Date("2050-01-01T08:00")) === { AM: 1.23 }; // 2023 rule
+s.resolve(new Date("2050-01-01T08:00")) === { AM: 1.23 }; // 2023 rule
 
 // gap-fill match inbetween year rules, based on previously avaialble year
-schedule.resolve(new Date("2010-01-01T08:00")) === { AM: 1.12 }; // 2000 rule
+s.resolve(new Date("2010-01-01T08:00")) === { AM: 1.12 }; // 2000 rule
 ```
 
 # Integer amounts
@@ -205,6 +205,26 @@ new TariffRate("Morning Variable", 0.1);
 // could be expressed in integer form:
 new TariffRate("Morning Fixed", 125, -2);
 new TariffRate("Morning Variable", 1, -1);
+```
+
+# Chronological tariffs
+
+The [ChronoTariff](./docs/md/nifty-tou.chronotariff.md) class can be used to model a time-based
+"fixed" tariff, such as a daily or monthly charge. For example:
+
+```ts
+// construct a chronological tariff @ 10/day
+const tariff = new ChronoTariff(ChronoTariffUnit.DAYS, 10);
+
+// calculate the tariff cost over a 7 day time range
+const cost =
+	tariff.rate *
+	tariff.quantity(
+		new Date("2024-01-01T00:00:00Z"),
+		new Date("2024-01-08T00:00:00Z"),
+		true
+	);
+cost === 70; // 7 days @ 10/day
 ```
 
 # Language support

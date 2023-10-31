@@ -1,22 +1,11 @@
 {
   "name": "nifty-tou",
-  "version": "1.0.1-dev.0",
+  "version": "1.2.1-dev.0",
   "description": "A delightful little data model and utilities for working with time-of-use tariff policies.",
   "keywords": [
     "solarnetwork",
     "tariff"
   ],
-  "type": "module",
-  "main": "lib/main/index.js",
-  "module": "lib/main/index.js",
-  "scripts": {
-    "build": "tsc",
-    "test": "c8 ava",
-    "coverage": "c8 --reporter=lcov ava",
-    "preapidocs": "npm run build && api-extractor run --local --verbose",
-    "apidocs": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
-    "release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
-  },
   "homepage": "https://solarnetwork.github.io/nifty-tou/",
   "license": "Apache-2.0",
   "author": {
@@ -27,13 +16,24 @@
     "type": "git",
     "url": "https://github.com/SolarNetwork/nifty-tou.git"
   },
+  "type": "module",
+  "main": "lib/main/index.js",
+  "module": "lib/main/index.js",
   "engines": {
-    "node": ">=16"
+    "node": ">=17"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "c8 ava",
+    "coverage": "c8 --reporter=lcov ava",
+    "preapidoc": "npm run build && api-extractor run --local --verbose",
+    "apidoc": "api-documenter markdown --input-folder temp --output-folder docs/md && typedoc",
+    "release": "generate-release --current-version \"$(bin/remove-preid.cjs)\""
   },
   "sideEffects": false,
   "ava": {
     "files": [
-      "src/test/**/*"
+      "src/test/**/*Tests.ts"
     ],
     "typescript": {
       "rewritePaths": {
@@ -69,6 +69,7 @@
     "@ava/typescript": "^4.1.0",
     "@microsoft/api-documenter": "^7.23.1",
     "@microsoft/api-extractor": "^7.37.0",
+    "@tsconfig/node17": "^17.1.1",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "ava": "^5.3.1",

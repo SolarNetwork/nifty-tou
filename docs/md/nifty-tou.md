@@ -12,6 +12,7 @@ A delightful little library for working with time-of-use tariffs.
 |  --- | --- |
 |  [ChronoFieldFormatter](./nifty-tou.chronofieldformatter.md) | Class to parse locale-specific chronological field names of the Gregorian calendar. |
 |  [ChronoFieldValue](./nifty-tou.chronofieldvalue.md) | A chronological field value. |
+|  [ChronoTariff](./nifty-tou.chronotariff.md) | A chronologically-based tariff, such as a "daily" charge. |
 |  [IntRange](./nifty-tou.intrange.md) | An immutable number range with min/max values. |
 |  [NumberFormatter](./nifty-tou.numberformatter.md) | A locale-specific number parser. |
 |  [TariffRate](./nifty-tou.tariffrate.md) | An identifiable tariff rate. |
@@ -25,6 +26,7 @@ A delightful little library for working with time-of-use tariffs.
 |  Enumeration | Description |
 |  --- | --- |
 |  [ChronoField](./nifty-tou.chronofield.md) | An enumeration of supported chronological fields of the Gregorian calendar. |
+|  [ChronoTariffUnit](./nifty-tou.chronotariffunit.md) | An enumeration of supported chronological tariff units of the Gregorian calendar. |
 
 ## Interfaces
 
